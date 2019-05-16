@@ -1,3 +1,7 @@
 from django.contrib import admin
+from EventCenter.models import Event, Channel, Comment
 
-# Register your models here.
+
+admin.site.register(Event)
+admin.site.register(Channel)
+admin.site.register(Comment)
