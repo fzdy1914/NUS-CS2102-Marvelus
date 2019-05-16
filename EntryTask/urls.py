@@ -20,7 +20,6 @@ from django.urls import include, path
 from . import view, search, search2
 
 urlpatterns = [
-    path('eventcenter/', include('EventCenter.urls')),
     path('admin/', admin.site.urls),
-    path('', view.hello),
+    path('', include('EventCenter.urls')),
 ]

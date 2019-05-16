@@ -1,0 +1,8 @@
+<h1>{{ event.title }}</h1>
+<ul>
+{% for comment in event.comment_set.all %}
+    <li>{{ comment.user.username }}</li>
+    <li>{{ comment.title }}</li>
+    <li>{{ comment.content }}</li>
+{% endfor %}
+</ul>

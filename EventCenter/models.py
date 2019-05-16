@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.functions import datetime
 
 
 class Channel(models.Model):
@@ -14,8 +15,8 @@ class Channel(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField
-    date = models.IntegerField()
+    description = models.TextField(max_length=2000)
+    timestamp = models.IntegerField()
     location = models.CharField(max_length=200)
     image_url = models.CharField(max_length=200)
 
@@ -26,6 +27,10 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def date(self):
+        d = datetime.datetime.fromtimestamp(self.timestamp)
+        return d
 
     class Meta:
         db_table = 'event_tab'
