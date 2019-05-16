@@ -9,8 +9,8 @@ def search_form(request):
 
 def search(request):
     request.encoding = 'utf-8'
-    if 'q' in request.GET:
-        message = 'Your searching: ' + request.GET['q']
+    if 'in' in request.GET:
+        message = 'Your searching: ' + request.GET['in']
     else:
         message = 'You have upload an empty chart'
     return HttpResponse(message)

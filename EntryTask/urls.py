@@ -18,11 +18,14 @@ from django.urls import path
 
 from django.conf.urls import url
 
-from . import view, testdb
+from . import view, testdb, search, search2
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello/', view.hello),
-    url(r'^testdb$', testdb.testdb),
-    url(r'^testdb1$', testdb.testdb1),
+    path('', view.hello),
+    path('testdb/', testdb.testdb),
+    path('testdb1/', testdb.testdb1),
+    path('search-form/', search.search_form),
+    path('search/', search.search),
+    path('search-post/', search2.search_post),
 ]
