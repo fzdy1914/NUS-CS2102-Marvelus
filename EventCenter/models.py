@@ -15,10 +15,10 @@ class Channel(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=2000)
+    description = models.TextField()
     timestamp = models.IntegerField()
     location = models.CharField(max_length=200)
-    image_url = models.CharField(max_length=200)
+    image_url = models.URLField()
 
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
 

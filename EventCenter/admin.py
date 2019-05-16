@@ -12,3 +12,5 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 admin.site.register(Channel)
 admin.site.register(Comment)
+
+admin.AdminSite.site_header = 'Event Center Management'
