@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 
-from . import view, testdb, search, search2
+from . import view, search, search2
 
 urlpatterns = [
     path('eventcenter/', include('EventCenter.urls')),
