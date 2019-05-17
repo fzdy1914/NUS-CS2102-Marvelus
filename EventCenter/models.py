@@ -19,8 +19,8 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     timestamp = models.IntegerField()
-    location = models.CharField(max_length=200)
-    image_url = models.URLField()
+    location = models.CharField(max_length=200, blank=True)
+    image_url = models.URLField(blank=True)
 
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
 
