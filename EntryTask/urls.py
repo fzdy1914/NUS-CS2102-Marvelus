@@ -20,7 +20,7 @@ from django.urls import include, path
 from . import view
 
 urlpatterns = [
-    path('log/', view.log, name='log'),
+    path('logout/', view.logout, name='logout'),
     path('admin/', admin.site.urls),
     path('login/', view.login, name='login'),
     path('', include('EventCenter.urls')),
