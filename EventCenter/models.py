@@ -4,6 +4,7 @@ from django.db.models.functions import datetime
 
 
 class Channel(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
@@ -14,6 +15,7 @@ class Channel(models.Model):
 
 
 class Event(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     timestamp = models.IntegerField()
@@ -21,9 +23,6 @@ class Event(models.Model):
     image_url = models.URLField()
 
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
-
-    idx_date = models.Index(fields=['date'])
-    idx_channel_id = models.Index(fields=['channel_id'])
 
     def __str__(self):
         return self.title
@@ -37,13 +36,12 @@ class Event(models.Model):
 
 
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     content = models.CharField(max_length=200)
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    idx_event_id = models.Index(fields=['event_id'])
 
     def __str__(self):
         return self.title
@@ -53,6 +51,7 @@ class Comment(models.Model):
 
 
 class Participation(models.Model):
+    id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -64,6 +63,7 @@ class Participation(models.Model):
 
 
 class Like(models.Model):
+    id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
