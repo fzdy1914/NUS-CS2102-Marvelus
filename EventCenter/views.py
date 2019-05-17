@@ -1,9 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
 from .models import Event
 
-
+@login_required
 def index(request):
     latest_event_list = Event.objects.order_by('id')[:5]
     context = {
@@ -11,7 +12,7 @@ def index(request):
     }
     return render(request, 'EventCenter/index.html', context)
 
-
+@login_required
 def event_detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     context = {

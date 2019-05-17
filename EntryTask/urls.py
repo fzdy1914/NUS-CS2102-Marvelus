@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 
-from . import view, search, search2
+from . import view
 
 urlpatterns = [
+    path('log/', view.log, name='log'),
     path('admin/', admin.site.urls),
+    path('login/', view.login, name='login'),
     path('', include('EventCenter.urls')),
 ]
