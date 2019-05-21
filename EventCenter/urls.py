@@ -20,5 +20,6 @@ from . import views
 urlpatterns = [
     path('events/', views.event_list, name='events'),
     path('event/<int:pk>/', views.event_detail, name='event'),
-    # path('add/', views.add_events),
+    path('comments/<int:event_id>/', views.comment_list, name='comments'),
+    # path('add/', views.add_comments),
 ]
