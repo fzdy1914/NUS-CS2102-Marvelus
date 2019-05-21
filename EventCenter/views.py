@@ -1,13 +1,14 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import ParseError
-from rest_framework.parsers import JSONParser
 
-from .serializers import DetailEventSerializer, BriefEventSerializer, CommentSerializer
+from .serializers import DetailEventSerializer, event_list_serializer, CommentSerializer, event_serializer, \
+    comment_list_serializer, event_deserializer, comment_deserializer
 from .models import Event, Channel, Comment
 
 
@@ -67,20 +68,19 @@ def event_list(request):
         except ValueError:
             return HttpResponse('Invalid arguments', status=400)
 
-        serializer = BriefEventSerializer(events, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return HttpResponse(event_list_serializer(events), 'application/json')
 
     elif request.method == 'POST':
         try:
-            data = JSONParser().parse(request)
-        except ParseError:
+            data = json.loads(request.body)
+            event = event_deserializer(data)
+            event.save()
+        except ValueError:
             return HttpResponse('Invalid JSON file', status=400)
+        except Channel.DoesNotExist:
+            return HttpResponse('Invalid arguments', status=400)
 
-        serializer = DetailEventSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+        return HttpResponse(event_serializer(event), 'application/json')
 
 
 @csrf_exempt
@@ -91,16 +91,16 @@ def event_detail(request, pk):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = DetailEventSerializer(event)
-        return JsonResponse(serializer.data)
+        return HttpResponse(event_serializer(event), 'application/json')
 
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = DetailEventSerializer(event, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
+    # Have not tough this
+    # elif request.method == 'PUT':
+    #     data = JSONParser().parse(request)
+    #     serializer = DetailEventSerializer(event, data=data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return JsonResponse(serializer.data)
+    #     return JsonResponse(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
         event.delete()
@@ -119,15 +119,15 @@ def comment_list(request, event_id):
             return HttpResponse('Invalid arguments', status=400)
 
         comments = comments.order_by('-id')[offset:offset + limit]
-        serializer = CommentSerializer(comments, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return HttpResponse(comment_list_serializer(comments), 'application/json')
 
     elif request.method == 'POST':
         try:
-            data = JSONParser().parse(request)
-            event = Event.objects.get(pk=event_id)
-            user = User.objects.get(pk=data['user_id'])
-        except ParseError:
+            data = json.loads(request.body)
+            data['event_id'] = event_id
+            comment = comment_deserializer(data)
+            comment.save()
+        except ValueError:
             return HttpResponse('Invalid JSON file', status=400)
         except Event.DoesNotExist:
             return HttpResponse('Invalid event', status=400)
