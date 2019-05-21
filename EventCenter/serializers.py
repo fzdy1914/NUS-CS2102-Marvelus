@@ -5,10 +5,10 @@ from .models import Event
 class DetailEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('id', 'title', 'description', 'date', 'location', 'image_url', 'channel')
+        fields = ('id', 'title', 'description', 'timestamp', 'location', 'image_url', 'channel')
 
 
 class BriefEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('id', 'title', 'date', 'channel')
+        fields = ('id', 'title', 'timestamp', 'channel')
