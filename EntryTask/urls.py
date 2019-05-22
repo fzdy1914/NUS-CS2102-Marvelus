@@ -18,7 +18,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 
 from . import view
-from EventCenter.views import index, event_detail_a
+from EventCenter.views_helper import index, event_detail_a
 
 urlpatterns = [
     path('logout/', view.logout, name='logout'),

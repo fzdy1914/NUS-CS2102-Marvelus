@@ -64,4 +64,4 @@ def event_updater(event, data):
 def comment_deserializer(data):
     event = Event.objects.get(pk=data['event_id'])
     user = User.objects.get(pk=data['user_id'])
-    return Comment(**data, event=event, user=user)
+    return Comment(event=event, user=user, **data)
