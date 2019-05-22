@@ -51,7 +51,6 @@ class Comment(models.Model):
 
 
 class Participation(models.Model):
-    id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -60,10 +59,10 @@ class Participation(models.Model):
 
     class Meta:
         db_table = 'participation_tab'
+        unique_together = ("event", "user")
 
 
 class Like(models.Model):
-    id = models.AutoField(primary_key=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -72,3 +71,4 @@ class Like(models.Model):
 
     class Meta:
         db_table = 'like_tab'
+        unique_together = ("event", "user")

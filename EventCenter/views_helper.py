@@ -1,10 +1,12 @@
 # quick way to add events
+import random
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-from .models import Channel, Event, Comment
+from .models import Channel, Event, Comment, Like
 
 
 def add_events(request):
@@ -38,6 +40,16 @@ def add_comments(request):
             c = Comment(event=event, title=title, content=content, user=user)
             c.save()
     return HttpResponse(status=200)
+
+
+def add_likes(request):
+    Like.objects.all().delete()
+    for event in Event.objects.all():
+        for i in random.sample(range(1, 100), 20):
+            user = User.objects.get(id=i)
+            like = Like(user=user, event=event)
+            like.save()
+    return HttpResponse("add like success", status=200)
 
 
 @login_required
