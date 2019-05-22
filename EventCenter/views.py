@@ -2,13 +2,13 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 
-from .serializers import DetailEventSerializer, event_list_serializer, CommentSerializer, event_serializer, \
-    comment_list_serializer, event_deserializer, comment_deserializer
+from .serializers import event_list_serializer, event_serializer, comment_list_serializer, event_deserializer, \
+    comment_deserializer, comment_serializer
 from .models import Event, Channel, Comment
 
 
@@ -48,22 +48,23 @@ class DetailView(generic.DetailView):
 def event_list(request):
     if request.method == 'GET':
         events = Event.objects.all()
+        args = request.GET
 
         try:
-            channel_id = request.GET.get('channel', None)
+            channel_id = args.get('channel_id')
             if channel_id:
                 events = events.filter(channel_id=int(channel_id))
 
-            since = request.GET.get('since', None)
+            since = args.get('since')
             if since:
                 events = events.filter(timestamp__gte=int(since))
 
-            until = request.GET.get('until', None)
+            until = args.get('until')
             if until:
                 events = events.filter(timestamp__lte=int(until))
 
-            offset = int(request.GET.get('offset', 0))
-            limit = int(request.GET.get('limit', 100))
+            offset = int(args.get('offset', 0))
+            limit = int(args.get('limit', 100))
             events = events.order_by('-id')[offset:offset + limit]
         except ValueError:
             return HttpResponse('Invalid arguments', status=400)
@@ -111,10 +112,11 @@ def event_detail(request, pk):
 def comment_list(request, event_id):
     if request.method == 'GET':
         comments = Comment.objects.filter(event_id=event_id)
+        args = request.GET
 
         try:
-            offset = int(request.GET.get('offset', 0))
-            limit = int(request.GET.get('limit', 50))
+            offset = int(args.get('offset', 0))
+            limit = int(args.get('limit', 50))
         except ValueError:
             return HttpResponse('Invalid arguments', status=400)
 
@@ -134,11 +136,7 @@ def comment_list(request, event_id):
         except User.DoesNotExist:
             return HttpResponse('Invalid user', status=400)
 
-        serializer = CommentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save(event=event, user=user)
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+        return HttpResponse(comment_serializer(comment), 'application/json')
 
 
 # quick way to add events
@@ -162,5 +160,4 @@ def add_comments(request):
             user = User.objects.get(username='root')
             c = Comment(event=event, title=title, content=content, user=user)
             c.save()
-
     return HttpResponse(status=200)

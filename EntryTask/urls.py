@@ -17,15 +17,15 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from . import view
 from EventCenter.views import index, event_detail_a
 
 urlpatterns = [
-    # path('logout/', view.logout, name='logout'),
+    path('logout/', view.logout, name='logout'),
     path('admin/', admin.site.urls),
-    # path('login/', view.login, name='login'),
+    path('login/', view.login, name='login'),
 
     path('api/', include('EventCenter.urls')),
-    path('api-auth/', include('rest_framework.urls'), name='authenticate'),
 
 
     path('event-center/index/', index, name='event_index'),

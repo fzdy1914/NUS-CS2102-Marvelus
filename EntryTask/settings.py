@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'TestModel',
     'EventCenter',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
