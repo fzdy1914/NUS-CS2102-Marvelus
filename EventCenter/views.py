@@ -31,7 +31,7 @@ def event_list(request):
                 events = events.filter(timestamp__lte=int(until))
 
             offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 100))
+            limit = int(args.get('limit', 50))
             events = events.order_by('-id')[offset:offset + limit]
         except ValueError:
             return JsonResponse(error_json_response('Invalid arguments'))

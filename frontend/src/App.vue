@@ -1,23 +1,45 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <h1>Welcome to Event Center!</h1>
+    <router-link to="/">Index</router-link>
+    <router-link to="/hello">Go to HelloWorld</router-link>
+    <input v-model="channelId">
+    <a @click="goChannel()">Go Channel</a>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      msg: 'Hello World',
+      channels: null,
+      channelId: null
+    }
+  },
+  methods: {
+    goChannel: function() {
+      this.$router.push({
+        name: 'EventList',
+        query: {
+          channelId: this.channelId
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  a {
+    color:#0000FF;
+    text-decoration:none;
+  }
+  a:hover {
+    color:#CC3300;
+    text-decoration:underline;
+    cursor:pointer;
+  }
 </style>
