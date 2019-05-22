@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.auth.models import User
 
 from .models import Event, Comment, Channel
@@ -14,7 +12,7 @@ def event_list_serializer(events):
                   'channel_id': event.channel_id,
                   }
         event_list.append(fields)
-    return json.dumps(event_list)
+    return event_list
 
 
 def event_serializer(event):
@@ -26,7 +24,7 @@ def event_serializer(event):
               'image_url': event.image_url,
               'channel_id': event.channel_id,
               }
-    return json.dumps(fields)
+    return fields
 
 
 def comment_list_serializer(comments):
@@ -38,7 +36,7 @@ def comment_list_serializer(comments):
                   'user_id': comment.user_id,
                   }
         comment_list.append(fields)
-    return json.dumps(comment_list)
+    return comment_list
 
 
 def comment_serializer(comment):
@@ -48,12 +46,19 @@ def comment_serializer(comment):
               'content': comment.content,
               'user_id': comment.user_id,
               }
-    return json.dumps(fields)
+    return fields
 
 
 def event_deserializer(data):
     channel = Channel.objects.get(pk=data['channel_id'])
-    return Event(**data, channel=channel)
+    return Event(channel=channel, **data)
+
+
+def event_updater(event, data):
+    event.__dict__.update(**data)
+    if 'channel_id' in data:
+        event.channel = Channel.objects.get(pk=data['channel_id'])
+    return event
 
 
 def comment_deserializer(data):
