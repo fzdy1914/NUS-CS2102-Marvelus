@@ -12,44 +12,41 @@
 </template>
 
 <script>
-export default {
-  name: 'App',
-  data () {
-    return {
-      msg: 'Hello World',
-      channels: null
-    }
-  },
-  mounted () {
-    this.$axios.request({
-      url: this.$url + 'channels/',
-      method: 'GET',
-      params: {
-        'offset': this.$route.query.offset,
-        'limit': this.$route.query.limit,
+  export default {
+    name: 'App',
+    data () {
+      return {
+        msg: 'Hello World',
+        channels: null
       }
-    }).then(response => {
-      let data = response.data
-      if (data.state === true) {
-        this.state = true
-        this.channels = data.data.channels
-      } else {
-        this.state = false
-        this.msg = data.error
-      }
-    })
-  },
-  methods: {
-    goChannel: function(channelId) {
-      this.$router.push({
-        name: 'EventList',
-        query: {
-          channelId: channelId
+    },
+    mounted () {
+      this.$axios.request({
+        url: this.$url + 'channels/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.channels = data.data.channels
+        } else {
+          this.state = false
+          this.msg = data.error
         }
       })
+    },
+    methods: {
+      goChannel: function (channelId) {
+        this.$router.push({
+          name: 'EventList',
+          query: {
+            channelId: channelId,
+            startPage: 1
+          }
+        })
+      }
     }
   }
-}
 </script>
 
 <style>
