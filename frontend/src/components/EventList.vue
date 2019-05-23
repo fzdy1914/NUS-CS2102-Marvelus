@@ -19,6 +19,17 @@
           </tr>
         </tbody>
       </table>
+      <nav>
+        <ul class="pagination">
+          <li><a href="#"><span>&laquo;</span></a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><span>&raquo;</span></a></li>
+        </ul>
+      </nav>
     </div>
     <div v-else>
       {{ msg }}
@@ -50,7 +61,7 @@ export default {
       let data = response.data
       if (data.state === true) {
         this.state = true
-        this.events = data.events
+        this.events = data.data.events
       } else {
         this.state = false
         this.msg = data.error
@@ -74,7 +85,7 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.state = true
-          this.events = data.events
+          this.events = data.data.events
         } else {
           this.state = false
           this.msg = data.error
@@ -95,6 +106,9 @@ export default {
 
 <style>
   th, td {
+    text-align: center;
+  }
+  nav {
     text-align: center;
   }
   .id {

@@ -30,13 +30,15 @@ def event_list(request):
             if until:
                 events = events.filter(timestamp__lte=int(until))
 
+            count = events.count()
             offset = int(args.get('offset', 0))
             limit = int(args.get('limit', 50))
             events = events.order_by('-id')[offset:offset + limit]
         except ValueError:
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('events', event_list_serializer(events)))
+        return JsonResponse(success_json_response({'events': event_list_serializer(events),
+                                                   'count': count}))
 
     elif request.method == 'POST':
         try:
@@ -50,7 +52,7 @@ def event_list(request):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('event', event_serializer(event)))
+        return JsonResponse(success_json_response({'event': event_serializer(event)}))
 
 
 @csrf_exempt
@@ -61,7 +63,7 @@ def event_detail(request, pk):
         return JsonResponse(error_json_response('No such event'))
 
     if request.method == 'GET':
-        return JsonResponse(success_json_response('event', event_serializer(event)))
+        return JsonResponse(success_json_response({'event': event_serializer(event)}))
 
     elif request.method == 'PUT':
         try:
@@ -75,11 +77,11 @@ def event_detail(request, pk):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('event', event_serializer(event)))
+        return JsonResponse(success_json_response({'event': event_serializer(event)}))
 
     elif request.method == 'DELETE':
         event.delete()
-        return JsonResponse(success_json_response('message', 'Event successfully deleted'))
+        return JsonResponse(success_json_response({'message': 'Event successfully deleted'}))
 
 
 @csrf_exempt
@@ -95,7 +97,7 @@ def comment_list(request, event_id):
             return JsonResponse(error_json_response('Invalid arguments'))
 
         comments = comments.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response('comments', comment_list_serializer(comments)))
+        return JsonResponse(success_json_response({'comments': comment_list_serializer(comments)}))
 
     elif request.method == 'POST':
         try:
@@ -112,7 +114,7 @@ def comment_list(request, event_id):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('comment', comment_serializer(comment)))
+        return JsonResponse(success_json_response({'comment': comment_serializer(comment)}))
 
     elif request.method == 'DELETE':
         try:
@@ -127,7 +129,7 @@ def comment_list(request, event_id):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('message', 'Comment successfully deleted'))
+        return JsonResponse(success_json_response({'message': 'Comment successfully deleted'}))
 
 
 @csrf_exempt
@@ -143,7 +145,7 @@ def like_list(request, event_id):
             return JsonResponse(error_json_response('Invalid arguments'))
 
         likes = likes.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response('likes', like_list_serializer(likes)))
+        return JsonResponse(success_json_response({'likes': like_list_serializer(likes)}))
 
     elif request.method == 'POST':
         try:
@@ -161,7 +163,7 @@ def like_list(request, event_id):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('like', like_serializer(like)))
+        return JsonResponse(success_json_response({'like': like_serializer(like)}))
 
     elif request.method == 'DELETE':
         try:
@@ -178,7 +180,7 @@ def like_list(request, event_id):
         except (KeyError, TypeError):
             return JsonResponse(error_json_response('Invalid arguments'))
 
-        return JsonResponse(success_json_response('message', 'Successfully unliked'))
+        return JsonResponse(success_json_response({'message': 'Successfully unliked'}))
 
 
 @csrf_exempt
@@ -193,4 +195,4 @@ def channel_list(request):
             return JsonResponse(error_json_response('Invalid arguments'))
 
         channels = Channel.objects.all().order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response('channels', channel_list_serializer(channels)))
+        return JsonResponse(success_json_response({'channels': channel_list_serializer(channels)}))

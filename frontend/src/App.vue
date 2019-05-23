@@ -7,17 +7,6 @@
         <li v-for="channel in channels"><a @click="goChannel(channel.id)">{{ channel.name }}</a></li>
       </ul>
       <router-view/>
-      <nav>
-        <ul class="pagination">
-          <li><a href="#"><span>&laquo;</span></a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#"><span>&raquo;</span></a></li>
-        </ul>
-      </nav>
     </div>
   </div>
 </template>
@@ -43,7 +32,7 @@ export default {
       let data = response.data
       if (data.state === true) {
         this.state = true
-        this.channels = data.channels
+        this.channels = data.data.channels
       } else {
         this.state = false
         this.msg = data.error
@@ -64,7 +53,4 @@ export default {
 </script>
 
 <style>
-  nav {
-    text-align: center;
-  }
 </style>

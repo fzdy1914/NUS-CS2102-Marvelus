@@ -1,5 +1,5 @@
-def success_json_response(model, data):
-    content = {'state': True, model: data}
+def success_json_response(data):
+    content = {'state': True, 'data': data}
     return content
 
 
