@@ -1,19 +1,23 @@
 <template>
   <div>
     <div v-if="state">
-      <table>
-        <tr>
-          <th>ID</th>
-          <th>Title</th>
-          <th>Date</th>
-          <th>Channel</th>
-        </tr>
-        <tr v-for="event in events">
-          <td class="id">id: {{ event.id }}</td>
-          <td class="title">title: {{ event.title }}</td>
-          <td class="date">date: {{ getDate(event.timestamp) }}</td>
-          <td class="channel">channel: {{ event.channel_id }}</td>
-        </tr>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Channel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="event in events">
+            <td class="id">{{ event.id }}</td>
+            <td class="title">{{ event.title }}</td>
+            <td class="date">{{ getDate(event.timestamp) }}</td>
+            <td class="channel">{{ event.channel }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div v-else>
@@ -90,5 +94,19 @@ export default {
 </script>
 
 <style>
-
+  th, td {
+    text-align: center;
+  }
+  .id {
+    width: 150px;
+  }
+  .title {
+    width: 700px;
+  }
+  .date {
+    width: 250px;
+  }
+  .channel {
+    width: 200px;
+  }
 </style>

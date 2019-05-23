@@ -1,11 +1,24 @@
 <template>
   <div id="app">
-    <h1>Welcome to Event Center!</h1>
-    <router-link to="/">Index</router-link>
-    <router-link to="/hello">Go to HelloWorld</router-link>
-    <input v-model="channelId">
-    <a @click="goChannel()">Go Channel</a>
-    <router-view/>
+    <div class="container">
+      <h2>Welcome to Event Center!</h2>
+      <ul class="nav nav-pills">
+        <li><a @click="goChannel(null)">All</a></li>
+        <li v-for="channel in channels"><a @click="goChannel(channel.id)">{{ channel.name }}</a></li>
+      </ul>
+      <router-view/>
+      <nav>
+        <ul class="pagination">
+          <li><a href="#"><span>&laquo;</span></a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><span>&raquo;</span></a></li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
 
@@ -15,16 +28,34 @@ export default {
   data () {
     return {
       msg: 'Hello World',
-      channels: null,
-      channelId: null
+      channels: null
     }
   },
+  mounted () {
+    this.$axios.request({
+      url: this.$url + 'channels/',
+      method: 'GET',
+      params: {
+        'offset': this.$route.query.offset,
+        'limit': this.$route.query.limit,
+      }
+    }).then(response => {
+      let data = response.data
+      if (data.state === true) {
+        this.state = true
+        this.channels = data.channels
+      } else {
+        this.state = false
+        this.msg = data.error
+      }
+    })
+  },
   methods: {
-    goChannel: function() {
+    goChannel: function(channelId) {
       this.$router.push({
         name: 'EventList',
         query: {
-          channelId: this.channelId
+          channelId: channelId
         }
       })
     }
@@ -33,13 +64,7 @@ export default {
 </script>
 
 <style>
-  a {
-    color:#0000FF;
-    text-decoration:none;
-  }
-  a:hover {
-    color:#CC3300;
-    text-decoration:underline;
-    cursor:pointer;
+  nav {
+    text-align: center;
   }
 </style>
