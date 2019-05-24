@@ -24,7 +24,7 @@
           <tr v-for="event in events" :key="event.id">
             <td class="id">{{ event.id }}</td>
             <td class="title"><a @click="goEvent(event.id)">{{ event.title }}</a></td>
-            <td class="date">{{ getDate(event.timestamp) }}</td>
+            <td class="date">{{ $util.getDate(event.timestamp) }}</td>
             <td class="channel">{{ event.channel }}</td>
             <td class="likes">{{ event.likes }}</td>
           </tr>
@@ -35,7 +35,7 @@
           <li v-bind:class="{ disabled: startPage === 1 }">
             <a @click="startPage=prevPage"><span>&laquo;</span></a>
           </li>
-          <li v-for="index in generateArray(startPage, endPage)" :key="index" :class="{ active: index === currentPage}">
+          <li v-for="index in indexArray" :key="index" :class="{ active: index === currentPage}">
             <a @click="goPage(index)">{{ index }}</a>
           </li>
           <li v-bind:class="{ disabled: endPage === maxPage }">
@@ -82,26 +82,13 @@ export default {
         this.msg = data.error
       }
     })
-    this.channelId = this.parse(this.$route.query.channelId)
-    this.startPage = this.parse(this.$route.query.startPage) || 1
-    this.currentPage = this.parse(this.$route.query.currentPage) || 1
-    this.offset = this.parse(this.$route.query.offset)
+    this.channelId = this.$util.parse(this.$route.query.channelId)
+    this.startPage = this.$util.parse(this.$route.query.startPage) || 1
+    this.currentPage = this.$util.parse(this.$route.query.currentPage) || 1
+    this.offset = this.$util.parse(this.$route.query.offset)
     this.updateList(this.offset, this.limit, this.channelId)
   },
   methods: {
-    parse: function (candidate) {
-      if (candidate && typeof (candidate) === 'string') {
-        return parseInt(candidate)
-      }
-      return candidate
-    },
-    getDate: function (timestamp) {
-      return new Date(timestamp * 1000).toLocaleDateString()
-    },
-    generateArray: function (start, end) {
-      return Array.from(new Array(end + 1).keys()).slice(start)
-    },
-
     goPage: function (index) {
       this.$router.push({
         name: 'EventList',
@@ -163,23 +150,23 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.offset = this.parse(to.query.offset)
-      this.channelId = this.parse(to.query.channelId)
+      this.offset = this.$util.parse(to.query.offset)
+      this.channelId = this.$util.parse(to.query.channelId)
       if (to.query.startPage) {
-        this.startPage = this.parse(to.query.startPage)
+        this.startPage = this.$util.parse(to.query.startPage)
       }
       if (to.query.currentPage) {
-        this.currentPage = this.parse(to.query.currentPage)
+        this.currentPage = this.$util.parse(to.query.currentPage)
       }
       if (to.query.startPage) {
-        this.startPage = this.parse(to.query.startPage)
+        this.startPage = this.$util.parse(to.query.startPage)
       }
     },
     'offset' (to, from) {
-      this.updateList(this.parse(to), this.limit, this.channelId)
+      this.updateList(to, this.limit, this.channelId)
     },
     'channelId' (to, from) {
-      this.updateList(this.offset, this.limit, this.parse(to))
+      this.updateList(this.offset, this.limit, to)
     }
   },
   computed: {
@@ -194,6 +181,9 @@ export default {
     },
     nextPage: function () {
       return this.endPage === this.maxPage ? this.startPage : this.endPage + 1
+    },
+    indexArray: function () {
+      return this.$util.generateArray(this.startPage, this.endPage)
     }
   }
 }

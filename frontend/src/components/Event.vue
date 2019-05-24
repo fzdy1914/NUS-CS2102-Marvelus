@@ -20,11 +20,12 @@
         Location: {{ event.location }}
       </h3>
       <h3 class="event-date">
-        Date: {{ getDate(event.timestamp) }}
+        Date: {{ $util.getDate(event.timestamp) }}
       </h3>
       <p class="event-description">
         {{ event.description }}
       </p>
+      <CommentList></CommentList>
     </div>
     <div v-else>
       <h3>{{ msg }}</h3>
@@ -47,12 +48,6 @@ export default {
     this.updateEvent(this.$route.params.eventId)
   },
   methods: {
-    getDate: function (timestamp) {
-      return new Date(timestamp * 1000).toLocaleDateString()
-    },
-    generateArray: function (start, end) {
-      return Array.from(new Array(end + 1).keys()).slice(start)
-    },
     goChannel: function (channelId) {
       this.$router.push({
         name: 'EventList',
