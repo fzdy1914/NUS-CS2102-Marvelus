@@ -25,6 +25,7 @@ def event_serializer(event):
               'image_url': event.image_url,
               'channel_id': event.channel_id,
               'channel': event.channel.name,
+              'likes': Like.objects.filter(event=event).count()
               }
     return fields
 
@@ -48,6 +49,7 @@ def comment_list_serializer(comments):
                   'title': comment.title,
                   'content': comment.content,
                   'user_id': comment.user_id,
+                  'username': comment.user.username
                   }
         comment_list.append(fields)
     return comment_list

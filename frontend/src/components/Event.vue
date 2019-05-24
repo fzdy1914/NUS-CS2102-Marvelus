@@ -22,10 +22,13 @@
       <h3 class="event-date">
         Date: {{ $util.getDate(event.timestamp) }}
       </h3>
+      <h3>
+        Description:
+      </h3>
       <p class="event-description">
         {{ event.description }}
       </p>
-      <CommentList></CommentList>
+      <CommentList :eventId="event.id"></CommentList>
     </div>
     <div v-else>
       <h3>{{ msg }}</h3>
@@ -34,8 +37,13 @@
 </template>
 
 <script>
+import CommentList from './CommentList'
+
 export default {
   name: 'Event',
+  components: {
+    CommentList
+  },
   data () {
     return {
       msg: 'Network Error',

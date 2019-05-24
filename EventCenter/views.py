@@ -88,6 +88,7 @@ def event_detail(request, pk):
 def comment_list(request, event_id):
     if request.method == 'GET':
         comments = Comment.objects.filter(event_id=event_id)
+        count = comments.count()
         args = request.GET
 
         try:
@@ -97,7 +98,8 @@ def comment_list(request, event_id):
             return JsonResponse(error_json_response('Invalid arguments'))
 
         comments = comments.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response({'comments': comment_list_serializer(comments)}))
+        return JsonResponse(success_json_response({'comments': comment_list_serializer(comments),
+                                                   'count': count}))
 
     elif request.method == 'POST':
         try:
