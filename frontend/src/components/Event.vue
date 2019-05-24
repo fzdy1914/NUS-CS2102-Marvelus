@@ -28,6 +28,7 @@
       <p class="event-description">
         {{ event.description }}
       </p>
+      <LikeList :eventId="event.id"></LikeList>
       <CommentList :eventId="event.id"></CommentList>
     </div>
     <div v-else>
@@ -38,11 +39,13 @@
 
 <script>
 import CommentList from './CommentList'
+import LikeList from './LikeList'
 
 export default {
   name: 'Event',
   components: {
-    CommentList
+    CommentList,
+    LikeList
   },
   data () {
     return {

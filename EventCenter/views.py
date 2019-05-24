@@ -138,16 +138,18 @@ def comment_list(request, event_id):
 def like_list(request, event_id):
     if request.method == 'GET':
         likes = Like.objects.filter(event_id=event_id)
+        count = likes.count()
         args = request.GET
 
         try:
             offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 100))
+            limit = int(args.get('limit', 50))
         except ValueError:
             return JsonResponse(error_json_response('Invalid arguments'))
 
         likes = likes.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response({'likes': like_list_serializer(likes)}))
+        return JsonResponse(success_json_response({'likes': like_list_serializer(likes),
+                                                   'count': count}))
 
     elif request.method == 'POST':
         try:
