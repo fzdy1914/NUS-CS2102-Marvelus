@@ -1,7 +1,9 @@
 <template>
   <div>
     <div v-if="state">
-      <h2>Welcome to Event Center!</h2>
+      <div class="page-header">
+        <h1>Welcome to Event Center !</h1>
+      </div>
       <ul class="nav nav-pills">
         <li :class="{ active: !channelId }"><a @click="goChannel(null)">All</a></li>
         <li v-for="channel in channels" :key="channel.id" :class="{ active: channelId === channel.id }">
@@ -15,14 +17,16 @@
             <th>Title</th>
             <th>Date</th>
             <th>Channel</th>
+            <th>Likes</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="event in events" :key="event.id">
             <td class="id">{{ event.id }}</td>
-            <td class="title">{{ event.title }}</td>
+            <td class="title"><a @click="goEvent(event.id)">{{ event.title }}</a></td>
             <td class="date">{{ getDate(event.timestamp) }}</td>
             <td class="channel">{{ event.channel }}</td>
+            <td class="likes">{{ event.likes }}</td>
           </tr>
         </tbody>
       </table>
@@ -92,7 +96,7 @@ export default {
       return candidate
     },
     getDate: function (timestamp) {
-      return new Date(timestamp * 1000).toLocaleString()
+      return new Date(timestamp * 1000).toLocaleDateString()
     },
     generateArray: function (start, end) {
       return Array.from(new Array(end + 1).keys()).slice(start)
@@ -122,7 +126,19 @@ export default {
       })
       this.currentChannel = channelId || 0
     },
-    
+    goEvent: function (eventId) {
+      this.$router.push({
+        name: 'Event',
+        params: {
+          eventId: eventId
+        },
+        query: {
+          startPage: 1,
+          currentPage: 1
+        }
+      })
+    },
+
     updateList: function (offset, limit, channelId) {
       this.$axios.request({
         url: this.$url + 'events/',
@@ -184,6 +200,10 @@ export default {
 </script>
 
 <style>
+  table {
+    margin-top: 25px;
+    font-size: 15px;
+  }
   th, td {
     text-align: center;
   }
@@ -196,13 +216,17 @@ export default {
   .title {
     width: 700px;
   }
-  .date {
-    width: 250px;
-  }
-  .channel {
+  .date, .channel {
     width: 200px;
   }
+  .likes {
+    width: 150px;
+  }
   a:hover{
-    cursor:pointer;
+    cursor: pointer;
+  }
+  .nav{
+    font-size: 18px;
+    background: #FCFCFC
   }
 </style>

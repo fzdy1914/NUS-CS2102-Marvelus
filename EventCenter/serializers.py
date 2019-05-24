@@ -10,6 +10,7 @@ def event_list_serializer(events):
                   'title': event.title,
                   'timestamp': event.timestamp,
                   'channel': event.channel.name,
+                  'likes': Like.objects.filter(event=event).count()
                   }
         event_list.append(fields)
     return event_list
@@ -22,6 +23,7 @@ def event_serializer(event):
               'timestamp': event.timestamp,
               'location': event.location,
               'image_url': event.image_url,
+              'channel_id': event.channel_id,
               'channel': event.channel.name,
               }
     return fields

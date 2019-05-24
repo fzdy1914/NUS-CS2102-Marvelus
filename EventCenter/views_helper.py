@@ -29,6 +29,17 @@ def add_events(request):
     return HttpResponse('Event added', status=200)
 
 
+def edit_events(request):
+    for event in Event.objects.all():
+        event.description = 'a long long long long long description \n' + \
+                            'a long long long long long description \n' + \
+                            'a long long long long long description \n' + \
+                            'a long long long long long description \n'
+        event.location = 'Sea Group, 1 Fusionopolis Place, Galaxis, #17-10'
+        event.save()
+    return HttpResponse('Event edited', status=200)
+
+
 # quick way to add users
 def add_users(request):
     for i in range(2, 101):

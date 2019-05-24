@@ -1,37 +1,30 @@
 <template>
   <div>
     <div v-if="state">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Channel</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="event in events" :key="event.id">
-            <td class="id">{{ event.id }}</td>
-            <td class="title">{{ event.title }}</td>
-            <td class="date">{{ getDate(event.timestamp) }}</td>
-            <td class="channel">{{ event.channel }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <nav>
-        <ul class="pagination">
-          <li v-bind:class="{ disabled: startPage === 1 }">
-            <a @click="startPage=prevPage"><span>&laquo;</span></a>
-          </li>
-          <li v-for="index in generateArray(startPage, endPage)" :key="index" :class="{ active: index === currentPage}">
-            <a @click="goPage(index)">{{ index }}</a>
-          </li>
-          <li v-bind:class="{ disabled: endPage === maxPage }">
-            <a @click="startPage=nextPage"><span>&raquo;</span></a>
-          </li>
-        </ul>
-      </nav>
+      <div class="page-header">
+        <h1>Welcome to Event Center !</h1>
+      </div>
+      <ul class="breadcrumb">
+        <li>
+          <a @click="goChannel(null)">EventCenter</a>
+        </li>
+        <li>
+          <a @click="goChannel(event.channel_id)">{{ event.channel }}</a>
+        </li>
+        <li class="active">{{ event.title }}</li>
+      </ul>
+      <h1 class="event-title">
+        {{ event.title }}
+      </h1>
+      <h3 class="event-location">
+        Location: {{ event.location }}
+      </h3>
+      <h3 class="event-date">
+        Date: {{ getDate(event.timestamp) }}
+      </h3>
+      <p class="event-description">
+        {{ event.description }}
+      </p>
     </div>
     <div v-else>
       <h3>{{ msg }}</h3>
@@ -45,70 +38,40 @@ export default {
   data () {
     return {
       msg: 'Network Error',
-      events: null,
+      event: null,
       count: null,
-      state: false,
-      offset: 0,
-      limit: 25,
-      channelId: null,
-      startPage: 1,
-      currentPage: 1
+      state: false
     }
   },
   mounted () {
-    this.$axios.request({
-      url: this.$url + 'events/',
-      method: 'GET',
-      params: {
-        'offset': this.$route.query.offset,
-        'limit': this.limit,
-        'channel_id': this.$route.query.channelId
-      }
-    }).then(response => {
-      let data = response.data
-      if (data.state === true) {
-        this.state = true
-        this.events = data.data.events
-        this.count = data.data.count
-      } else {
-        this.state = false
-        this.msg = data.error
-      }
-    })
+    this.updateEvent(this.$route.params.eventId)
   },
   methods: {
     getDate: function (timestamp) {
-      return new Date(timestamp * 1000).toLocaleString()
+      return new Date(timestamp * 1000).toLocaleDateString()
     },
     generateArray: function (start, end) {
       return Array.from(new Array(end + 1).keys()).slice(start)
     },
-    goPage: function (index) {
+    goChannel: function (channelId) {
       this.$router.push({
         name: 'EventList',
         query: {
-          offset: (index - 1) * this.limit,
-          channelId: this.channelId,
-          limit: this.limit
+          channelId: channelId,
+          startPage: 1,
+          currentPage: 1
         }
       })
-      this.currentPage = index
     },
-    updateList: function (offset, limit, channelId) {
+    updateEvent: function (eventId) {
       this.$axios.request({
-        url: this.$url + 'events/',
-        method: 'GET',
-        params: {
-          'offset': offset,
-          'limit': limit,
-          'channel_id': channelId
-        }
+        url: this.$url + 'event/' + eventId + '/',
+        method: 'GET'
       }).then(response => {
         let data = response.data
         if (data.state === true) {
           this.state = true
-          this.events = data.data.events
-          this.count = data.data.count
+          this.event = data.data.event
         } else {
           this.state = false
           this.msg = data.error
@@ -118,35 +81,24 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.offset = to.query.offset
-      this.channelId = to.query.channelId
-      if (to.query.startPage) {
-        this.startPage = to.query.startPage
-      }
-      if (to.query.currentPage) {
-        this.currentPage = to.query.currentPage
-      }
-    },
-    'offset' (to, from) {
-      this.updateList(to, this.limit, this.channelId)
-    },
-    'channelId' (to, from) {
-      this.updateList(this.offset, this.limit, to)
-    }
-  },
-  computed: {
-    maxPage: function () {
-      return Math.ceil(this.count / this.limit)
-    },
-    endPage: function () {
-      return this.startPage + 9 < this.maxPage ? this.startPage + 9 : this.maxPage
-    },
-    prevPage: function () {
-      return this.startPage - 10 < 1 ? 1 : this.startPage - 10
-    },
-    nextPage: function () {
-      return this.endPage === this.maxPage ? this.startPage : this.endPage + 1
+      this.updateEvent(to.params.eventId)
     }
   }
 }
 </script>
+
+<style>
+  .breadcrumb > li + li:before {
+    color: #000000;
+  }
+  .breadcrumb {
+    font-size: 20px;
+    background: #FCFCFC;
+  }
+  .event-title {
+    font-size: 50px;
+  }
+  .event-description {
+    font-size: 20px;
+  }
+</style>
