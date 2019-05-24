@@ -82,10 +82,11 @@ export default {
         this.msg = data.error
       }
     })
-    this.channelId = this.$util.parse(this.$route.query.channelId)
-    this.startPage = this.$util.parse(this.$route.query.startPage) || 1
-    this.currentPage = this.$util.parse(this.$route.query.currentPage) || 1
-    this.offset = this.$util.parse(this.$route.query.offset)
+    let parse = this.$util.parse
+    this.channelId = parse(this.$route.query.channelId)
+    this.startPage = parse(this.$route.query.startPage) || 1
+    this.currentPage = parse(this.$route.query.currentPage) || 1
+    this.offset = parse(this.$route.query.offset)
     this.updateList(this.offset, this.limit, this.channelId)
   },
   methods: {
@@ -150,16 +151,17 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.offset = this.$util.parse(to.query.offset)
-      this.channelId = this.$util.parse(to.query.channelId)
+      let parse = this.$util.parse
+      this.offset = parse(to.query.offset)
+      this.channelId = parse(to.query.channelId)
       if (to.query.startPage) {
-        this.startPage = this.$util.parse(to.query.startPage)
+        this.startPage = parse(to.query.startPage)
       }
       if (to.query.currentPage) {
-        this.currentPage = this.$util.parse(to.query.currentPage)
+        this.currentPage = parse(to.query.currentPage)
       }
       if (to.query.startPage) {
-        this.startPage = this.$util.parse(to.query.startPage)
+        this.startPage = parse(to.query.startPage)
       }
     },
     'offset' (to, from) {
@@ -190,16 +192,6 @@ export default {
 </script>
 
 <style>
-  table {
-    margin-top: 25px;
-    font-size: 15px;
-  }
-  th, td {
-    text-align: center;
-  }
-  nav {
-    text-align: center;
-  }
   .id {
     width: 150px;
   }
@@ -211,9 +203,6 @@ export default {
   }
   .likes {
     width: 150px;
-  }
-  a:hover{
-    cursor: pointer;
   }
   .nav{
     font-size: 18px;
