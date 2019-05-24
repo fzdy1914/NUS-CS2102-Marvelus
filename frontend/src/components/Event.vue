@@ -1,13 +1,6 @@
 <template>
   <div>
     <div v-if="state">
-      <h2>Welcome to Event Center!</h2>
-      <ul class="nav nav-pills">
-        <li :class="{ active: !channelId }"><a @click="goChannel(null)">All</a></li>
-        <li v-for="channel in channels" :key="channel.id" :class="{ active: channelId === channel.id }">
-          <a @click="goChannel(channel.id)">{{ channel.name }}</a>
-        </li>
-      </ul>
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -48,17 +41,15 @@
 
 <script>
 export default {
-  name: 'EventList',
+  name: 'Event',
   data () {
     return {
       msg: 'Network Error',
       events: null,
-      channels: null,
       count: null,
       state: false,
-
       offset: 0,
-      limit: 15,
+      limit: 25,
       channelId: null,
       startPage: 1,
       currentPage: 1
@@ -66,63 +57,43 @@ export default {
   },
   mounted () {
     this.$axios.request({
-      url: this.$url + 'channels/',
-      method: 'GET'
+      url: this.$url + 'events/',
+      method: 'GET',
+      params: {
+        'offset': this.$route.query.offset,
+        'limit': this.limit,
+        'channel_id': this.$route.query.channelId
+      }
     }).then(response => {
       let data = response.data
       if (data.state === true) {
         this.state = true
-        this.channels = data.data.channels
+        this.events = data.data.events
+        this.count = data.data.count
       } else {
         this.state = false
         this.msg = data.error
       }
     })
-    this.channelId = this.parse(this.$route.query.channelId)
-    this.startPage = this.parse(this.$route.query.startPage) || 1
-    this.currentPage = this.parse(this.$route.query.currentPage) || 1
-    this.offset = this.parse(this.$route.query.offset)
-    this.updateList(this.offset, this.limit, this.channelId)
   },
   methods: {
-    parse: function (candidate) {
-      if (candidate && typeof (candidate) === 'string') {
-        return parseInt(candidate)
-      }
-      return candidate
-    },
     getDate: function (timestamp) {
       return new Date(timestamp * 1000).toLocaleString()
     },
     generateArray: function (start, end) {
       return Array.from(new Array(end + 1).keys()).slice(start)
     },
-
     goPage: function (index) {
       this.$router.push({
         name: 'EventList',
         query: {
           offset: (index - 1) * this.limit,
           channelId: this.channelId,
-          limit: this.limit,
-          currentPage: index,
-          startPage: this.startPage
+          limit: this.limit
         }
       })
       this.currentPage = index
     },
-    goChannel: function (channelId) {
-      this.$router.push({
-        name: 'EventList',
-        query: {
-          channelId: channelId,
-          startPage: 1,
-          currentPage: 1
-        }
-      })
-      this.currentChannel = channelId || 0
-    },
-    
     updateList: function (offset, limit, channelId) {
       this.$axios.request({
         url: this.$url + 'events/',
@@ -147,23 +118,20 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.offset = this.parse(to.query.offset)
-      this.channelId = this.parse(to.query.channelId)
+      this.offset = to.query.offset
+      this.channelId = to.query.channelId
       if (to.query.startPage) {
-        this.startPage = this.parse(to.query.startPage)
+        this.startPage = to.query.startPage
       }
       if (to.query.currentPage) {
-        this.currentPage = this.parse(to.query.currentPage)
-      }
-      if (to.query.startPage) {
-        this.startPage = this.parse(to.query.startPage)
+        this.currentPage = to.query.currentPage
       }
     },
     'offset' (to, from) {
-      this.updateList(this.parse(to), this.limit, this.channelId)
+      this.updateList(to, this.limit, this.channelId)
     },
     'channelId' (to, from) {
-      this.updateList(this.offset, this.limit, this.parse(to))
+      this.updateList(this.offset, this.limit, to)
     }
   },
   computed: {
@@ -182,27 +150,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  th, td {
-    text-align: center;
-  }
-  nav {
-    text-align: center;
-  }
-  .id {
-    width: 150px;
-  }
-  .title {
-    width: 700px;
-  }
-  .date {
-    width: 250px;
-  }
-  .channel {
-    width: 200px;
-  }
-  a:hover{
-    cursor:pointer;
-  }
-</style>
