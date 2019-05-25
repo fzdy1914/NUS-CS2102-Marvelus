@@ -3,7 +3,8 @@
     <div v-if="state">
       <h3>{{ count }} Likes:</h3>
       <ul class="list-inline">
-        <li v-for="like in displayLikes" :key="like.user_id">{{ like.username }}</li>
+        <li v-for="like in displayLikes" :key="like.user_id">{{ like.username }},</li>
+        <li><a @click="showMore = !showMore">{{ showMore ? 'show less' : 'show more' }}</a></li>
       </ul>
     </div>
     <div v-else>
