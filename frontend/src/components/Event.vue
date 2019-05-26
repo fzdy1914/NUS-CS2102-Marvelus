@@ -93,7 +93,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .breadcrumb > li + li:before {
     color: #000000;
   }

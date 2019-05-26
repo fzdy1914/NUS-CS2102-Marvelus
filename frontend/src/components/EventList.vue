@@ -26,25 +26,15 @@
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-left">
+          <form class="nav navbar-form navbar-left">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
-          </ul>
+          <form class="navbar-right">
+            <DatePicker ref="datePicker" v-on:updateSinceDate="updateSinceDate" v-on:updateUntilDate="updateUntilDate"/>
+          </form>
         </div><!-- /.navbar-collapse -->
       </nav>
       <ul class="nav nav-pills">
@@ -94,8 +84,12 @@
 </template>
 
 <script>
+import DatePicker from './DatePicker'
 export default {
   name: 'EventList',
+  components: {
+    DatePicker
+  },
   data () {
     return {
       msg: 'Network Error',
@@ -108,7 +102,9 @@ export default {
       limit: 15,
       channelId: null,
       startPage: 1,
-      currentPage: 1
+      currentPage: 1,
+      sinceDate: null,
+      untilDate: null
     }
   },
   mounted () {
@@ -130,7 +126,7 @@ export default {
     this.startPage = parse(this.$route.query.startPage) || 1
     this.currentPage = parse(this.$route.query.currentPage) || 1
     this.offset = parse(this.$route.query.offset)
-    this.updateList(this.offset, this.limit, this.channelId)
+    this.updateList(this.offset, this.limit, this.channelId, null, null)
   },
   methods: {
     goPage: function (index) {
@@ -157,6 +153,16 @@ export default {
       })
       this.currentChannel = channelId || 0
     },
+    goDate: function () {
+      this.$router.replace({
+        name: 'EventList',
+        query: {
+          channelId: this.channelId,
+          startPage: 1,
+          currentPage: 1
+        }
+      })
+    },
     goEvent: function (eventId) {
       this.$router.push({
         name: 'Event',
@@ -170,14 +176,16 @@ export default {
       })
     },
 
-    updateList: function (offset, limit, channelId) {
+    updateList: function (offset, limit, channelId, sinceDate, untilDate) {
       this.$axios.request({
         url: this.$url + 'events/',
         method: 'GET',
         params: {
           'offset': offset,
           'limit': limit,
-          'channel_id': channelId
+          'channel_id': channelId,
+          'since': sinceDate,
+          'until': untilDate
         }
       }).then(response => {
         let data = response.data
@@ -190,6 +198,14 @@ export default {
           this.msg = data.error
         }
       })
+    },
+    updateSinceDate: function (sinceDate) {
+      this.sinceDate = sinceDate === '' ? null : Date.parse(sinceDate) / 1000
+      this.goDate()
+    },
+    updateUntilDate: function (untilDate) {
+      this.untilDate = untilDate === '' ? null : Date.parse(untilDate) / 1000 + 86400
+      this.goDate()
     }
   },
   watch: {
@@ -208,10 +224,16 @@ export default {
       }
     },
     'offset' (to, from) {
-      this.updateList(to, this.limit, this.channelId)
+      this.updateList(to, this.limit, this.channelId, this.sinceDate, this.untilDate)
     },
     'channelId' (to, from) {
-      this.updateList(this.offset, this.limit, to)
+      this.updateList(this.offset, this.limit, to, this.sinceDate, this.untilDate)
+    },
+    'sinceDate' (to, from) {
+      this.updateList(this.offset, this.limit, this.channelId, to, this.untilDate)
+    },
+    'untilDate' (to, from) {
+      this.updateList(this.offset, this.limit, this.channelId, this.sinceDate, to)
     }
   },
   computed: {
@@ -234,7 +256,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .id {
     width: 150px;
   }
@@ -250,5 +272,8 @@ export default {
   .nav{
     font-size: 18px;
     background: #FCFCFC
+  }
+  .navbar-right {
+    vertical-align: center;
   }
 </style>
