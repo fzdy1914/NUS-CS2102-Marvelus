@@ -1,9 +1,6 @@
 <template>
   <div>
     <div v-if="state">
-      <div class="page-header">
-        <h1>Welcome to Event Center !</h1>
-      </div>
       <nav class="navbar navbar-default">
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">

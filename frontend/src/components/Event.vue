@@ -1,9 +1,6 @@
 <template>
   <div>
     <div v-if="state">
-      <div class="page-header">
-        <h1>Welcome to Event Center !</h1>
-      </div>
       <ul class="breadcrumb">
         <li>
           <a @click="goChannel(null)">EventCenter</a>

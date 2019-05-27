@@ -6,13 +6,38 @@ import router from './router'
 import axios from 'axios'
 import util from './util'
 import Vuex from 'vuex'
-import store from './store/store'
+import store from './store'
+
+Vue.use(Vuex)
 
 Vue.config.productionTip = false
-Vue.use(Vuex)
 Vue.prototype.$axios = axios
+axios.defaults.withCredentials = true
 Vue.prototype.$url = 'http://127.0.0.1:8000/api/'
 Vue.prototype.$util = util
+
+router.beforeEach((to, from, next) => {
+  if (store.state.username || to.name === 'Login') {
+    next()
+  } else {
+    axios({
+      method: 'get',
+      url: 'http://127.0.0.1:8000/api/login/'
+    }).then(response => {
+      let data = response.data
+      if (data.state) {
+        store.commit('setUsername', data.data.user.username)
+        next()
+      } else {
+        next({name: 'Login'})
+      }
+    })
+  }
+})
+
+router.afterEach(route => {
+  window.scroll(0, 0)
+})
 
 /* eslint-disable no-new */
 new Vue({

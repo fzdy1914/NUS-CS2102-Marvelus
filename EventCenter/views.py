@@ -1,14 +1,48 @@
 import json
 
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
+from .forms import LoginForm
 from .responses import success_json_response, error_json_response
 from .serializers import event_list_serializer, event_serializer, comment_list_serializer, event_deserializer, \
     comment_deserializer, comment_serializer, event_updater, like_list_serializer, like_deserializer, like_serializer, \
     channel_list_serializer
 from .models import Event, Channel, Comment, Like
 
+
+@csrf_exempt
+def login(request):
+    if request.user.is_authenticated:
+        print('login access')
+        return success_json_response({'state': True, 'user': {'username': request.user.username}})
+
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            print(username + ' ' + password)
+
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None and user.is_active:
+                auth.login(request, user)
+                return success_json_response({'state': True, 'user': {'username': request.user.username}})
+            else:
+                return error_json_response('Wrong password. Please try again.')
+        else:
+            return error_json_response('Invalid username')
+
+    return error_json_response('User not logged in.')
+
+
+@csrf_exempt
+def logout(request):
+    auth.logout(request)
+    return success_json_response({'state': True, 'message': 'Successfully log out'})
 
 @csrf_exempt
 def event_list(request):

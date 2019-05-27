@@ -1,6 +1,13 @@
 <template>
   <div id="app">
     <div class="container">
+      <div v-show="$store.state.username">
+        <div class="page-header">
+          <h1>Welcome to Event Center !</h1>
+          <span>Current user:  <strong><em>{{ username }}</em></strong>,&nbsp;</span>
+          <a @click="logout">Logout</a>
+        </div>
+      </div>
       <router-view/>
     </div>
   </div>
@@ -8,7 +15,22 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    username: function () {
+      return this.$store.state.username || 'Anonymous User'
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.commit('setUsername', null)
+      this.$axios({
+        method: 'get',
+        url: this.$url + 'logout/'
+      })
+      this.$router.push({name: 'Login'})
+    }
+  }
 }
 </script>
 
@@ -25,5 +47,9 @@ export default {
   }
   nav {
     text-align: center;
+  }
+  .page-header {
+    margin-top: 0px;
+    font-size: 16px;
   }
 </style>

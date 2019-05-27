@@ -23,5 +23,7 @@ urlpatterns = [
     path('event/<int:pk>/', views.event_detail, name='event'),
     path('comments/<int:event_id>/', views.comment_list, name='comments'),
     path('likes/<int:event_id>/', views.like_list, name='likes'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
     # path('add/', views_helper.add_likes),
 ]
