@@ -64,6 +64,23 @@ export default {
       untilDay: 0
     }
   },
+  mounted () {
+    let parse = this.$util.parse
+    let sinceDate = parse(this.$route.query.sinceDate)
+    let untilDate = parse(this.$route.query.untilDate)
+    if (sinceDate) {
+      sinceDate = new Date(sinceDate * 1000)
+      this.sinceYear = sinceDate.getFullYear()
+      this.sinceMonth = sinceDate.getMonth() + 1
+      this.sinceDay = sinceDate.getDate()
+    }
+    if (untilDate) {
+      untilDate = new Date(untilDate * 1000 - 86400000)
+      this.untilYear = untilDate.getFullYear()
+      this.untilMonth = untilDate.getMonth() + 1
+      this.untilDay = untilDate.getDate()
+    }
+  },
   computed: {
     date () {
       if (this.year === 0 || this.month === 0 || this.day === 0) {

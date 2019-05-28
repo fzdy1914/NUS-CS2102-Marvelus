@@ -106,7 +106,9 @@ export default {
     this.startPage = parse(this.$route.query.startPage) || 1
     this.currentPage = parse(this.$route.query.currentPage) || 1
     this.offset = parse(this.$route.query.offset)
-    this.updateList(this.offset, this.limit, this.channelId, null, null)
+    this.sinceDate = parse(this.$route.query.sinceDate)
+    this.untilDate = parse(this.$route.query.untilDate)
+    this.updateList()
   },
   methods: {
     goPage: function (index) {
@@ -117,10 +119,11 @@ export default {
           channelId: this.channelId,
           limit: this.limit,
           currentPage: index,
-          startPage: this.startPage
+          startPage: this.startPage,
+          sinceDate: this.sinceDate,
+          untilDate: this.untilDate
         }
       })
-      this.currentPage = index
     },
     goChannel: function (channelId) {
       this.$router.push({
@@ -128,18 +131,21 @@ export default {
         query: {
           channelId: channelId,
           startPage: 1,
-          currentPage: 1
+          currentPage: 1,
+          sinceDate: this.sinceDate,
+          untilDate: this.untilDate
         }
       })
-      this.currentChannel = channelId || 0
     },
     goDate: function () {
-      this.$router.replace({
+      this.$router.push({
         name: 'EventList',
         query: {
           channelId: this.channelId,
           startPage: 1,
-          currentPage: 1
+          currentPage: 1,
+          sinceDate: this.sinceDate,
+          untilDate: this.untilDate
         }
       })
     },
@@ -156,16 +162,16 @@ export default {
       })
     },
 
-    updateList: function (offset, limit, channelId, sinceDate, untilDate) {
+    updateList: function () {
       this.$axios.request({
         url: this.$url + 'events/',
         method: 'GET',
         params: {
-          'offset': offset,
-          'limit': limit,
-          'channel_id': channelId,
-          'since': sinceDate,
-          'until': untilDate
+          'offset': this.offset,
+          'limit': this.limit,
+          'channel_id': this.channelId,
+          'since': this.sinceDate,
+          'until': this.untilDate
         }
       }).then(response => {
         let data = response.data
@@ -199,21 +205,20 @@ export default {
       if (to.query.currentPage) {
         this.currentPage = parse(to.query.currentPage)
       }
-      if (to.query.startPage) {
-        this.startPage = parse(to.query.startPage)
-      }
+      this.startDate = parse(to.query.startDate)
+      this.untilDate = parse(to.query.untilDate)
     },
     'offset' (to, from) {
-      this.updateList(to, this.limit, this.channelId, this.sinceDate, this.untilDate)
+      this.updateList()
     },
     'channelId' (to, from) {
-      this.updateList(this.offset, this.limit, to, this.sinceDate, this.untilDate)
+      this.updateList()
     },
     'sinceDate' (to, from) {
-      this.updateList(this.offset, this.limit, this.channelId, to, this.untilDate)
+      this.updateList()
     },
     'untilDate' (to, from) {
-      this.updateList(this.offset, this.limit, this.channelId, this.sinceDate, to)
+      this.updateList()
     }
   },
   computed: {
