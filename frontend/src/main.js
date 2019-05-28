@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import util from './util'
+import Vuex from 'vuex'
+import store from './store/store'
 
 Vue.config.productionTip = false
-
+Vue.use(Vuex)
 Vue.prototype.$axios = axios
 Vue.prototype.$url = 'http://127.0.0.1:8000/api/'
 Vue.prototype.$util = util
@@ -16,6 +18,7 @@ Vue.prototype.$util = util
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
