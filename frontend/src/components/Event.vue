@@ -25,6 +25,10 @@
       <p class="event-description">
         {{ event.description }}
       </p>
+      <h3>
+        Image:
+      </h3>
+      <img :src="event.image_url">
       <LikeList :eventId="event.id"></LikeList>
       <CommentList :eventId="event.id"></CommentList>
     </div>
@@ -103,5 +107,8 @@ export default {
   }
   .event-description {
     font-size: 20px;
+  }
+  img {
+    width: 600px;
   }
 </style>
