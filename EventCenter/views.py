@@ -1,7 +1,6 @@
 import json
 
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .responses import success_json_response, error_json_response
@@ -35,10 +34,9 @@ def event_list(request):
             limit = int(args.get('limit', 50))
             events = events.order_by('-id')[offset:offset + limit]
         except ValueError:
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'events': event_list_serializer(events),
-                                                   'count': count}))
+        return success_json_response({'events': event_list_serializer(events), 'count': count})
 
     elif request.method == 'POST':
         try:
@@ -46,13 +44,13 @@ def event_list(request):
             event = event_deserializer(data)
             event.save()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Channel.DoesNotExist:
-            return JsonResponse(error_json_response('No such channel'))
+            return error_json_response('No such channel')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'event': event_serializer(event)}))
+        return success_json_response({'event': event_serializer(event)})
 
 
 @csrf_exempt
@@ -60,10 +58,10 @@ def event_detail(request, pk):
     try:
         event = Event.objects.get(pk=pk)
     except Event.DoesNotExist:
-        return JsonResponse(error_json_response('No such event'))
+        return error_json_response('No such event')
 
     if request.method == 'GET':
-        return JsonResponse(success_json_response({'event': event_serializer(event)}))
+        return success_json_response({'event': event_serializer(event)})
 
     elif request.method == 'PUT':
         try:
@@ -71,17 +69,17 @@ def event_detail(request, pk):
             event = event_updater(event, data)
             event.save()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Channel.DoesNotExist:
-            return JsonResponse(error_json_response('No such channel'))
+            return error_json_response('No such channel')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'event': event_serializer(event)}))
+        return success_json_response({'event': event_serializer(event)})
 
     elif request.method == 'DELETE':
         event.delete()
-        return JsonResponse(success_json_response({'message': 'Event successfully deleted'}))
+        return success_json_response({'message': 'Event successfully deleted'})
 
 
 @csrf_exempt
@@ -95,11 +93,10 @@ def comment_list(request, event_id):
             offset = int(args.get('offset', 0))
             limit = int(args.get('limit', 50))
         except ValueError:
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
         comments = comments.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response({'comments': comment_list_serializer(comments),
-                                                   'count': count}))
+        return success_json_response({'comments': comment_list_serializer(comments), 'count': count})
 
     elif request.method == 'POST':
         try:
@@ -108,15 +105,15 @@ def comment_list(request, event_id):
             comment = comment_deserializer(data)
             comment.save()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Event.DoesNotExist:
-            return JsonResponse(error_json_response('No such event'))
+            return error_json_response('No such event')
         except User.DoesNotExist:
-            return JsonResponse(error_json_response('No such user'))
+            return error_json_response('No such user')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'comment': comment_serializer(comment)}))
+        return success_json_response({'comment': comment_serializer(comment)})
 
     elif request.method == 'DELETE':
         try:
@@ -125,13 +122,13 @@ def comment_list(request, event_id):
             comment = Comment.objects.get(pk=comment_id)
             comment.delete()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Comment.DoesNotExist:
-            return JsonResponse(error_json_response('No such comment'))
+            return error_json_response('No such comment')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'message': 'Comment successfully deleted'}))
+        return success_json_response({'message': 'Comment successfully deleted'})
 
 
 @csrf_exempt
@@ -145,11 +142,10 @@ def like_list(request, event_id):
             offset = int(args.get('offset', 0))
             limit = int(args.get('limit', 50))
         except ValueError:
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
         likes = likes.order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response({'likes': like_list_serializer(likes),
-                                                   'count': count}))
+        return success_json_response({'likes': like_list_serializer(likes), 'count': count})
 
     elif request.method == 'POST':
         try:
@@ -159,15 +155,15 @@ def like_list(request, event_id):
             if not Like.objects.filter(event_id=event_id, user_id=like.user_id).exists():
                 like.save()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Event.DoesNotExist:
-            return JsonResponse(error_json_response('No such event'))
+            return error_json_response('No such event')
         except User.DoesNotExist:
-            return JsonResponse(error_json_response('No such user'))
+            return error_json_response('No such user')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'like': like_serializer(like)}))
+        return success_json_response({'like': like_serializer(like)})
 
     elif request.method == 'DELETE':
         try:
@@ -176,15 +172,15 @@ def like_list(request, event_id):
             if like.exists():
                 like.delete()
         except ValueError:
-            return JsonResponse(error_json_response('Invalid JSON file'))
+            return error_json_response('Invalid JSON file')
         except Event.DoesNotExist:
-            return JsonResponse(error_json_response('No such event'))
+            return error_json_response('No such event')
         except User.DoesNotExist:
-            return JsonResponse(error_json_response('No such user'))
+            return error_json_response('No such user')
         except (KeyError, TypeError):
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
-        return JsonResponse(success_json_response({'message': 'Successfully unliked'}))
+        return success_json_response({'message': 'Successfully unliked'})
 
 
 @csrf_exempt
@@ -196,7 +192,7 @@ def channel_list(request):
             offset = int(args.get('offset', 0))
             limit = int(args.get('limit', 10))
         except ValueError:
-            return JsonResponse(error_json_response('Invalid arguments'))
+            return error_json_response('Invalid arguments')
 
         channels = Channel.objects.all().order_by('-id')[offset:offset + limit]
-        return JsonResponse(success_json_response({'channels': channel_list_serializer(channels)}))
+        return success_json_response({'channels': channel_list_serializer(channels)})
