@@ -25,5 +25,6 @@ urlpatterns = [
     path('likes/<int:event_id>/', views.like_list, name='likes'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    path('reject/', views.reject, name='reject'),
     # path('add/', views_helper.add_likes),
 ]

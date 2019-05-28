@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
@@ -44,6 +45,13 @@ def logout(request):
     auth.logout(request)
     return success_json_response({'state': True, 'message': 'Successfully log out'})
 
+
+@csrf_exempt
+def reject(request):
+    return error_json_response('User not logged in.')
+
+
+@login_required
 @csrf_exempt
 def event_list(request):
     if request.method == 'GET':
@@ -87,6 +95,7 @@ def event_list(request):
         return success_json_response({'event': event_serializer(event)})
 
 
+@login_required
 @csrf_exempt
 def event_detail(request, pk):
     try:
@@ -116,6 +125,7 @@ def event_detail(request, pk):
         return success_json_response({'message': 'Event successfully deleted'})
 
 
+@login_required
 @csrf_exempt
 def comment_list(request, event_id):
     if request.method == 'GET':
@@ -165,6 +175,7 @@ def comment_list(request, event_id):
         return success_json_response({'message': 'Comment successfully deleted'})
 
 
+@login_required
 @csrf_exempt
 def like_list(request, event_id):
     if request.method == 'GET':
@@ -217,6 +228,7 @@ def like_list(request, event_id):
         return success_json_response({'message': 'Successfully unliked'})
 
 
+@login_required
 @csrf_exempt
 def channel_list(request):
     if request.method == 'GET':

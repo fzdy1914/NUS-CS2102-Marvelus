@@ -153,7 +153,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/api/reject/'
 LOGIN_REDIRECT_URL = '/index/'
 
 STATICFILES_DIRS = [

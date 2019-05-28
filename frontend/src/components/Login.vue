@@ -40,7 +40,6 @@ export default {
         },
         transformRequest: [
           function (data) {
-            // Do whatever you want to transform the data
             let ret = ''
             for (let it in data) {
               ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
@@ -49,7 +48,6 @@ export default {
           }
         ]
       }).then(response => {
-        console.log('request sent')
         if (response.data.state) {
           this.goChannel()
         } else {
