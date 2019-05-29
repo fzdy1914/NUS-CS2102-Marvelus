@@ -23,7 +23,7 @@ export default {
   },
   mounted () {
     if (this.$store.state.username) {
-      this.goChannel()
+      this.$router.push({name: 'Index'})
     }
   },
   methods: {
@@ -49,20 +49,10 @@ export default {
         ]
       }).then(response => {
         if (response.data.state) {
-          this.goChannel()
+          this.$router.push({name: 'Index'})
         } else {
           this.help = response.data.error
           this.showHelp = true
-        }
-      })
-    },
-    goChannel: function () {
-      this.$router.push({
-        name: 'EventList',
-        query: {
-          channelId: null,
-          startPage: 1,
-          currentPage: 1
         }
       })
     }

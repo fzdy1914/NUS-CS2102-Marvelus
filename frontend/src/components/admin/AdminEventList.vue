@@ -68,7 +68,7 @@
 <script>
 import DatePicker from '../DatePicker'
 export default {
-  name: 'EventList',
+  name: 'AdminEventList',
   components: {
     DatePicker
   },
@@ -115,7 +115,7 @@ export default {
   methods: {
     goPage: function (index) {
       this.$router.push({
-        name: 'EventList',
+        name: 'AdminEventList',
         query: {
           offset: (index - 1) * this.limit,
           channelId: this.channelId,
@@ -129,7 +129,7 @@ export default {
     },
     goChannel: function (channelId) {
       this.$router.push({
-        name: 'EventList',
+        name: 'AdminEventList',
         query: {
           channelId: channelId,
           startPage: 1,
@@ -141,7 +141,7 @@ export default {
     },
     goDate: function () {
       this.$router.push({
-        name: 'EventList',
+        name: 'AdminEventList',
         query: {
           channelId: this.channelId,
           startPage: 1,

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import EventList from '../components/user/EventList'
 import Event from '../components/user/Event'
 import Login from '../components/Login'
+import AdminItemList from '../components/admin/AdminItemList'
+import AdminEventList from '../components/admin/AdminEventList'
 
 Vue.use(Router)
 
@@ -27,6 +29,26 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: AdminItemList,
+      meta: {
+        requireAdmin: true
+      },
+      children: [
+        {
+          path: 'events',
+          name: 'AdminEventList',
+          component: AdminEventList
+        },
+        {
+          path: '/',
+          name: 'AdminIndex',
+          component: AdminEventList
+        }
+      ]
     }
   ]
 })
