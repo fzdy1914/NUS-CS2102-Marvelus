@@ -21,6 +21,13 @@ export default {
       isAdminPage: false
     }
   },
+  mounted () {
+    if (this.$route.name && this.$route.name.indexOf('Admin') !== -1) {
+      this.isAdminPage = true
+    } else {
+      this.isAdminPage = false
+    }
+  },
   computed: {
     username: function () {
       return this.$store.state.username || 'Anonymous User'
@@ -43,6 +50,15 @@ export default {
       })
       this.$router.push({name: 'Login'})
     }
+  },
+  watch: {
+    '$route' (to, from) {
+      if (to.name.indexOf('Admin') !== -1) {
+        this.isAdminPage = true
+      } else {
+        this.isAdminPage = false
+      }
+    }
   }
 }
 </script>
@@ -54,6 +70,9 @@ export default {
   }
   th, td {
     text-align: center;
+  }
+  .table > tbody > tr > td {
+    vertical-align: middle;
   }
   a:hover{
     cursor: pointer;

@@ -3,13 +3,14 @@ import json
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import LoginForm
 from .responses import success_json_response, error_json_response
 from .serializers import event_list_serializer, event_serializer, comment_list_serializer, event_deserializer, \
     comment_deserializer, comment_serializer, event_updater, like_list_serializer, like_deserializer, like_serializer, \
-    channel_list_serializer
+    channel_list_serializer, channel_updater, channel_serializer
 from .models import Event, Channel, Comment, Like
 
 
@@ -234,12 +235,56 @@ def like_list(request, event_id):
 def channel_list(request):
     if request.method == 'GET':
         args = request.GET
-
         try:
             offset = int(args.get('offset', 0))
             limit = int(args.get('limit', 10))
         except ValueError:
             return error_json_response('Invalid arguments')
 
+        count = Channel.objects.all().count()
         channels = Channel.objects.all().order_by('-id')[offset:offset + limit]
-        return success_json_response({'channels': channel_list_serializer(channels)})
+        return success_json_response({'channels': channel_list_serializer(channels),
+                                      'count': count})
+
+    elif request.method == 'POST':
+        if not is_admin(request):
+            return error_json_response('Authority required')
+        try:
+            data = json.loads(request.body)
+            channel = Channel.objects.get(pk=data['id'])
+            channel = channel_updater(channel, data)
+            channel.save()
+        except IntegrityError:
+            return error_json_response('Duplicated Channel Name')
+        except ValueError:
+            return error_json_response('Invalid JSON file')
+        except Event.DoesNotExist:
+            return error_json_response('No such event')
+        except User.DoesNotExist:
+            return error_json_response('No such user')
+        except (KeyError, TypeError):
+            return error_json_response('Invalid arguments')
+
+        return success_json_response({'channel': channel_serializer(channel)})
+
+    elif request.method == 'DELETE':
+        if not is_admin(request):
+            return error_json_response('Authority required')
+        try:
+            data = json.loads(request.body)
+            channel = Channel.objects.get(pk=data['id'])
+            channel.delete()
+        except ValueError:
+            return error_json_response('Invalid JSON file')
+        except Event.DoesNotExist:
+            return error_json_response('No such event')
+        except User.DoesNotExist:
+            return error_json_response('No such user')
+        except (KeyError, TypeError):
+            return error_json_response('Invalid arguments')
+
+        return success_json_response({'message': 'Channel Successfully deleted'})
+
+
+def is_admin(request):
+    return request.user.is_superuser or request.user.is_staff

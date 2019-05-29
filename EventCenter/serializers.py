@@ -88,8 +88,17 @@ def like_deserializer(data):
 def channel_list_serializer(channels):
     channel_list = []
     for channel in channels:
-        fields = {'id': channel.id,
-                  'name': channel.name,
-                  }
-        channel_list.append(fields)
+        channel_list.append(channel_serializer(channel))
     return channel_list
+
+
+def channel_serializer(channel):
+    fields = {'id': channel.id,
+              'name': channel.name,
+              }
+    return fields
+
+
+def channel_updater(channel, data):
+    channel.name = data['name']
+    return channel

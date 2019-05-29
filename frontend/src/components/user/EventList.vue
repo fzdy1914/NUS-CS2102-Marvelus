@@ -92,7 +92,10 @@ export default {
   mounted () {
     this.$axios.request({
       url: this.$url + 'channels/',
-      method: 'GET'
+      method: 'GET',
+      params: {
+        'limit': 100
+      }
     }).then(response => {
       let data = response.data
       if (data.state === true) {
