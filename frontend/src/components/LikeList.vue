@@ -62,7 +62,7 @@ export default {
         let data = response.data
         if (data.state === true && data.data.like.username === this.$store.state.username) {
           this.state = true
-          this.likes.unshift({'username': data.data.like.username, 'user_id': data.data.like.user_id})
+          this.likes.unshift(data.data.like)
           this.count++
         } else {
           this.state = false

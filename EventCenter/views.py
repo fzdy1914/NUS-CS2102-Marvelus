@@ -146,6 +146,7 @@ def comment_list(request, event_id):
         try:
             data = json.loads(request.body)
             data['event_id'] = event_id
+            data['user_id'] = request.user.id
             comment = comment_deserializer(data)
             comment.save()
         except ValueError:

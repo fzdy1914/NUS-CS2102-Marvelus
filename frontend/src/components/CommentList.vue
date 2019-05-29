@@ -1,7 +1,39 @@
 <template>
   <div>
     <div v-if="state">
-      <h3>Comment List:</h3>
+      <h3>Comment List:
+        <button class="btn btn-primary comment" data-toggle="modal" data-target="#addComment">Add Comment</button>
+      </h3>
+
+      <div class="modal fade" id="addComment" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                  Add your comment
+                </h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" placeholder="Comment title" v-model="commentTitle"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Content</label>
+                    <textarea rows="4" type="text" class="form-control" placeholder="Comment content" v-model="commentContent"/>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+                <button type="button" class="btn btn-primary" @click="submit">Submit</button>
+              </div>
+            </div>
+          </div>
+      </div>
+
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
@@ -53,7 +85,10 @@ export default {
       offset: 0,
       limit: 5,
       startPage: 1,
-      currentPage: 1
+      currentPage: 1,
+
+      commentTitle: '',
+      commentContent: ''
     }
   },
   mounted () {
@@ -98,6 +133,28 @@ export default {
           this.msg = data.error
         }
       })
+    },
+    submit: function () {
+      this.$axios.request({
+        url: this.$url + 'comments/' + this.eventId + '/',
+        method: 'POST',
+        data: {
+          title: this.commentTitle,
+          content: this.commentContent
+        }
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.comments.unshift(data.data.comment)
+          this.comments.splice(this.limit, 1)
+          this.commentTitle = ''
+          this.commentContent = ''
+          document.getElementById('close').click()
+        } else {
+          this.state = false
+        }
+      })
     }
   },
   watch: {
@@ -135,7 +192,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .title {
     width: 300px;
   }
@@ -144,5 +201,14 @@ export default {
   }
   .username {
     width: 100px;
+  }
+  h3 {
+    height: 26px;
+  }
+  .comment {
+    margin-bottom: 4px;
+  }
+  .btn {
+    padding: 3px 8px;
   }
 </style>

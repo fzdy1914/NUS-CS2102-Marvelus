@@ -45,22 +45,16 @@ def event_updater(event, data):
 def comment_list_serializer(comments):
     comment_list = []
     for comment in comments:
-        fields = {'id': comment.id,
-                  'title': comment.title,
-                  'content': comment.content,
-                  'user_id': comment.user_id,
-                  'username': comment.user.username
-                  }
-        comment_list.append(fields)
+        comment_list.append(comment_serializer(comment))
     return comment_list
 
 
 def comment_serializer(comment):
     fields = {'id': comment.id,
-              'event_id': comment.event_id,
               'title': comment.title,
               'content': comment.content,
               'user_id': comment.user_id,
+              'username': comment.user.username
               }
     return fields
 
@@ -74,16 +68,12 @@ def comment_deserializer(data):
 def like_list_serializer(likes):
     like_list = []
     for like in likes:
-        fields = {'user_id': like.user_id,
-                  'username': like.user.username,
-                  }
-        like_list.append(fields)
+        like_list.append(like_serializer(like))
     return like_list
 
 
 def like_serializer(like):
-    fields = {'event_id': like.event_id,
-              'user_id': like.user_id,
+    fields = {'user_id': like.user_id,
               'username': like.user.username,
               }
     return fields
@@ -96,7 +86,6 @@ def like_deserializer(data):
 
 
 def channel_list_serializer(channels):
-
     channel_list = []
     for channel in channels:
         fields = {'id': channel.id,
