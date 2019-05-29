@@ -3,7 +3,7 @@
     <div class="container">
       <div v-show="$store.state.username">
         <div class="page-header">
-          <h1>Welcome to Event Center !</h1>
+          <h1>{{ welcomeText }}</h1>
           <span>Current user:  <strong><em>{{ username }}</em></strong>,&nbsp;</span>
           <a @click="logout">Logout</a>
         </div>
@@ -16,14 +16,27 @@
 <script>
 export default {
   name: 'App',
+  data () {
+    return {
+      isAdminPage: false
+    }
+  },
   computed: {
     username: function () {
       return this.$store.state.username || 'Anonymous User'
+    },
+    welcomeText: function () {
+      if (this.isAdminPage) {
+        return 'Event Center Management'
+      } else {
+        return 'Welcome to Event Center !'
+      }
     }
   },
   methods: {
     logout () {
       this.$store.commit('setUsername', null)
+      this.$store.commit('isAdmin', false)
       this.$axios({
         method: 'get',
         url: this.$url + 'logout/'

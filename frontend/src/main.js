@@ -29,6 +29,7 @@ router.beforeEach((to, from, next) => {
       let data = response.data
       if (data.state) {
         store.commit('setUsername', data.data.user.username)
+        store.commit('isAdmin', data.data.user.isAdmin)
         next()
       } else {
         next({name: 'Login'})

@@ -17,7 +17,8 @@ from .models import Event, Channel, Comment, Like
 def login(request):
     if request.user.is_authenticated:
         print('login access')
-        return success_json_response({'state': True, 'user': {'username': request.user.username}})
+        return success_json_response({'user': {'username': request.user.username,
+                                               'isAdmin': request.user.is_staff or request.user.is_superuser}})
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -31,7 +32,8 @@ def login(request):
 
             if user is not None and user.is_active:
                 auth.login(request, user)
-                return success_json_response({'state': True, 'user': {'username': request.user.username}})
+                return success_json_response({'user': {'username': request.user.username,
+                                                       'isAdmin': request.user.is_staff or request.user.is_superuser}})
             else:
                 return error_json_response('Wrong password. Please try again.')
         else:
@@ -43,7 +45,7 @@ def login(request):
 @csrf_exempt
 def logout(request):
     auth.logout(request)
-    return success_json_response({'state': True, 'message': 'Successfully log out'})
+    return success_json_response({'message': 'Successfully log out'})
 
 
 @csrf_exempt

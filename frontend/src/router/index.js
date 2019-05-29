@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import EventList from '../components/EventList'
-import Event from '../components/Event'
+import EventList from '../components/user/EventList'
+import Event from '../components/user/Event'
 import Login from '../components/Login'
 
 Vue.use(Router)
