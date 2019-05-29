@@ -194,8 +194,7 @@ def like_list(request, event_id):
 
     elif request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            data['event_id'] = event_id
+            data = {'event_id': event_id, 'user_id': request.user.id}
             like = like_deserializer(data)
             if not Like.objects.filter(event_id=event_id, user_id=like.user_id).exists():
                 like.save()
@@ -212,8 +211,7 @@ def like_list(request, event_id):
 
     elif request.method == 'DELETE':
         try:
-            data = json.loads(request.body)
-            like = Like.objects.filter(event_id=event_id, user_id=data['user_id'])
+            like = Like.objects.filter(event_id=event_id, user_id=request.user.id)
             if like.exists():
                 like.delete()
         except ValueError:
