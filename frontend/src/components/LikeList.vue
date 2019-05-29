@@ -27,20 +27,21 @@ export default {
       msg: 'Network Error',
       likes: null,
       state: false,
+      limit: 50,
 
       showMore: false
     }
   },
   mounted () {
-    this.updateList()
+    this.updateLikeList()
   },
   methods: {
-    updateList: function () {
+    updateLikeList: function () {
       this.$axios.request({
         url: this.$url + 'likes/' + this.eventId + '/',
         method: 'GET',
         params: {
-          'limit': 50
+          'limit': this.limit
         }
       }).then(response => {
         let data = response.data

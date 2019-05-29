@@ -10,7 +10,9 @@
               <a @click="goChannel(channel.id)">{{ channel.name }}</a>
             </li>
             <li class="dropdown" :class="{ active: activeDropdown }">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ dropdownText }}<span class="caret"/></a>
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                {{ dropdownText }}<span class="caret"/>
+              </a>
               <ul class="dropdown-menu">
                 <li v-for="channel in channels.slice(4)" :key="channel.id" :class="{ active: channelId === channel.id }">
                   <a @click="goChannel(channel.id)">{{ channel.name }}</a>
@@ -108,7 +110,7 @@ export default {
     this.offset = parse(this.$route.query.offset)
     this.sinceDate = parse(this.$route.query.sinceDate)
     this.untilDate = parse(this.$route.query.untilDate)
-    this.updateList()
+    this.updateEventList()
   },
   methods: {
     goPage: function (index) {
@@ -161,8 +163,7 @@ export default {
         }
       })
     },
-
-    updateList: function () {
+    updateEventList: function () {
       this.$axios.request({
         url: this.$url + 'events/',
         method: 'GET',
@@ -207,18 +208,7 @@ export default {
       }
       this.startDate = parse(to.query.startDate)
       this.untilDate = parse(to.query.untilDate)
-    },
-    'offset' (to, from) {
-      this.updateList()
-    },
-    'channelId' (to, from) {
-      this.updateList()
-    },
-    'sinceDate' (to, from) {
-      this.updateList()
-    },
-    'untilDate' (to, from) {
-      this.updateList()
+      this.updateEventList()
     }
   },
   computed: {

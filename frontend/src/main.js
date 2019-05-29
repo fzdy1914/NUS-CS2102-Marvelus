@@ -10,10 +10,12 @@ import store from './store'
 
 Vue.use(Vuex)
 
+const backendUrl = 'http://127.0.0.1:8000/api/'
+
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
-Vue.prototype.$url = 'http://127.0.0.1:8000/api/'
+Vue.prototype.$url = backendUrl
 Vue.prototype.$util = util
 
 router.beforeEach((to, from, next) => {
@@ -22,7 +24,7 @@ router.beforeEach((to, from, next) => {
   } else {
     axios({
       method: 'get',
-      url: 'http://127.0.0.1:8000/api/login/'
+      url: backendUrl + 'login/'
     }).then(response => {
       let data = response.data
       if (data.state) {

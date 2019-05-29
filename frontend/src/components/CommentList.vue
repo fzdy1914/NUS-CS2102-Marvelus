@@ -96,7 +96,7 @@ export default {
     this.startPage = parse(this.$route.query.startPage) || 1
     this.currentPage = parse(this.$route.query.currentPage) || 1
     this.offset = parse(this.$route.query.offset)
-    this.updateList(this.offset, this.limit)
+    this.updateCommentList()
   },
   methods: {
     goPage: function (index) {
@@ -114,13 +114,13 @@ export default {
       })
       this.currentPage = index
     },
-    updateList: function (offset, limit) {
+    updateCommentList: function () {
       this.$axios.request({
         url: this.$url + 'comments/' + this.eventId + '/',
         method: 'GET',
         params: {
-          'offset': offset,
-          'limit': limit
+          'offset': this.offset,
+          'limit': this.limit
         }
       }).then(response => {
         let data = response.data
@@ -146,6 +146,8 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.state = true
+          this.startPage = 1
+          this.goPage(1)
           this.comments.unshift(data.data.comment)
           this.comments.splice(this.limit, 1)
           this.commentTitle = ''
@@ -167,9 +169,7 @@ export default {
       if (to.query.currentPage) {
         this.currentPage = parse(to.query.currentPage)
       }
-    },
-    'offset' (to, from) {
-      this.updateList(to, this.limit)
+      this.updateCommentList()
     }
   },
   computed: {

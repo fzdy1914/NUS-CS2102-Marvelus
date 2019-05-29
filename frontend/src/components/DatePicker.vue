@@ -129,12 +129,6 @@ export default {
         this.month = 12
       }
       this.dayScreen()
-    },
-    sinceDate: function () {
-      this.$emit('updateSinceDate', this.sinceDate)
-    },
-    untilDate: function () {
-      this.$emit('updateUntilDate', this.untilDate)
     }
   },
   methods: {
@@ -253,10 +247,12 @@ export default {
         this.sinceYear = this.year
         this.sinceMonth = this.month
         this.sinceDay = this.day
+        this.$emit('updateSinceDate', this.sinceDate)
       } else {
         this.untilYear = this.year
         this.untilMonth = this.month
         this.untilDay = this.day
+        this.$emit('updateUntilDate', this.untilDate)
       }
       this.dateBoxFlag = false
     },
