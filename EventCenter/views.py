@@ -3,7 +3,7 @@ import json
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from django.db import IntegrityError, DataError
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import LoginForm
@@ -110,6 +110,9 @@ def event_detail(request, pk):
         return success_json_response({'event': event_serializer(event)})
 
     elif request.method == 'PUT':
+        if not is_admin(request):
+            return error_json_response('Authority required')
+
         try:
             data = json.loads(request.body)
             event = event_updater(event, data)
@@ -118,6 +121,8 @@ def event_detail(request, pk):
             return error_json_response('Invalid JSON file')
         except Channel.DoesNotExist:
             return error_json_response('No such channel')
+        except DataError:
+            return error_json_response('Invalid date')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 
@@ -257,14 +262,14 @@ def channel_list(request):
             channel = Channel.objects.get(pk=data['id'])
             channel = channel_updater(channel, data)
             channel.save()
-        except IntegrityError:
-            return error_json_response('Duplicated Channel Name')
         except ValueError:
             return error_json_response('Invalid JSON file')
         except Event.DoesNotExist:
             return error_json_response('No such event')
         except User.DoesNotExist:
             return error_json_response('No such user')
+        except IntegrityError:
+            return error_json_response('Duplicated Channel Name')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 

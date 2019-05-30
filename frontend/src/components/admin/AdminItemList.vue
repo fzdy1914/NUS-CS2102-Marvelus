@@ -55,7 +55,4 @@ export default {
     font-size: 18px;
     background: #FCFCFC
   }
-  .navbar-collapse {
-    padding-left: 0px;
-  }
 </style>

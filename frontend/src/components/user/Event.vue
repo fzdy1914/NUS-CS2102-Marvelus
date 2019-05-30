@@ -52,7 +52,6 @@ export default {
     return {
       msg: 'Network Error',
       event: null,
-      count: null,
       state: false
     }
   },
