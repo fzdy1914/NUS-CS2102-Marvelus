@@ -61,7 +61,7 @@
               <button v-if="isEdit" type="button" class="btn btn-primary" @click="submit">Submit</button>
               <button v-else type="button" class="btn btn-primary delete" @click="deleteChannel">Delete</button>
             </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -144,7 +144,7 @@ export default {
     submit: function () {
       this.$axios.request({
         url: this.$url + 'channels/',
-        method: 'POST',
+        method: 'PUT',
         data: {
           id: this.channelId,
           name: this.channelName

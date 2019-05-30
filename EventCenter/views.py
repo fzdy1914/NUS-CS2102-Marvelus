@@ -259,17 +259,29 @@ def channel_list(request):
             return error_json_response('Authority required')
         try:
             data = json.loads(request.body)
+            channel = Channel(**data)
+            channel.save()
+        except ValueError:
+            return error_json_response('Invalid JSON file')
+        except IntegrityError:
+            return error_json_response('Invalid / Duplicated Channel Name')
+        except (KeyError, TypeError):
+            return error_json_response('Invalid arguments')
+
+        return success_json_response({'channel': channel_serializer(channel)})
+
+    elif request.method == 'PUT':
+        if not is_admin(request):
+            return error_json_response('Authority required')
+        try:
+            data = json.loads(request.body)
             channel = Channel.objects.get(pk=data['id'])
             channel = channel_updater(channel, data)
             channel.save()
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Event.DoesNotExist:
-            return error_json_response('No such event')
-        except User.DoesNotExist:
-            return error_json_response('No such user')
         except IntegrityError:
-            return error_json_response('Duplicated Channel Name')
+            return error_json_response('Invalid / Duplicated Channel Name')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 
@@ -284,10 +296,6 @@ def channel_list(request):
             channel.delete()
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Event.DoesNotExist:
-            return error_json_response('No such event')
-        except User.DoesNotExist:
-            return error_json_response('No such user')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 
