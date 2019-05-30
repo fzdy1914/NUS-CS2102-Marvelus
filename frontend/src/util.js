@@ -1,5 +1,5 @@
 function getDate (timestamp) {
-  return new Date(timestamp).toLocaleDateString()
+  return new Date(parse(timestamp)).toLocaleDateString()
 }
 
 function parse (candidate) {

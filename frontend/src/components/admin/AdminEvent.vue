@@ -1,17 +1,22 @@
 <template>
   <div>
+    <h3 v-if="eventId">Event id: {{ eventId }}</h3>
     <form>
       <div class="form-group">
         <h3>Event title:</h3>
         <input type="text" class="form-control" placeholder="Event title" v-model="event.title"/>
       </div>
       <div class="form-group">
+        <h3>Event channel id:</h3>
+        <input type="text" class="form-control" placeholder="Event channel id" v-model="event.channel_id"/>
+      </div>
+      <div class="form-group">
         <h3>Event location:</h3>
         <input type="text" class="form-control" placeholder="Event location" v-model="event.location"/>
       </div>
       <div class="form-group">
-        <h3>Event date:</h3>
-        <input type="text" class="form-control" placeholder="Event date" v-model="event.timestamp"/>
+        <h3>Event timestamp:</h3>
+        <input type="text" class="form-control" placeholder="Event timestamp" v-model="event.timestamp"/>
       </div>
       <div class="form-group">
         <h3>Event description:</h3>
@@ -20,7 +25,7 @@
       <div class="form-group">
         <h3>Event image:</h3>
         <input type="text" class="form-control" placeholder="Event image url" v-model="event.image_url"/>
-        <h3>Preview:</h3>
+        <h3>Image Preview:</h3>
         <img :src="event.image_url">
       </div>
       <div v-show="error" class="form-group error">
@@ -47,7 +52,8 @@ export default {
         location: '',
         timestamp: '',
         description: '',
-        image_url: ''
+        image_url: '',
+        channel_id: ''
       },
       error: null
     }
@@ -77,34 +83,65 @@ export default {
       this.$emit('cancelEdit')
     },
     submit: function () {
-      this.$axios.request({
-        url: this.$url + 'event/' + this.eventId + '/',
-        method: 'PUT',
-        data: {
-          title: this.event.title,
-          description: this.event.description,
-          timestamp: this.event.timestamp,
-          location: this.event.location,
-          image_url: this.event.image_url
-        }
-      }).then(response => {
-        let data = response.data
-        if (data.state === true) {
-          this.error = null
-          this.$emit('replaceEvent', data.data.event)
-          document.getElementById('close').click()
-        } else {
-          this.error = data.error
-        }
-      })
+      if (this.eventId) {
+        this.$axios.request({
+          url: this.$url + 'event/' + this.eventId + '/',
+          method: 'PUT',
+          data: {
+            title: this.event.title,
+            description: this.event.description,
+            timestamp: this.event.timestamp,
+            location: this.event.location,
+            image_url: this.event.image_url
+          }
+        }).then(response => {
+          let data = response.data
+          if (data.state === true) {
+            this.error = null
+            this.$emit('replaceEvent', data.data.event)
+            document.getElementById('close').click()
+          } else {
+            this.error = data.error
+          }
+        })
+      } else {
+        this.$axios.request({
+          url: this.$url + 'events/',
+          method: 'POST',
+          data: {
+            title: this.event.title,
+            description: this.event.description,
+            timestamp: this.event.timestamp,
+            location: this.event.location,
+            image_url: this.event.image_url,
+            channel_id: this.event.channel_id
+          }
+        }).then(response => {
+          let data = response.data
+          if (data.state === true) {
+            this.error = null
+            this.$router.push({name: 'AdminEventList'})
+          } else {
+            this.error = data.error
+          }
+        })
+      }
     }
   },
   watch: {
     '$route' (to, from) {
-      this.updateEvent(to.params.eventId)
-    },
-    'eventId' (to, from) {
-      this.updateEvent(to)
+      if (to.params.eventId) {
+        this.updateEvent(to.params.eventId)
+      } else {
+        this.event = {
+          title: '',
+          location: '',
+          timestamp: '',
+          description: '',
+          image_url: '',
+          channel_id: ''
+        }
+      }
     }
   }
 }

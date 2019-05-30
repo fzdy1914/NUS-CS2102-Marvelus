@@ -134,7 +134,7 @@ export default {
       sinceDate: null,
       untilDate: null,
 
-      eventId: '',
+      eventId: null,
       eventTitle: '',
       eventDate: '',
       eventChannel: '',
@@ -165,6 +165,8 @@ export default {
     this.offset = parse(this.$route.query.offset)
     this.sinceDate = parse(this.$route.query.sinceDate)
     this.untilDate = parse(this.$route.query.untilDate)
+    this.isEdit = this.$route.query.isEdit === true
+    this.eventId = parse(this.$route.query.eventId)
     this.updateEventList()
   },
   methods: {
@@ -178,7 +180,8 @@ export default {
           currentPage: index,
           startPage: this.startPage,
           sinceDate: this.sinceDate,
-          untilDate: this.untilDate
+          untilDate: this.untilDate,
+          isEdit: false
         }
       })
     },
@@ -190,7 +193,8 @@ export default {
           startPage: 1,
           currentPage: 1,
           sinceDate: this.sinceDate,
-          untilDate: this.untilDate
+          untilDate: this.untilDate,
+          isEdit: false
         }
       })
     },
@@ -202,7 +206,8 @@ export default {
           startPage: 1,
           currentPage: 1,
           sinceDate: this.sinceDate,
-          untilDate: this.untilDate
+          untilDate: this.untilDate,
+          isEdit: false
         }
       })
     },
@@ -265,7 +270,7 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.removeEvent()
-          this.eventId = ''
+          this.eventId = null
           this.eventTitle = ''
           this.eventDate = ''
           this.eventChannel = ''
@@ -291,12 +296,35 @@ export default {
       }
     },
     editEvent: function (event) {
-      this.eventId = event.id
-      this.isEdit = true
+      this.$router.push({
+        name: 'AdminEventList',
+        query: {
+          offset: this.offset,
+          channelId: this.channelId,
+          limit: this.limit,
+          currentPage: this.index,
+          startPage: this.startPage,
+          sinceDate: this.sinceDate,
+          untilDate: this.untilDate,
+          isEdit: true,
+          eventId: event.id
+        }
+      })
     },
     cancelEdit: function () {
-      this.eventId = null
-      this.isEdit = false
+      this.$router.push({
+        name: 'AdminEventList',
+        query: {
+          offset: this.offset,
+          channelId: this.channelId,
+          limit: this.limit,
+          currentPage: this.index,
+          startPage: this.startPage,
+          sinceDate: this.sinceDate,
+          untilDate: this.untilDate,
+          isEdit: false
+        }
+      })
     }
   },
   watch: {
@@ -312,6 +340,8 @@ export default {
       }
       this.startDate = parse(to.query.startDate)
       this.untilDate = parse(to.query.untilDate)
+      this.isEdit = to.query.isEdit === true
+      this.eventId = parse(to.query.eventId)
       this.updateEventList()
     }
   },

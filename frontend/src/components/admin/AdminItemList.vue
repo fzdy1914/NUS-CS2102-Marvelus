@@ -4,6 +4,7 @@
       <li :class="{ active: currentPanel === 'Channels' }"><a @click="goChannels">Channels</a></li>
       <li :class="{ active: currentPanel === 'Events' }"><a @click="goEvents">Events</a></li>
       <li><a href="#">Comments</a></li>
+      <li class="navbar-right"><button type="button" class="btn btn-primary" @click="newItem">New</button></li>
     </ul>
     <router-view/>
   </div>
@@ -36,6 +37,19 @@ export default {
       this.$router.push({
         name: 'AdminEventList'
       })
+    },
+    goNewEvent: function () {
+      this.$router.push({
+        name: 'AdminEventList',
+        query: {
+          isEdit: true
+        }
+      })
+    },
+    newItem: function () {
+      if (this.currentPanel === 'Events') {
+        this.goNewEvent()
+      }
     }
   },
   watch: {
@@ -54,5 +68,17 @@ export default {
   .nav{
     font-size: 18px;
     background: #FCFCFC
+  }
+  li {
+    vertical-align: middle;
+  }
+  .btn-primary {
+    font-size: 18px;
+    background-color: #009100;
+    border-color: #007500;
+    margin-top: 3px;
+  }
+  .navbar-right {
+    margin-right: 0px;
   }
 </style>
