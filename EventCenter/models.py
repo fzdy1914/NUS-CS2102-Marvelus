@@ -18,7 +18,7 @@ class Event(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    timestamp = models.IntegerField()
+    timestamp = models.BigIntegerField()
     location = models.CharField(max_length=200, blank=True)
     image_url = models.URLField(blank=True)
 

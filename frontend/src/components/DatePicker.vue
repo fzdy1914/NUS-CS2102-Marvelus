@@ -69,13 +69,13 @@ export default {
     let sinceDate = parse(this.$route.query.sinceDate)
     let untilDate = parse(this.$route.query.untilDate)
     if (sinceDate) {
-      sinceDate = new Date(sinceDate * 1000)
+      sinceDate = new Date(sinceDate)
       this.sinceYear = sinceDate.getFullYear()
       this.sinceMonth = sinceDate.getMonth() + 1
       this.sinceDay = sinceDate.getDate()
     }
     if (untilDate) {
-      untilDate = new Date(untilDate * 1000 - 86400000)
+      untilDate = new Date(untilDate - 86400000)
       this.untilYear = untilDate.getFullYear()
       this.untilMonth = untilDate.getMonth() + 1
       this.untilDay = untilDate.getDate()
@@ -111,8 +111,8 @@ export default {
       if (val < 0) {
         this.year = 1
       }
-      if (val > 10000) {
-        this.year = 10000
+      if (val > 9999) {
+        this.year = 9999
       }
       this.dayScreen()
     },

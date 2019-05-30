@@ -190,11 +190,11 @@ export default {
       })
     },
     updateSinceDate: function (sinceDate) {
-      this.sinceDate = sinceDate === '' ? null : Date.parse(sinceDate) / 1000
+      this.sinceDate = sinceDate === '' ? null : Date.parse(sinceDate)
       this.goDate()
     },
     updateUntilDate: function (untilDate) {
-      this.untilDate = untilDate === '' ? null : Date.parse(untilDate) / 1000 + 86400
+      this.untilDate = untilDate === '' ? null : Date.parse(untilDate) + 86400000
       this.goDate()
     }
   },
