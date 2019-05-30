@@ -38,12 +38,8 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 v-if="isEdit" class="modal-title">
-                Edit the channel
-              </h4>
-              <h4 v-else class="modal-title">
-                Delete the channel
-              </h4>
+              <h4 v-if="isEdit" class="modal-title">Edit the channel</h4>
+              <h4 v-else class="modal-title">Delete the channel</h4>
             </div>
             <div class="modal-body">
               <form>

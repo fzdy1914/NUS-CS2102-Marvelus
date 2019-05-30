@@ -124,6 +124,9 @@ def event_detail(request, pk):
         return success_json_response({'event': event_serializer(event)})
 
     elif request.method == 'DELETE':
+        if not is_admin(request):
+            return error_json_response('Authority required')
+
         event.delete()
         return success_json_response({'message': 'Event successfully deleted'})
 

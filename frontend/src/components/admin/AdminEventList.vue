@@ -33,6 +33,7 @@
             <th>Date</th>
             <th>Channel</th>
             <th>Likes</th>
+            <th>Operation</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,10 @@
             <td class="date">{{ $util.getDate(event.timestamp) }}</td>
             <td class="channel">{{ event.channel }}</td>
             <td class="likes">{{ event.likes }}</td>
+            <td class="operation">
+              <button class="btn btn-primary edit">Edit</button>
+              <button class="btn btn-primary delete" data-toggle="modal" data-target="#deleteEvent" @click="loadEvent(event)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -58,6 +63,39 @@
           </li>
         </ul>
       </nav>
+      <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Delete Event</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label>Id: {{ eventId }}</label>
+                </div>
+                <div v-show="error" class="form-group error">
+                  <label>Error: {{ error }}</label>
+                </div>
+                <div class="form-group">
+                  <label>Title: {{ eventTitle }}</label>
+                </div>
+                <div class="form-group">
+                  <label>Channel: {{ eventChannel }}</label>
+                </div>
+                <div class="form-group">
+                  <label>Date: {{ eventDate }}</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="close">Close</button>
+              <button type="button" class="btn btn-primary delete" @click="deleteEvent">Delete</button>
+            </div>
+            </div>
+        </div>
+      </div>
     </div>
     <div v-else>
       <h3>{{ msg }}</h3>
@@ -86,7 +124,13 @@ export default {
       startPage: 1,
       currentPage: 1,
       sinceDate: null,
-      untilDate: null
+      untilDate: null,
+
+      eventId: '',
+      eventTitle: '',
+      eventDate: '',
+      eventChannel: '',
+      error: null
     }
   },
   mounted () {
@@ -196,6 +240,40 @@ export default {
     updateUntilDate: function (untilDate) {
       this.untilDate = untilDate === '' ? null : Date.parse(untilDate) / 1000 + 86400
       this.goDate()
+    },
+
+    loadEvent: function (event) {
+      console.log('a')
+      this.eventId = event.id
+      this.eventTitle = event.title
+      this.eventDate = this.$util.getDate(event.timestamp)
+      this.eventChannel = event.channel
+    },
+    deleteEvent: function (event) {
+      this.$axios.request({
+        url: this.$url + 'event/' + this.eventId + '/',
+        method: 'DELETE'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.removeEvent()
+          this.eventId = ''
+          this.eventTitle = ''
+          this.eventDate = ''
+          this.eventChannel = ''
+          this.error = null
+          document.getElementById('close').click()
+        } else {
+          this.error = data.error
+        }
+      })
+    },
+    removeEvent: function () {
+      for (let i = 0; i < this.events.length; i++) {
+        if (this.events[i].id === this.eventId) {
+          this.events.splice(i, 1)
+        }
+      }
     }
   },
   watch: {
@@ -259,13 +337,16 @@ export default {
     width: 150px;
   }
   .title {
-    width: 700px;
+    width: 550px;
   }
   .date, .channel {
-    width: 200px;
+    width: 150px;
   }
   .likes {
-    width: 150px;
+    width: 100px;
+  }
+  .operation {
+    width: 200px
   }
   .nav{
     font-size: 18px;
@@ -276,5 +357,12 @@ export default {
   }
   .navbar-collapse {
     padding-left: 0px;
+  }
+  .delete {
+    background-color: #D94600;
+    border-color: #BB3D00;
+  }
+  .btn {
+    padding: 3px 8px;
   }
 </style>
