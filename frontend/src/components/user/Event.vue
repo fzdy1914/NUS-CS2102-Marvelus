@@ -22,9 +22,7 @@
       <h3>
         Description:
       </h3>
-      <p class="event-description">
-        {{ event.description }}
-      </p>
+      <p class="event-description" v-html="event.description"/>
       <h3>
         Image:
       </h3>
@@ -104,7 +102,7 @@ export default {
   .event-title {
     font-size: 50px;
   }
-  .event-description {
+  .event-description > h2 {
     font-size: 20px;
   }
   img {

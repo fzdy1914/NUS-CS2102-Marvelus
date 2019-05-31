@@ -20,7 +20,7 @@
       </div>
       <div class="form-group">
         <h3>Event description:</h3>
-        <textarea rows="6" type="text" class="form-control" placeholder="Event description" v-model="event.description"/>
+        <Editor api-key="d8gsknjq9e40vv830yfpym3r05k1l0tdmqbsfb7052vw0n6u" v-model="event.description" :init="tinymceInit"/>
       </div>
       <div class="form-group">
         <h3>Event image:</h3>
@@ -40,8 +40,12 @@
 </template>
 
 <script>
+let Editor = require('@tinymce/tinymce-vue').default
 export default {
   name: 'AdminEvent',
+  components: {
+    Editor
+  },
   props: {
     eventId: Number
   },
@@ -54,6 +58,11 @@ export default {
         description: '',
         image_url: '',
         channel_id: ''
+      },
+      tinymceInit: {
+        height: 400,
+        branding: false,
+        plugins: 'wordcount'
       },
       error: null
     }
@@ -157,5 +166,8 @@ export default {
   }
   img {
     width: 600px;
+  }
+  Editor > .tox .tox-tinymce {
+    height: 600px;
   }
 </style>

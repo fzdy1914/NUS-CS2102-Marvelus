@@ -165,7 +165,7 @@ export default {
     this.offset = parse(this.$route.query.offset)
     this.sinceDate = parse(this.$route.query.sinceDate)
     this.untilDate = parse(this.$route.query.untilDate)
-    this.isEdit = this.$route.query.isEdit === true
+    this.isEdit = this.$route.query.isEdit === true || this.$route.query.isEdit === 'true'
     this.eventId = parse(this.$route.query.eventId)
     this.updateEventList()
   },
@@ -340,7 +340,7 @@ export default {
       }
       this.startDate = parse(to.query.startDate)
       this.untilDate = parse(to.query.untilDate)
-      this.isEdit = to.query.isEdit === true
+      this.isEdit = to.query.isEdit === true || to.query.isEdit === 'true'
       this.eventId = parse(to.query.eventId)
       this.updateEventList()
     }

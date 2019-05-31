@@ -92,10 +92,10 @@ export default {
         if (data.state === true) {
           this.$router.push({
             name: 'AdminChannelList',
-            query: {
+            query: this.$route.query.startPage !== 1 ? {
               startPage: 1,
               currentPage: 1
-            }
+            } : {}
           })
           this.channelName = ''
           this.isEdit = false
