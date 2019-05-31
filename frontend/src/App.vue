@@ -6,6 +6,10 @@
           <h1>{{ welcomeText }}</h1>
           <span>Current user:  <strong><em>{{ username }}</em></strong>,&nbsp;</span>
           <a @click="logout">Logout</a>
+          <div v-if="$store.state.isAdmin">
+            <a @click="goProject" v-if="isAdminPage">Visit Project Page</a>
+            <a @click="goAdmin" v-else>Visit Admin Page</a>
+          </div>
         </div>
       </div>
       <router-view/>
@@ -49,6 +53,12 @@ export default {
         url: this.$url + 'logout/'
       })
       this.$router.push({name: 'Login'})
+    },
+    goAdmin () {
+      this.$router.push({name: 'AdminIndex'})
+    },
+    goProject () {
+      this.$router.push({name: 'Index'})
     }
   },
   watch: {

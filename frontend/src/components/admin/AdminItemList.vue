@@ -91,7 +91,7 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.$router.push({
-            name:'AdminChannelList',
+            name: 'AdminChannelList',
             query: {
               startPage: 1,
               currentPage: 1
