@@ -94,4 +94,7 @@ export default {
     margin-top: 0px;
     font-size: 16px;
   }
+  .error {
+    color: #D94600;
+  }
 </style>

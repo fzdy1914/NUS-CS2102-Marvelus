@@ -46,13 +46,13 @@
                 <div class="form-group">
                   <label>Id: {{ channelId }}</label>
                 </div>
-                <div v-show="error" class="form-group error">
-                  <label>Error: {{ error }}</label>
-                </div>
                 <div class="form-group">
                   <label>Name</label>
                   <input v-if="isEdit" type="text" class="form-control" placeholder="Channel Name" v-model="channelName"/>
                   <p v-else>{{ channelName }}</p>
+                </div>
+                <div v-show="error" class="form-group error">
+                  <label>Error: {{ error }}</label>
                 </div>
               </form>
             </div>
@@ -252,8 +252,5 @@ export default {
   }
   .btn {
     padding: 3px 8px;
-  }
-  .error {
-    color: #D94600;
   }
 </style>

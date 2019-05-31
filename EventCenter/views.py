@@ -86,6 +86,20 @@ def event_list(request):
     elif request.method == 'POST':
         try:
             data = json.loads(request.body)
+
+            if data['title'] == '':
+                return error_json_response('Empty event title')
+            if data['description'] == '':
+                return error_json_response('Empty event description')
+            if data['location'] == '':
+                return error_json_response('Empty event location')
+            if data['image_url'] == '':
+                return error_json_response('Empty event image url')
+            if not str(data['timestamp']).isdigit():
+                return error_json_response('Invalid / Empty event timestamp')
+            if not str(data['channel_id']).isdigit():
+                return error_json_response('Invalid / Empty event channel id')
+
             event = event_deserializer(data)
             event.save()
         except ValueError:
@@ -115,6 +129,20 @@ def event_detail(request, pk):
 
         try:
             data = json.loads(request.body)
+
+            if data['title'] == '':
+                return error_json_response('Empty event title')
+            if data['description'] == '':
+                return error_json_response('Empty event description')
+            if data['location'] == '':
+                return error_json_response('Empty event location')
+            if data['image_url'] == '':
+                return error_json_response('Empty event image url')
+            if not str(data['timestamp']).isdigit():
+                return error_json_response('Invalid / Empty event timestamp')
+            if not str(data['channel_id']).isdigit():
+                return error_json_response('Invalid / Empty event channel id')
+
             event = event_updater(event, data)
             event.save()
         except ValueError:
@@ -158,6 +186,12 @@ def comment_list(request, event_id):
             data = json.loads(request.body)
             data['event_id'] = event_id
             data['user_id'] = request.user.id
+
+            if data['title'] == '':
+                return error_json_response('Empty comment title')
+            if data['content'] == '':
+                return error_json_response('Empty comment content')
+
             comment = comment_deserializer(data)
             comment.save()
         except ValueError:
@@ -259,12 +293,15 @@ def channel_list(request):
             return error_json_response('Authority required')
         try:
             data = json.loads(request.body)
+            if data['name'] == '':
+                return error_json_response('Empty channel name')
+
             channel = Channel(**data)
             channel.save()
         except ValueError:
             return error_json_response('Invalid JSON file')
         except IntegrityError:
-            return error_json_response('Invalid / Duplicated Channel Name')
+            return error_json_response('Duplicated channel name')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 
@@ -276,12 +313,16 @@ def channel_list(request):
         try:
             data = json.loads(request.body)
             channel = Channel.objects.get(pk=data['id'])
+
+            if data['name'] == '':
+                return error_json_response('Empty channel name')
+
             channel = channel_updater(channel, data)
             channel.save()
         except ValueError:
             return error_json_response('Invalid JSON file')
         except IntegrityError:
-            return error_json_response('Invalid / Duplicated Channel Name')
+            return error_json_response('Duplicated channel name')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 

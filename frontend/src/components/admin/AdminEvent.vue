@@ -101,7 +101,8 @@ export default {
             description: this.event.description,
             timestamp: this.event.timestamp,
             location: this.event.location,
-            image_url: this.event.image_url
+            image_url: this.event.image_url,
+            channel_id: this.event.channel_id
           }
         }).then(response => {
           let data = response.data
@@ -160,9 +161,6 @@ export default {
   .form-control {
     font-size: 16px;
     padding: 10px 10px
-  }
-  .error {
-    color: #D94600;
   }
   img {
     width: 600px;

@@ -22,6 +22,9 @@
                     <label>Content</label>
                     <textarea rows="4" type="text" class="form-control" placeholder="Comment content" v-model="commentContent"/>
                   </div>
+                  <div v-show="error" class="form-group error">
+                    <label>Error: {{ error }}</label>
+                  </div>
                 </form>
               </div>
               <div class="modal-footer">
@@ -86,7 +89,8 @@ export default {
       currentPage: 1,
 
       commentTitle: '',
-      commentContent: ''
+      commentContent: '',
+      error: null
     }
   },
   mounted () {
@@ -152,7 +156,7 @@ export default {
           this.commentContent = ''
           document.getElementById('close').click()
         } else {
-          this.state = false
+          this.error = data.error
         }
       })
     }

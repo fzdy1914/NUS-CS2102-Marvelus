@@ -3,7 +3,6 @@
     <ul class="nav nav-tabs">
       <li :class="{ active: currentPanel === 'Channels' }"><a @click="goChannels">Channels</a></li>
       <li :class="{ active: currentPanel === 'Events' }"><a @click="goEvents">Events</a></li>
-      <li><a href="#">Comments</a></li>
       <li class="navbar-right"><button type="button" class="btn btn-primary new" @click="newItem">New</button></li>
     </ul>
       <div class="modal-content" v-if="isEdit">
@@ -13,12 +12,12 @@
         </div>
         <div class="modal-body">
           <form>
-            <div v-show="error" class="form-group error">
-              <label>Error: {{ error }}</label>
-            </div>
             <div class="form-group">
               <label>Name</label>
               <input type="text" class="form-control" placeholder="Channel Name" v-model="channelName"/>
+            </div>
+            <div v-show="error" class="form-group error">
+              <label>Error: {{ error }}</label>
             </div>
           </form>
         </div>
@@ -141,8 +140,5 @@ export default {
   }
   .modal-content {
     margin-top: 20px;
-  }
-  .error {
-    color: #D94600;
   }
 </style>
