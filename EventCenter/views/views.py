@@ -5,15 +5,13 @@ import base64
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db import DataError
 from django.views.decorators.csrf import csrf_exempt
 
 from EventCenter.forms import LoginForm
 from EventCenter.responses import success_json_response, error_json_response
-from EventCenter.serializers import event_list_serializer, event_serializer, comment_list_serializer,  \
+from EventCenter.serializers import comment_list_serializer,  \
     comment_deserializer, comment_serializer, like_list_serializer, like_deserializer, like_serializer
 from EventCenter.models import Comment, Like
-from EventCenter.managers import event_manager
 
 
 @csrf_exempt
@@ -43,7 +41,7 @@ def login(request):
                 bV79zuetyesUKF0n3R07p01Ig4spww0/jk4J9LEIGwqfmEq326Z9ws716A1rQZI0\n \
                 eLEE0tK2OO07qeGhSAECQEXbD/vOhPYzpME56uyev9hNBm61k4Uc4JDpq6yz81OB\n \
                 +NMBbLi1tT4RBVxJKPD38CFKR0umqzVRygAl8PuOECY=\n \
-                -----END RSA PRIVATE KEY-----'))
+                -----END RSA PRIVATE KEY-----').encode())
 
             password = rsa.decrypt(base64.b64decode(password.encode('utf-8')), private_key)
 
@@ -70,91 +68,6 @@ def logout(request):
 @csrf_exempt
 def reject(request):
     return error_json_response('User not logged in.')
-
-
-@login_required
-@csrf_exempt
-def event_list(request):
-    if request.method == 'GET':
-        events = event_manager.all_events()
-        args = request.GET
-
-        try:
-            channel_id = args.get('channel_id')
-            if channel_id:
-                events = events.filter(channel_id=int(channel_id))
-
-            since = args.get('since')
-            if since:
-                events = events.filter(timestamp__gte=int(since))
-
-            until = args.get('until')
-            if until:
-                events = events.filter(timestamp__lte=int(until))
-
-            count = events.count()
-            offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 50))
-            events = events.order_by('-id')[offset:offset + limit]
-        except ValueError:
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'events': event_list_serializer(events), 'count': count})
-
-    elif request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-
-            validation = event_manager.is_valid_event(data)
-            if not validation['state']:
-                return error_json_response(validation['error'])
-
-            event = event_manager.create_event(data)
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'event': event_serializer(event)})
-
-
-@login_required
-@csrf_exempt
-def event_detail(request, pk):
-    if not event_manager.is_event_exist(pk):
-        return error_json_response('No such event')
-    event = event_manager.get_event(pk)
-
-    if request.method == 'GET':
-        return success_json_response({'event': event_serializer(event)})
-
-    elif request.method == 'PUT':
-        if not is_admin(request):
-            return error_json_response('Authority required')
-
-        try:
-            data = json.loads(request.body)
-
-            validation = event_manager.is_valid_event(data)
-            if not validation['state']:
-                return error_json_response(validation['error'])
-
-            event = event_manager.update_event(pk, data)
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except DataError:
-            return error_json_response('Invalid date')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'event': event_serializer(event)})
-
-    elif request.method == 'DELETE':
-        if not is_admin(request):
-            return error_json_response('Authority required')
-
-        event.delete()
-        return success_json_response({'message': 'Event successfully deleted'})
 
 
 @login_required
@@ -263,7 +176,6 @@ def like_list(request, event_id):
             return error_json_response('Invalid arguments')
 
         return success_json_response({'message': 'Successfully unliked'})
-
 
 
 def is_admin(request):

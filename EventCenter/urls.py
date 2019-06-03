@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.urls import path
 
-from .views import views, channel_view
+from .views import views, channel_view, event_view
 
 urlpatterns = [
     path('channels/', channel_view.channel_list, name='channels'),
-    path('events/', views.event_list, name='events'),
-    path('event/<int:pk>/', views.event_detail, name='event'),
+    path('events/', event_view.event_list, name='events'),
+    path('event/<int:pk>/', event_view.event_detail, name='event'),
     path('comments/<int:event_id>/', views.comment_list, name='comments'),
     path('likes/<int:event_id>/', views.like_list, name='likes'),
     path('login/', views.login, name='login'),

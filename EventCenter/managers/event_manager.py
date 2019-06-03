@@ -2,8 +2,9 @@ from EventCenter.models import Event
 from . import channel_manager
 
 
-def is_event_exist(event_id):
+def is_event_exists(event_id):
     return Event.objects.filter(pk=event_id).exists()
+
 
 def is_valid_event(data):
     validation = {'state': False}
@@ -20,7 +21,7 @@ def is_valid_event(data):
         validation['error'] = 'Invalid / Empty event timestamp'
     elif not str(data['channel_id']).isdigit():
         validation['error'] = 'Invalid / Empty event channel id'
-    elif not channel_manager.is_channel_exist(data['channel_id']):
+    elif not channel_manager.is_channel_exists(data['channel_id']):
         validation['error'] = 'No such channel'
     else:
         validation['state'] = True
@@ -42,7 +43,7 @@ def create_event(data):
 def update_event(pk, data):
     validation = is_valid_event(data)
     if validation['state']:
-        event = Event.objects.get(pk=pk)
+        event = get_event(pk)
         event.__dict__.update(**data)
         channel = channel_manager.get_channel(data['channel_id'])
         event.channel = channel
@@ -58,4 +59,10 @@ def all_events():
 
 def get_event(pk):
     return Event.objects.get(pk=pk)
+
+
+def delete_event(pk):
+    if is_event_exists(pk):
+        get_event(pk).delete()
+
 
