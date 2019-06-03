@@ -1,4 +1,3 @@
-import json
 import rsa
 import base64
 
@@ -9,9 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from EventCenter.forms import LoginForm
 from EventCenter.responses import success_json_response, error_json_response
-from EventCenter.serializers import comment_list_serializer,  \
-    comment_deserializer, comment_serializer, like_list_serializer, like_deserializer, like_serializer
-from EventCenter.models import Comment, Like
+from EventCenter.serializers import like_list_serializer, like_deserializer, like_serializer
+from EventCenter.models import Like
 
 
 @csrf_exempt
@@ -70,61 +68,9 @@ def reject(request):
     return error_json_response('User not logged in.')
 
 
-@login_required
 @csrf_exempt
-def comment_list(request, event_id):
-    if request.method == 'GET':
-        comments = Comment.objects.filter(event_id=event_id)
-        count = comments.count()
-        args = request.GET
-
-        try:
-            offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 50))
-        except ValueError:
-            return error_json_response('Invalid arguments')
-
-        comments = comments.order_by('-id')[offset:offset + limit]
-        return success_json_response({'comments': comment_list_serializer(comments), 'count': count})
-
-    elif request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            data['event_id'] = event_id
-            data['user_id'] = request.user.id
-
-            if data['title'] == '':
-                return error_json_response('Empty comment title')
-            if data['content'] == '':
-                return error_json_response('Empty comment content')
-
-            comment = comment_deserializer(data)
-            comment.save()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        # except Event.DoesNotExist:
-        #    return error_json_response('No such event')
-        except User.DoesNotExist:
-            return error_json_response('No such user')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'comment': comment_serializer(comment)})
-
-    elif request.method == 'DELETE':
-        try:
-            data = json.loads(request.body)
-            comment_id = data['comment_id']
-            comment = Comment.objects.get(pk=comment_id)
-            comment.delete()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except Comment.DoesNotExist:
-            return error_json_response('No such comment')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'message': 'Comment successfully deleted'})
+def default(request):
+    return error_json_response('No such API')
 
 
 @login_required

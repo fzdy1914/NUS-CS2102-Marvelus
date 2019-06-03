@@ -154,6 +154,7 @@ export default {
           this.comments.splice(this.limit, 1)
           this.commentTitle = ''
           this.commentContent = ''
+          this.error = null
           document.getElementById('close').click()
         } else {
           this.error = data.error

@@ -28,7 +28,7 @@ class Event(models.Model):
         return self.title
 
     def date(self):
-        d = datetime.datetime.fromtimestamp(self.timestamp)
+        d = datetime.datetime.fromtimestamp(self.timestamp / 1000)
         return d
 
     class Meta:

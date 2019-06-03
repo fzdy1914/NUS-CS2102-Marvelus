@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 
-from .models import Event, Comment, Channel, Like
+from .models import Event, Like
 
 
 def event_list_serializer(events):
@@ -30,18 +30,6 @@ def event_serializer(event):
     return fields
 
 
-def event_deserializer(data):
-    channel = Channel.objects.get(pk=data['channel_id'])
-    return Event(channel=channel, **data)
-
-
-def event_updater(event, data):
-    event.__dict__.update(**data)
-    if 'channel_id' in data:
-        event.channel = Channel.objects.get(pk=data['channel_id'])
-    return event
-
-
 def comment_list_serializer(comments):
     comment_list = []
     for comment in comments:
@@ -57,12 +45,6 @@ def comment_serializer(comment):
               'username': comment.user.username
               }
     return fields
-
-
-def comment_deserializer(data):
-    event = Event.objects.get(pk=data['event_id'])
-    user = User.objects.get(pk=data['user_id'])
-    return Comment(event=event, user=user, **data)
 
 
 def like_list_serializer(likes):
