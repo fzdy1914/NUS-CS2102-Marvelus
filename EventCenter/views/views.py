@@ -5,15 +5,15 @@ import base64
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db import IntegrityError, DataError
+from django.db import DataError
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import LoginForm
-from .responses import success_json_response, error_json_response
-from .serializers import event_list_serializer, event_serializer, comment_list_serializer, event_deserializer, \
-    comment_deserializer, comment_serializer, event_updater, like_list_serializer, like_deserializer, like_serializer, \
-    channel_list_serializer, channel_updater, channel_serializer
-from .models import Event, Channel, Comment, Like
+from EventCenter.forms import LoginForm
+from EventCenter.responses import success_json_response, error_json_response
+from EventCenter.serializers import event_list_serializer, event_serializer, comment_list_serializer,  \
+    comment_deserializer, comment_serializer, like_list_serializer, like_deserializer, like_serializer
+from EventCenter.models import Comment, Like
+from EventCenter.managers import event_manager
 
 
 @csrf_exempt
@@ -76,7 +76,7 @@ def reject(request):
 @csrf_exempt
 def event_list(request):
     if request.method == 'GET':
-        events = Event.objects.all()
+        events = event_manager.all_events()
         args = request.GET
 
         try:
@@ -105,25 +105,13 @@ def event_list(request):
         try:
             data = json.loads(request.body)
 
-            if data['title'] == '':
-                return error_json_response('Empty event title')
-            if data['description'] == '':
-                return error_json_response('Empty event description')
-            if data['location'] == '':
-                return error_json_response('Empty event location')
-            if data['image_url'] == '':
-                return error_json_response('Empty event image url')
-            if not str(data['timestamp']).isdigit():
-                return error_json_response('Invalid / Empty event timestamp')
-            if not str(data['channel_id']).isdigit():
-                return error_json_response('Invalid / Empty event channel id')
+            validation = event_manager.is_valid_event(data)
+            if not validation['state']:
+                return error_json_response(validation['error'])
 
-            event = event_deserializer(data)
-            event.save()
+            event = event_manager.create_event(data)
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Channel.DoesNotExist:
-            return error_json_response('No such channel')
         except (KeyError, TypeError):
             return error_json_response('Invalid arguments')
 
@@ -133,10 +121,9 @@ def event_list(request):
 @login_required
 @csrf_exempt
 def event_detail(request, pk):
-    try:
-        event = Event.objects.get(pk=pk)
-    except Event.DoesNotExist:
+    if not event_manager.is_event_exist(pk):
         return error_json_response('No such event')
+    event = event_manager.get_event(pk)
 
     if request.method == 'GET':
         return success_json_response({'event': event_serializer(event)})
@@ -148,25 +135,13 @@ def event_detail(request, pk):
         try:
             data = json.loads(request.body)
 
-            if data['title'] == '':
-                return error_json_response('Empty event title')
-            if data['description'] == '':
-                return error_json_response('Empty event description')
-            if data['location'] == '':
-                return error_json_response('Empty event location')
-            if data['image_url'] == '':
-                return error_json_response('Empty event image url')
-            if not str(data['timestamp']).isdigit():
-                return error_json_response('Invalid / Empty event timestamp')
-            if not str(data['channel_id']).isdigit():
-                return error_json_response('Invalid / Empty event channel id')
+            validation = event_manager.is_valid_event(data)
+            if not validation['state']:
+                return error_json_response(validation['error'])
 
-            event = event_updater(event, data)
-            event.save()
+            event = event_manager.update_event(pk, data)
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Channel.DoesNotExist:
-            return error_json_response('No such channel')
         except DataError:
             return error_json_response('Invalid date')
         except (KeyError, TypeError):
@@ -214,8 +189,8 @@ def comment_list(request, event_id):
             comment.save()
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Event.DoesNotExist:
-            return error_json_response('No such event')
+        # except Event.DoesNotExist:
+        #    return error_json_response('No such event')
         except User.DoesNotExist:
             return error_json_response('No such user')
         except (KeyError, TypeError):
@@ -264,8 +239,8 @@ def like_list(request, event_id):
                 like.save()
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Event.DoesNotExist:
-            return error_json_response('No such event')
+        # except Event.DoesNotExist:
+        #    return error_json_response('No such event')
         except User.DoesNotExist:
             return error_json_response('No such user')
         except (KeyError, TypeError):
@@ -280,8 +255,8 @@ def like_list(request, event_id):
                 like.delete()
         except ValueError:
             return error_json_response('Invalid JSON file')
-        except Event.DoesNotExist:
-            return error_json_response('No such event')
+        # except Event.DoesNotExist:
+        #     return error_json_response('No such event')
         except User.DoesNotExist:
             return error_json_response('No such user')
         except (KeyError, TypeError):
@@ -289,76 +264,6 @@ def like_list(request, event_id):
 
         return success_json_response({'message': 'Successfully unliked'})
 
-
-@login_required
-@csrf_exempt
-def channel_list(request):
-    if request.method == 'GET':
-        args = request.GET
-        try:
-            offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 10))
-        except ValueError:
-            return error_json_response('Invalid arguments')
-
-        count = Channel.objects.all().count()
-        channels = Channel.objects.all().order_by('-id')[offset:offset + limit]
-        return success_json_response({'channels': channel_list_serializer(channels),
-                                      'count': count})
-
-    elif request.method == 'POST':
-        if not is_admin(request):
-            return error_json_response('Authority required')
-        try:
-            data = json.loads(request.body)
-            if data['name'] == '':
-                return error_json_response('Empty channel name')
-
-            channel = Channel(**data)
-            channel.save()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except IntegrityError:
-            return error_json_response('Duplicated channel name')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'channel': channel_serializer(channel)})
-
-    elif request.method == 'PUT':
-        if not is_admin(request):
-            return error_json_response('Authority required')
-        try:
-            data = json.loads(request.body)
-            channel = Channel.objects.get(pk=data['id'])
-
-            if data['name'] == '':
-                return error_json_response('Empty channel name')
-
-            channel = channel_updater(channel, data)
-            channel.save()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except IntegrityError:
-            return error_json_response('Duplicated channel name')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'channel': channel_serializer(channel)})
-
-    elif request.method == 'DELETE':
-        if not is_admin(request):
-            return error_json_response('Authority required')
-        try:
-            data = json.loads(request.body)
-            channel = Channel.objects.get(pk=data['id'])
-            channel.delete()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'message': 'Channel Successfully deleted'})
 
 
 def is_admin(request):

@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.urls import path
 
-from . import views, views_helper
+from .views import views, channel_view
 
 urlpatterns = [
-    path('channels/', views.channel_list, name='channels'),
+    path('channels/', channel_view.channel_list, name='channels'),
     path('events/', views.event_list, name='events'),
     path('event/<int:pk>/', views.event_detail, name='event'),
     path('comments/<int:event_id>/', views.comment_list, name='comments'),
