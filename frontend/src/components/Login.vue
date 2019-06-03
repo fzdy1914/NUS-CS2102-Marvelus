@@ -33,7 +33,7 @@ export default {
         url: this.$url + 'login/',
         data: {
           'username': this.username,
-          'password': this.password
+          'password': this.$util.encrypt(this.password)
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'

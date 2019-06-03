@@ -1,6 +1,9 @@
 Django==2.2.1
 django-cors-headers==3.0.1
 mysqlclient==1.4.2.post1
+pyasn1==0.4.5
 PyMySQL==0.9.3
 pytz==2019.1
+rsa==4.0
 sqlparse==0.3.0
+virtualenv==16.6.0
