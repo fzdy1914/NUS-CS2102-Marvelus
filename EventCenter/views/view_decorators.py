@@ -7,3 +7,23 @@ def admin_required(func):
             return error_json_response('Authority required')
         return func(request, *args, **kwargs)
     return wrapper
+
+
+def json_request(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ValueError:
+            return error_json_response('Invalid JSON file')
+        except (KeyError, TypeError):
+            return error_json_response('Missing / Invalid arguments')
+    return wrapper
+
+
+def args_request(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ValueError:
+            return error_json_response('Missing / Invalid arguments')
+    return wrapper
