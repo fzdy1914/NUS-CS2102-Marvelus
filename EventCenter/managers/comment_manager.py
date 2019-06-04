@@ -19,7 +19,7 @@ def is_valid_comment(data):
     return validation
 
 
-def add_comments(data):
+def add_comment(data):
     if is_valid_comment(data):
         event = event_manager.get_event(data['event_id'])
         user = user_manager.get_user(pk=data['user_id'])

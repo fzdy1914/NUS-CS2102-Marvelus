@@ -17,6 +17,8 @@ def comment_list(request, event_id):
     elif request.method == 'POST':
         return add_comment(request, event_id)
 
+    return error_json_response('No such API')
+
     # elif request.method == 'DELETE':
     #     try:
     #         data = json.loads(request.body)
@@ -57,7 +59,7 @@ def add_comment(request, event_id):
         if not validation['state']:
             return error_json_response(validation['error'])
 
-        comment = comment_manager.add_comments(data)
+        comment = comment_manager.add_comment(data)
     except ValueError:
         return error_json_response('Invalid JSON file')
     except (KeyError, TypeError):

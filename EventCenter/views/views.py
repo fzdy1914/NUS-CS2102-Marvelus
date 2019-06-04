@@ -2,14 +2,10 @@ import rsa
 import base64
 
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
 from EventCenter.forms import LoginForm
 from EventCenter.responses import success_json_response, error_json_response
-from EventCenter.serializers import like_list_serializer, like_deserializer, like_serializer
-from EventCenter.models import Like
 
 
 @csrf_exempt
@@ -71,58 +67,3 @@ def reject(request):
 @csrf_exempt
 def default(request):
     return error_json_response('No such API')
-
-
-@login_required
-@csrf_exempt
-def like_list(request, event_id):
-    if request.method == 'GET':
-        likes = Like.objects.filter(event_id=event_id)
-        count = likes.count()
-        args = request.GET
-
-        try:
-            offset = int(args.get('offset', 0))
-            limit = int(args.get('limit', 50))
-        except ValueError:
-            return error_json_response('Invalid arguments')
-
-        likes = likes.order_by('-id')[offset:offset + limit]
-        return success_json_response({'likes': like_list_serializer(likes), 'count': count})
-
-    elif request.method == 'POST':
-        try:
-            data = {'event_id': event_id, 'user_id': request.user.id}
-            like = like_deserializer(data)
-            if not Like.objects.filter(event_id=event_id, user_id=like.user_id).exists():
-                like.save()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        # except Event.DoesNotExist:
-        #    return error_json_response('No such event')
-        except User.DoesNotExist:
-            return error_json_response('No such user')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'like': like_serializer(like)})
-
-    elif request.method == 'DELETE':
-        try:
-            like = Like.objects.filter(event_id=event_id, user_id=request.user.id)
-            if like.exists():
-                like.delete()
-        except ValueError:
-            return error_json_response('Invalid JSON file')
-        # except Event.DoesNotExist:
-        #     return error_json_response('No such event')
-        except User.DoesNotExist:
-            return error_json_response('No such user')
-        except (KeyError, TypeError):
-            return error_json_response('Invalid arguments')
-
-        return success_json_response({'message': 'Successfully unliked'})
-
-
-def is_admin(request):
-    return request.user.is_superuser or request.user.is_staff

@@ -24,6 +24,8 @@ def channel_list(request):
     elif request.method == 'DELETE':
         return delete_channel(request)
 
+    return error_json_response('No such API')
+
 
 def view_channel_list(request):
     args = request.GET

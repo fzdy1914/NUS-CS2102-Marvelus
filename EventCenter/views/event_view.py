@@ -19,6 +19,8 @@ def event_list(request):
     elif request.method == 'POST':
         return add_event(request)
 
+    return error_json_response('No such API')
+
 
 @login_required
 @csrf_exempt
