@@ -38,15 +38,13 @@ def comment_list(request, event_id):
 
 @args_request
 def view_comment_list(request, event_id):
-    comments = comment_manager.all_comments(event_id)
     args = request.GET
 
     offset = int(args.get('offset', 0))
     limit = int(args.get('limit', 50))
 
-    comments = comments.order_by('-id')[offset:offset + limit]
-    return success_json_response({'comments': comment_list_serializer(comments),
-                                  'count': comment_manager.count(event_id)})
+    comments = comment_list_serializer(comment_manager.get_comments(offset, limit, event_id))
+    return success_json_response({'comments': comments, 'count': comment_manager.count(event_id)})
 
 
 @json_request

@@ -19,6 +19,10 @@ def is_valid_comment(data):
     return validation
 
 
+def get_comments(offset, limit, event_id):
+    return all_comments(event_id).order_by('-id')[offset:offset + limit]
+
+
 def add_comment(data):
     if is_valid_comment(data):
         event = event_manager.get_event(data['event_id'])

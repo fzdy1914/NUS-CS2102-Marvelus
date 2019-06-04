@@ -26,6 +26,10 @@ def get_like(data):
         return Like.objects.get(event_id=data['event_id'], user_id=data['user_id'])
 
 
+def get_likes(offset, limit, event_id):
+    return all_likes(event_id).order_by('-id')[offset:offset + limit]
+
+
 def add_like(data):
     if is_valid_like(data):
         if not is_like_exists(data):

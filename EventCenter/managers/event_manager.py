@@ -61,6 +61,23 @@ def get_event(pk):
     return Event.objects.get(pk=pk)
 
 
+def get_events(offset, limit, channel_id, since, until):
+    events = all_events()
+
+    if channel_id:
+        events = events.filter(channel_id=int(channel_id))
+
+    if since:
+        events = events.filter(timestamp__gte=int(since))
+
+    if until:
+        events = events.filter(timestamp__lte=int(until))
+
+    count = events.count()
+    events = events.order_by('-id')[offset:offset + limit]
+    return {'events': events, 'count': count}
+
+
 def delete_event(pk):
     if is_event_exists(pk):
         get_event(pk).delete()

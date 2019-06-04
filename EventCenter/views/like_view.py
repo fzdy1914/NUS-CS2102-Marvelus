@@ -24,15 +24,12 @@ def like_list(request, event_id):
 
 @args_request
 def view_like_list(request, event_id):
-    likes = like_manager.all_likes(event_id)
-    count = likes.count()
     args = request.GET
-
     offset = int(args.get('offset', 0))
     limit = int(args.get('limit', 50))
 
-    likes = likes.order_by('-id')[offset:offset + limit]
-    return success_json_response({'likes': like_list_serializer(likes), 'count': count})
+    return success_json_response({'likes': like_list_serializer(like_manager.get_likes(offset, limit, event_id)),
+                                  'count': like_manager.count(event_id)})
 
 
 def add_like(request, event_id):

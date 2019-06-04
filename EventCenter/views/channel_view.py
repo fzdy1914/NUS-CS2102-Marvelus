@@ -33,8 +33,7 @@ def view_channel_list(request):
     offset = int(args.get('offset', 0))
     limit = int(args.get('limit', 10))
 
-    channels = channel_manager.all_channels().order_by('-id')[offset:offset + limit]
-    return success_json_response({'channels': channel_list_serializer(channels),
+    return success_json_response({'channels': channel_list_serializer(channel_manager.get_channels(offset, limit)),
                                   'count': channel_manager.count()})
 
 

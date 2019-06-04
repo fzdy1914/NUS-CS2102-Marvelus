@@ -13,6 +13,10 @@ def get_channel(pk):
     return Channel.objects.get(pk=pk)
 
 
+def get_channels(offset, limit):
+    return all_channels().order_by('-id')[offset:offset + limit]
+
+
 def is_valid_channel(data):
     validation = {'state': False}
     name = data['name']

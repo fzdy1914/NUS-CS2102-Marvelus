@@ -37,27 +37,17 @@ def event_detail(request, pk):
 
 @args_request
 def view_event_list(request):
-    events = event_manager.all_events()
     args = request.GET
 
     channel_id = args.get('channel_id')
-    if channel_id:
-        events = events.filter(channel_id=int(channel_id))
-
     since = args.get('since')
-    if since:
-        events = events.filter(timestamp__gte=int(since))
-
     until = args.get('until')
-    if until:
-        events = events.filter(timestamp__lte=int(until))
 
-    count = events.count()
     offset = int(args.get('offset', 0))
     limit = int(args.get('limit', 50))
-    events = events.order_by('-id')[offset:offset + limit]
+    res = event_manager.get_events(offset, limit, channel_id, since, until)
 
-    return success_json_response({'events': event_list_serializer(events), 'count': count})
+    return success_json_response({'events': event_list_serializer(res['events']), 'count': res['count']})
 
 
 def view_event(request, pk):
