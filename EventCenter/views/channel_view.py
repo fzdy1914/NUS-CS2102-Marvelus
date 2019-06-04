@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,8 @@ from EventCenter.managers import channel_manager
 from EventCenter.responses import error_json_response, success_json_response
 from EventCenter.serializers import channel_list_serializer, channel_serializer
 from EventCenter.views.view_decorators import admin_required, json_request, args_request
+
+logger = logging.getLogger('django')
 
 
 @login_required
@@ -46,6 +49,7 @@ def create_channel(request):
         return error_json_response(validation['error'])
 
     channel = channel_manager.create_channel(data)
+    logger.info('User: %s, Add Channel: [id: %s, name: %s]' % (request.user.id, channel.id, channel.name))
 
     return success_json_response({'channel': channel_serializer(channel)})
 
@@ -63,6 +67,7 @@ def edit_channel(request):
         return error_json_response(validation['error'])
 
     channel = channel_manager.update_channel(channel_id, data)
+    logger.info('User: %s, Edit Channel: [id: %s, name: %s]' % (request.user.id, channel.id, channel.name))
 
     return success_json_response({'channel': channel_serializer(channel)})
 
@@ -76,6 +81,7 @@ def delete_channel(request):
         return error_json_response('No such channel')
 
     channel_manager.delete_channel(channel_id)
+    logger.info('User: %s, Delete Channel: [id: %s]' % (request.user.id, channel_id))
 
     return success_json_response({'message': 'Channel Successfully deleted'})
 

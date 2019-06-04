@@ -1,19 +1,24 @@
 import rsa
 import base64
+import logging
 
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
+from rsa import DecryptionError
 
 from EventCenter.forms import LoginForm
 from EventCenter.responses import success_json_response, error_json_response
+
+logger = logging.getLogger('django')
 
 
 @csrf_exempt
 def login(request):
     if request.user.is_authenticated:
-        print('login access')
-        return success_json_response({'user': {'username': request.user.username,
-                                               'isAdmin': request.user.is_staff or request.user.is_superuser}})
+        user = request.user
+        is_admin = user.is_staff or user.is_superuser
+        logger.info('User access: : %s, is_admin: %s' % (user.id, is_admin))
+        return success_json_response({'user': {'username': user.username, 'isAdmin': is_admin}})
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -37,14 +42,19 @@ def login(request):
                 +NMBbLi1tT4RBVxJKPD38CFKR0umqzVRygAl8PuOECY=\n \
                 -----END RSA PRIVATE KEY-----').encode())
 
-            password = rsa.decrypt(base64.b64decode(password.encode('utf-8')), private_key)
+            try:
+                password = rsa.decrypt(base64.b64decode(password), private_key)
+            except DecryptionError:
+                logger.debug('Unable to decode: ' + password)
+                return error_json_response('Wrong password. Please try again.')
 
             user = auth.authenticate(username=username, password=password)
 
             if user is not None and user.is_active:
                 auth.login(request, user)
-                return success_json_response({'user': {'username': request.user.username,
-                                                       'isAdmin': request.user.is_staff or request.user.is_superuser}})
+                is_admin = user.is_staff or user.is_superuser
+                logger.info('User login: %s, is_admin: %s' % (user.id, is_admin))
+                return success_json_response({'user': {'username': request.user.username, 'isAdmin': is_admin}})
             else:
                 return error_json_response('Wrong password. Please try again.')
         else:
@@ -55,6 +65,7 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
+    logger.info('User log out: %s.' % request.user.id)
     auth.logout(request)
     return success_json_response({'message': 'Successfully log out'})
 

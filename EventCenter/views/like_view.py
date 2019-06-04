@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
@@ -5,6 +7,8 @@ from EventCenter.responses import error_json_response, success_json_response
 from EventCenter.serializers import like_list_serializer, like_serializer
 from EventCenter.managers import like_manager
 from EventCenter.views.view_decorators import args_request
+
+logger = logging.getLogger('django')
 
 
 @login_required
@@ -39,6 +43,7 @@ def add_like(request, event_id):
         return error_json_response(validation['error'])
 
     like = like_manager.add_like(data)
+    logger.info('User: %s, Add like: [event_id: %s]' % (request.user.id, event_id))
 
     return success_json_response({'like': like_serializer(like)})
 
@@ -50,5 +55,6 @@ def remove_like(request, event_id):
         return error_json_response(validation['error'])
 
     like_manager.delete_like(data)
+    logger.info('User: %s, Remove like: [event_id: %s]' % (request.user.id, event_id))
 
     return success_json_response({'message': 'Successfully unliked'})

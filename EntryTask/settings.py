@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import logging
+import django.utils.log
+import logging.handlers
+import re
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -159,3 +163,56 @@ LOGIN_REDIRECT_URL = '/index/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/dist/static"),
 ]
+
+LOG_PATH = os.path.join(BASE_DIR, 'log')
+if not os.path.isdir(LOG_PATH):
+    os.mkdir(LOG_PATH)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] \
+            [%(levelname)s]- %(message)s'
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': '%s/data.log' % LOG_PATH,
+            'when': 'midnight',
+            'interval': 1,
+            'formatter': 'verbose',
+        },
+
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '%s/error.log' % LOG_PATH,
+            'maxBytes': 1024 * 1024 * 5,
+            'formatter': 'standard',
+        },
+
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['default', 'error', 'console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
+
+}

@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -7,6 +8,8 @@ from EventCenter.responses import error_json_response, success_json_response
 from EventCenter.serializers import comment_list_serializer, comment_serializer
 from EventCenter.managers import comment_manager
 from EventCenter.views.view_decorators import json_request, args_request
+
+logger = logging.getLogger('django')
 
 
 @login_required
@@ -57,6 +60,6 @@ def add_comment(request, event_id):
         return error_json_response(validation['error'])
 
     comment = comment_manager.add_comment(data)
-
+    logger.info('User: %s, Add Comment: [event_id: %s, id: %s]' % (request.user.id, event_id, comment.id))
     return success_json_response({'comment': comment_serializer(comment)})
 

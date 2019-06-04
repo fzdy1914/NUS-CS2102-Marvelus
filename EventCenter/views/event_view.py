@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db import DataError
@@ -8,6 +9,8 @@ from EventCenter.managers import event_manager
 from EventCenter.responses import error_json_response, success_json_response
 from EventCenter.serializers import event_list_serializer, event_serializer
 from EventCenter.views.view_decorators import admin_required, json_request, args_request
+
+logger = logging.getLogger('django')
 
 
 @login_required
@@ -55,6 +58,7 @@ def view_event(request, pk):
         return error_json_response('No such event')
 
     event = event_manager.get_event(pk)
+
     return success_json_response({'event': event_serializer(event)})
 
 
@@ -68,6 +72,7 @@ def add_event(request):
         return error_json_response(validation['error'])
 
     event = event_manager.create_event(data)
+    logger.info('User: %s, Add Event: [id: %s]' % (request.user.id, event.id))
 
     return success_json_response({'event': event_serializer(event)})
 
@@ -83,6 +88,7 @@ def edit_event(request, pk):
             return error_json_response(validation['error'])
 
         event = event_manager.update_event(pk, data)
+        logger.info('User: %s, Edit Event: [id: %s]' % (request.user.id, event.id))
     except DataError:
         return error_json_response('Invalid date')
 
@@ -95,4 +101,5 @@ def delete_event(request, pk):
         return error_json_response('No such event')
 
     event_manager.delete_event(pk)
+    logger.info('User: %s, Delete Event: [id: %s]' % (request.user.id, pk))
     return success_json_response({'message': 'Event successfully deleted'})
