@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path
 
-from .views import views, channel_view, event_view, comment_view, like_view
+from .views import auth_view, channel_view, event_view, comment_view, like_view
 
 urlpatterns = [
     path('channels/', channel_view.channel_list, name='channels'),
@@ -24,9 +24,9 @@ urlpatterns = [
     path('event/<int:pk>/', event_view.event_detail, name='event'),
     path('comments/<int:event_id>/', comment_view.comment_list, name='comments'),
     path('likes/<int:event_id>/', like_view.like_list, name='likes'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
-    path('reject/', views.reject, name='reject'),
-    url(r'', views.default, name='default')
+    path('login/', auth_view.login, name='login'),
+    path('logout/', auth_view.logout, name='logout'),
+    path('reject/', auth_view.reject, name='reject'),
+    url(r'', auth_view.default, name='default')
     # path('add/', views_helper.add_likes),
 ]
