@@ -3,6 +3,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page
 
 from EventCenter.managers import channel_manager
 from EventCenter.responses import error_json_response, success_json_response
@@ -30,6 +31,7 @@ def channel_list(request):
     return error_json_response('No such API')
 
 
+@cache_page(60)
 @args_request
 def view_channel_list(request):
     args = request.GET

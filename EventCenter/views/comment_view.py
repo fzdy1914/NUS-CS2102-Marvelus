@@ -2,6 +2,7 @@ import json
 import logging
 
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 
 from EventCenter.responses import error_json_response, success_json_response
@@ -39,6 +40,7 @@ def comment_list(request, event_id):
     #     return success_json_response({'message': 'Comment successfully deleted'})
 
 
+@cache_page(60)
 @args_request
 def view_comment_list(request, event_id):
     args = request.GET

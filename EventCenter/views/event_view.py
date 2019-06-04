@@ -3,6 +3,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db import DataError
+from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 
 from EventCenter.managers import event_manager
@@ -38,6 +39,7 @@ def event_detail(request, pk):
         return delete_event(request, pk)
 
 
+@cache_page(60)
 @args_request
 def view_event_list(request):
     args = request.GET
@@ -53,6 +55,7 @@ def view_event_list(request):
     return success_json_response({'events': event_list_serializer(res['events']), 'count': res['count']})
 
 
+@cache_page(60)
 def view_event(request, pk):
     if not event_manager.is_event_exists(pk):
         return error_json_response('No such event')
