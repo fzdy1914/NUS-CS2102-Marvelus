@@ -36,8 +36,9 @@ router.beforeEach((to, from, next) => {
         store.commit('isAdmin', data.data.user.isAdmin)
         if (to.meta.requireAdmin && !store.state.isAdmin) {
           next({name: 'Index'})
+        } else {
+          next()
         }
-        next()
       } else {
         next({name: 'Login'})
       }

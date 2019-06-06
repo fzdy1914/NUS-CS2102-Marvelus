@@ -41,17 +41,26 @@ export default new Router({
         {
           path: '/',
           name: 'AdminIndex',
-          component: AdminEventList
+          component: AdminEventList,
+          meta: {
+            requireAdmin: true
+          }
         },
         {
           path: 'events',
           name: 'AdminEventList',
-          component: AdminEventList
+          component: AdminEventList,
+          meta: {
+            requireAdmin: true
+          }
         },
         {
           path: 'channels',
           name: 'AdminChannelList',
-          component: AdminChannelList
+          component: AdminChannelList,
+          meta: {
+            requireAdmin: true
+          }
         }
       ]
     }
