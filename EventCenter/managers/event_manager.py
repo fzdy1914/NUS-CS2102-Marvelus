@@ -11,18 +11,18 @@ def is_valid_event(data):
 
     if data['title'] == '':
         validation['error'] = 'Empty event title'
-    elif data['description'] == '':
-        validation['error'] = 'Empty event description'
+    elif data['channel'] == '':
+        validation['error'] = 'Empty event channel'
+    elif not channel_manager.is_channel_name_exists(data['channel']):
+        validation['error'] = 'No such channel'
     elif data['location'] == '':
         validation['error'] = 'Empty event location'
-    elif data['image_url'] == '':
-        validation['error'] = 'Empty event image url'
     elif not str(data['timestamp']).isdigit():
         validation['error'] = 'Invalid / Empty event timestamp'
-    elif not str(data['channel_id']).isdigit():
-        validation['error'] = 'Invalid / Empty event channel id'
-    elif not channel_manager.is_channel_exists(data['channel_id']):
-        validation['error'] = 'No such channel'
+    elif data['description'] == '':
+        validation['error'] = 'Empty event description'
+    elif data['image_url'] == '':
+        validation['error'] = 'Empty event image url'
     else:
         validation['state'] = True
 
@@ -45,7 +45,7 @@ def update_event(pk, data):
     if validation['state']:
         event = get_event(pk)
         event.__dict__.update(**data)
-        channel = channel_manager.get_channel(data['channel_id'])
+        channel = channel_manager.get_channel_by_name(data['channel'])
         event.channel = channel
         event.save()
         return event

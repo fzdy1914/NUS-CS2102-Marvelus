@@ -7,8 +7,8 @@
         <input type="text" class="form-control" placeholder="Event title" v-model="event.title"/>
       </div>
       <div class="form-group">
-        <h3>Event channel id:</h3>
-        <input type="text" class="form-control" placeholder="Event channel id" v-model="event.channel_id"/>
+        <h3>Event channel: (case insensitive)</h3>
+        <input type="text" class="form-control" placeholder="Event channel" v-model="event.channel"/>
       </div>
       <div class="form-group">
         <h3>Event location:</h3>
@@ -57,7 +57,7 @@ export default {
         timestamp: '',
         description: '',
         image_url: '',
-        channel_id: ''
+        channel: ''
       },
       tinymceInit: {
         height: 400,
@@ -102,7 +102,7 @@ export default {
             timestamp: this.event.timestamp,
             location: this.event.location,
             image_url: this.event.image_url,
-            channel_id: this.event.channel_id
+            channel: this.event.channel
           }
         }).then(response => {
           let data = response.data
@@ -124,7 +124,7 @@ export default {
             timestamp: this.event.timestamp,
             location: this.event.location,
             image_url: this.event.image_url,
-            channel_id: this.event.channel_id
+            channel: this.event.channel
           }
         }).then(response => {
           let data = response.data
@@ -149,7 +149,7 @@ export default {
           timestamp: '',
           description: '',
           image_url: '',
-          channel_id: ''
+          channel: ''
         }
       }
     }
