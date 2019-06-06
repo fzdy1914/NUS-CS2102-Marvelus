@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import EventList from '../components/user/EventList'
+import EventListPage from '../components/user/EventListPage'
 import Event from '../components/user/Event'
 import Login from '../components/Login'
 import AdminItemList from '../components/admin/AdminItemList'
-import AdminEventList from '../components/admin/AdminEventList'
+import AdminEventListPage from '../components/admin/AdminEventListPage'
 import AdminChannelList from '../components/admin/AdminChannelList'
 
 Vue.use(Router)
@@ -14,12 +14,12 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: EventList
+      component: EventListPage
     },
     {
       path: '/events',
       name: 'EventList',
-      component: EventList
+      component: EventListPage
     },
     {
       path: '/event/:eventId',
@@ -41,7 +41,7 @@ export default new Router({
         {
           path: '/',
           name: 'AdminIndex',
-          component: AdminEventList,
+          component: AdminEventListPage,
           meta: {
             requireAdmin: true
           }
@@ -49,7 +49,7 @@ export default new Router({
         {
           path: 'events',
           name: 'AdminEventList',
-          component: AdminEventList,
+          component: AdminEventListPage,
           meta: {
             requireAdmin: true
           }

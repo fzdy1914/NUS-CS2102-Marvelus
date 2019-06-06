@@ -25,26 +25,9 @@
           </form>
         </div><!-- /.navbar-collapse -->
       </nav>
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Channel</th>
-            <th>Likes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="event in events" :key="event.id">
-            <td class="id">{{ event.id }}</td>
-            <td class="title"><a @click="goEvent(event.id)">{{ event.title }}</a></td>
-            <td class="date">{{ $util.getDate(event.timestamp) }}</td>
-            <td class="channel">{{ event.channel }}</td>
-            <td class="likes">{{ event.likes }}</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <EventList :events="events" :isAdmin="false"/>
+
       <nav>
         <ul class="pagination">
           <li v-bind:class="{ disabled: startPage === 1 }">
@@ -67,9 +50,11 @@
 
 <script>
 import DatePicker from '../DoubleDatePicker'
+import EventList from '../EventList'
 export default {
-  name: 'EventList',
+  name: 'EventListPage',
   components: {
+    EventList,
     DatePicker
   },
   data () {
@@ -151,18 +136,6 @@ export default {
           currentPage: 1,
           sinceDate: this.sinceDate,
           untilDate: this.untilDate
-        }
-      })
-    },
-    goEvent: function (eventId) {
-      this.$router.push({
-        name: 'Event',
-        params: {
-          eventId: eventId
-        },
-        query: {
-          startPage: 1,
-          currentPage: 1
         }
       })
     },
@@ -255,18 +228,6 @@ export default {
 </script>
 
 <style scoped>
-  .id {
-    width: 150px;
-  }
-  .title {
-    width: 700px;
-  }
-  .date, .channel {
-    width: 200px;
-  }
-  .likes {
-    width: 150px;
-  }
   .nav{
     font-size: 18px;
     background: #FCFCFC

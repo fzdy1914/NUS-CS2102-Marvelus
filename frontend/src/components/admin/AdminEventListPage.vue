@@ -29,31 +29,9 @@
             </form>
           </div><!-- /.navbar-collapse -->
         </nav>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Date</th>
-              <th>Channel</th>
-              <th>Likes</th>
-              <th>Operation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="event in events" :key="event.id">
-              <td class="id">{{ event.id }}</td>
-              <td class="title"><a @click="goEvent(event.id)">{{ event.title }}</a></td>
-              <td class="date">{{ $util.getDate(event.timestamp) }}</td>
-              <td class="channel">{{ event.channel }}</td>
-              <td class="likes">{{ event.likes }}</td>
-              <td class="operation">
-                <button class="btn btn-primary edit" @click="editEvent(event)">Edit</button>
-                <button class="btn btn-primary delete" data-toggle="modal" data-target="#deleteEvent" @click="loadEvent(event)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+        <EventList :events="events" :isAdmin="true" v-on:editEvent="editEvent" v-on:loadEvent="loadEvent"/>
+
         <nav>
           <ul class="pagination">
             <li v-bind:class="{ disabled: startPage === 1 }">
@@ -111,9 +89,11 @@
 <script>
 import DatePicker from '../DoubleDatePicker'
 import AdminEvent from './AdminEvent'
+import EventList from '../EventList'
 export default {
-  name: 'AdminEventList',
+  name: 'AdminEventListPage',
   components: {
+    EventList,
     DatePicker,
     AdminEvent
   },
@@ -211,18 +191,6 @@ export default {
         }
       })
     },
-    goEvent: function (eventId) {
-      this.$router.push({
-        name: 'Event',
-        params: {
-          eventId: eventId
-        },
-        query: {
-          startPage: 1,
-          currentPage: 1
-        }
-      })
-    },
     updateEventList: function () {
       this.$axios.request({
         url: this.$url + 'events/',
@@ -295,7 +263,7 @@ export default {
         }
       }
     },
-    editEvent: function (event) {
+    editEvent: function (eventId) {
       this.$router.push({
         name: 'AdminEventList',
         query: {
@@ -307,7 +275,7 @@ export default {
           sinceDate: this.sinceDate,
           untilDate: this.untilDate,
           isEdit: true,
-          eventId: event.id
+          eventId: eventId
         }
       })
     },
@@ -386,21 +354,6 @@ export default {
 </script>
 
 <style scoped>
-  .id {
-    width: 150px;
-  }
-  .title {
-    width: 550px;
-  }
-  .date, .channel {
-    width: 150px;
-  }
-  .likes {
-    width: 100px;
-  }
-  .operation {
-    width: 200px
-  }
   .nav{
     font-size: 18px;
     background: #FCFCFC
