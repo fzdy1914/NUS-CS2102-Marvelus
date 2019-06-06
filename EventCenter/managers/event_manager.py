@@ -18,7 +18,7 @@ def is_valid_event(data):
     elif data['location'] == '':
         validation['error'] = 'Empty event location'
     elif not str(data['timestamp']).isdigit():
-        validation['error'] = 'Invalid / Empty event timestamp'
+        validation['error'] = 'Invalid / Empty event time'
     elif data['description'] == '':
         validation['error'] = 'Empty event description'
     elif data['image_url'] == '':

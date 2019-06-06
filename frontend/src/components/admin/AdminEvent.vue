@@ -15,8 +15,8 @@
         <input type="text" class="form-control" placeholder="Event location" v-model="event.location"/>
       </div>
       <div class="form-group">
-        <h3>Event timestamp:</h3>
-        <input type="text" class="form-control" placeholder="Event timestamp" v-model="event.timestamp"/>
+        <h3>Event time:</h3>
+        <SingleDatePicker :inputDate="event.timestamp" v-on:updateDate="updateDate"/>
       </div>
       <div class="form-group">
         <h3>Event description:</h3>
@@ -40,11 +40,14 @@
 </template>
 
 <script>
+import SingleDatePicker from '../SingleDatePicker'
 let Editor = require('@tinymce/tinymce-vue').default
+
 export default {
   name: 'AdminEvent',
   components: {
-    Editor
+    Editor,
+    SingleDatePicker
   },
   props: {
     eventId: Number
@@ -54,7 +57,7 @@ export default {
       event: {
         title: '',
         location: '',
-        timestamp: '',
+        timestamp: 0,
         description: '',
         image_url: '',
         channel: ''
@@ -84,7 +87,6 @@ export default {
           this.event = data.data.event
         } else {
           this.state = false
-          this.msg = data.error
         }
       })
     },
@@ -136,6 +138,9 @@ export default {
           }
         })
       }
+    },
+    updateDate: function (date) {
+      this.event.timestamp = date === '' ? null : Date.parse(date)
     }
   },
   watch: {
@@ -146,7 +151,7 @@ export default {
         this.event = {
           title: '',
           location: '',
-          timestamp: '',
+          timestamp: 0,
           description: '',
           image_url: '',
           channel: ''
@@ -164,8 +169,5 @@ export default {
   }
   img {
     width: 600px;
-  }
-  Editor > .tox .tox-tinymce {
-    height: 600px;
   }
 </style>

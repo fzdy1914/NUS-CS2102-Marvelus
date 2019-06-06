@@ -25,7 +25,7 @@
               </li>
             </ul>
             <form class="navbar-right">
-              <DatePicker ref="datePicker" v-on:updateSinceDate="updateSinceDate" v-on:updateUntilDate="updateUntilDate"/>
+              <DatePicker v-on:updateSinceDate="updateSinceDate" v-on:updateUntilDate="updateUntilDate"/>
             </form>
           </div><!-- /.navbar-collapse -->
         </nav>
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import DatePicker from '../DatePicker'
+import DatePicker from '../DoubleDatePicker'
 import AdminEvent from './AdminEvent'
 export default {
   name: 'AdminEventList',

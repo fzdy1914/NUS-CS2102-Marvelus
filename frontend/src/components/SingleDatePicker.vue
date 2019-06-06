@@ -1,9 +1,7 @@
 <template>
   <div class="date-picker">
     <div class="date-input">
-      <input class="form-control" type="text" placeholder="Since date" @focus="trueSinceDateBox" :value="sinceDate" readonly />
-      <span>&nbsp;-&nbsp;</span>
-      <input class="form-control" type="text" placeholder="Until date" @focus="trueUntilDateBox" :value="untilDate" readonly />
+      <input class="form-control" type="text" placeholder="Event date" @focus="trueDateBox" :value="date" readonly />
     </div>
     <transition name="fade">
       <div class="date-box" v-if="dateBoxFlag">
@@ -43,7 +41,10 @@
 
 <script>
 export default {
-  name: 'DatePicker',
+  name: 'SingleDatePicker',
+  props: {
+    inputDate: Number
+  },
   data () {
     return {
       dateBoxFlag: false,
@@ -53,32 +54,18 @@ export default {
       previousMonth: [],
       nextMonth: [],
       weekDay: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      monthDay: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-
-      isSince: true,
-      sinceYear: 0,
-      sinceMonth: 0,
-      sinceDay: 0,
-      untilYear: 0,
-      untilMonth: 0,
-      untilDay: 0
+      monthDay: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     }
   },
   mounted () {
-    let parse = this.$util.parse
-    let sinceDate = parse(this.$route.query.sinceDate)
-    let untilDate = parse(this.$route.query.untilDate)
-    if (sinceDate) {
-      sinceDate = new Date(sinceDate)
-      this.sinceYear = sinceDate.getFullYear()
-      this.sinceMonth = sinceDate.getMonth() + 1
-      this.sinceDay = sinceDate.getDate()
-    }
-    if (untilDate) {
-      untilDate = new Date(untilDate - 86400000)
-      this.untilYear = untilDate.getFullYear()
-      this.untilMonth = untilDate.getMonth() + 1
-      this.untilDay = untilDate.getDate()
+    console.log('a')
+    let date = this.inputDate
+    console.log(date)
+    if (this.inputDate) {
+      date = new Date(date)
+      this.year = date.getFullYear()
+      this.month = date.getMonth() + 1
+      this.day = date.getDate()
     }
   },
   computed: {
@@ -87,18 +74,6 @@ export default {
         return ''
       }
       return this.year + '-' + this.month + '-' + this.day
-    },
-    sinceDate () {
-      if (this.sinceYear === 0 || this.sinceMonth === 0 || this.sinceDay === 0) {
-        return ''
-      }
-      return this.sinceYear + '-' + this.sinceMonth + '-' + this.sinceDay
-    },
-    untilDate () {
-      if (this.untilYear === 0 || this.untilMonth === 0 || this.untilDay === 0) {
-        return ''
-      }
-      return this.untilYear + '-' + this.untilMonth + '-' + this.untilDay
     }
   },
   watch: {
@@ -129,19 +104,26 @@ export default {
         this.month = 12
       }
       this.dayScreen()
+    },
+    inputDate: function (val) {
+      if (!val || val === 0) {
+        this.year = 0
+        this.month = 0
+        this.day = 0
+      } else {
+        let date = new Date(val)
+        this.year = date.getFullYear()
+        this.month = date.getMonth() + 1
+        this.day = date.getDate()
+      }
     }
   },
   methods: {
     clearDate () {
-      if (this.isSince) {
-        this.sinceYear = 0
-        this.sinceMonth = 0
-        this.sinceDay = 0
-      } else {
-        this.untilYear = 0
-        this.untilMonth = 0
-        this.untilDay = 0
-      }
+      this.year = 0
+      this.month = 0
+      this.day = 0
+      this.$emit('updateDate', this.date)
       this.dateBoxFlag = false
     },
     isActive (index) {
@@ -151,30 +133,7 @@ export default {
         }
       }
     },
-    trueSinceDateBox () {
-      this.year = this.sinceYear
-      this.month = this.sinceMonth
-      this.day = this.sinceDay
-      this.isSince = true
-      if (this.date === '') {
-        let date = new Date()
-        this.year = date.getFullYear()
-        if (this.isLeapYear(this.year)) {
-          this.monthDay[1] = 29
-        } else {
-          this.monthDay[1] = 28
-        }
-        this.month = date.getMonth() + 1
-        this.day = date.getDate()
-      }
-      this.dayScreen()
-      this.dateBoxFlag = true
-    },
-    trueUntilDateBox () {
-      this.year = this.untilYear
-      this.month = this.untilMonth
-      this.day = this.untilDay
-      this.isSince = false
+    trueDateBox () {
       if (this.date === '') {
         let date = new Date()
         this.year = date.getFullYear()
@@ -243,17 +202,7 @@ export default {
       } else {
         this.day = parseInt(e.target.innerText)
       }
-      if (this.isSince) {
-        this.sinceYear = this.year
-        this.sinceMonth = this.month
-        this.sinceDay = this.day
-        this.$emit('updateSinceDate', this.sinceDate)
-      } else {
-        this.untilYear = this.year
-        this.untilMonth = this.month
-        this.untilDay = this.day
-        this.$emit('updateUntilDate', this.untilDate)
-      }
+      this.$emit('updateDate', this.date)
       this.dateBoxFlag = false
     },
     dayScreen () {
@@ -301,26 +250,21 @@ export default {
 <style scoped>
   .date-picker {
     width: 234px;
-    padding: 5px;
+    padding: 17px;
     position: relative;
   }
   .date-picker > .date-input > input {
     width: 46.5%;
-    margin-top: 3px;
     background-color: #FFFFFF;
     float:left;
-  }
-  .date-picker > .date-input > span {
-    width: 7%;
-    float:left;
-    margin-top: 6px;
-    font-size: 18px;
+    font-size: 16px;
+    padding: 10px 10px
   }
   .date-picker > .date-input {
-    top: 5px;
-    background-color: #F8F8F8;
-    border-color: #f8f8f8;
-    height: 44px
+    top: 0px;
+    height: 34px;
+    border: initial;
+    box-shadow: initial;
   }
   .date-picker .fade-enter-active, .date-picker .fade-leave-active {
     transition: all 0.5s;

@@ -21,7 +21,7 @@
             </li>
           </ul>
           <form class="navbar-right">
-            <DatePicker ref="datePicker" v-on:updateSinceDate="updateSinceDate" v-on:updateUntilDate="updateUntilDate"/>
+            <DatePicker v-on:updateSinceDate="updateSinceDate" v-on:updateUntilDate="updateUntilDate"/>
           </form>
         </div><!-- /.navbar-collapse -->
       </nav>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import DatePicker from '../DatePicker'
+import DatePicker from '../DoubleDatePicker'
 export default {
   name: 'EventList',
   components: {
@@ -231,7 +231,7 @@ export default {
       return this.$util.generateArray(this.startPage, this.endPage)
     },
     dropdownText: function () {
-      if (this.channelId) {
+      if (this.channels && this.channelId) {
         for (let channel of this.channels.slice(4)) {
           if (this.channelId === channel.id) {
             return channel.name
@@ -241,7 +241,7 @@ export default {
       return 'More Channels'
     },
     activeDropdown: function () {
-      if (this.channelId) {
+      if (this.channels && this.channelId) {
         for (let channel of this.channels.slice(4)) {
           if (this.channelId === channel.id) {
             return true

@@ -14,6 +14,7 @@ function generateArray (start, end) {
 }
 
 function encrypt (password) {
+  // eslint-disable-next-line
   let encryptor = new JSEncrypt()
 
   encryptor.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
