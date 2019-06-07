@@ -116,25 +116,31 @@ export default {
       })
     },
     submit: function () {
-      this.$axios.request({
-        url: this.$url + 'comments/' + this.eventId + '/',
-        method: 'POST',
-        data: {
-          title: this.commentTitle,
-          content: this.commentContent
-        }
-      }).then(response => {
-        let data = response.data
-        if (data.state === true) {
-          this.commentTitle = ''
-          this.commentContent = ''
-          this.error = null
-          this.$refs.navBar.goCommentPage(1, 1)
-          document.getElementById('close').click()
-        } else {
-          this.error = data.error
-        }
-      })
+      if (this.commentTitle === '') {
+        this.error = 'Empty comment title'
+      } else if (this.commentContent === '') {
+        this.error = 'Empty comment content'
+      } else {
+        this.$axios.request({
+          url: this.$url + 'comments/' + this.eventId + '/',
+          method: 'POST',
+          data: {
+            title: this.commentTitle,
+            content: this.commentContent
+          }
+        }).then(response => {
+          let data = response.data
+          if (data.state === true) {
+            this.commentTitle = ''
+            this.commentContent = ''
+            this.error = null
+            this.$refs.navBar.goCommentPage(1, 1)
+            document.getElementById('close').click()
+          } else {
+            this.error = data.error
+          }
+        })
+      }
     }
   },
   watch: {

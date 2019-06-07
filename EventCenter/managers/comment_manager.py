@@ -1,15 +1,15 @@
 from EventCenter.models import Comment
 from EventCenter.managers import event_manager, user_manager
+from jsonschema import Draft4Validator
+
+from EventCenter.managers.schemas import comment_schema
 
 
 def is_valid_comment(data):
     validation = {'state': False}
+    Draft4Validator(comment_schema).validate(data)
 
-    if data['title'] == '':
-        validation['error'] = 'Empty comment title'
-    elif data['content'] == '':
-        validation['error'] = 'Empty comment content'
-    elif not event_manager.is_event_exists(data['event_id']):
+    if not event_manager.is_event_exists(data['event_id']):
         validation['error'] = 'No such event'
     elif not user_manager.is_user_exists(data['user_id']):
         validation['error'] = 'No such user'

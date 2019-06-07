@@ -72,7 +72,8 @@ export default {
           offset: (index - 1) * this.limit,
           limit: this.limit,
           currentPage: index,
-          startPage: startPage
+          startPage: startPage,
+          fresh: !this.$route.query.fresh
         }
       })
     }

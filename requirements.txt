@@ -1,8 +1,11 @@
+attrs==19.1.0
 Django==2.2.1
 django-cors-headers==3.0.1
+jsonschema==3.0.1
 mysqlclient==1.4.2.post1
 pyasn1==0.4.5
 PyMySQL==0.9.3
+pyrsistent==0.15.2
 python-memcached==1.59
 pytz==2019.1
 rsa==4.0

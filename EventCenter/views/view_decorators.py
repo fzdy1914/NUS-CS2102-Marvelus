@@ -1,3 +1,5 @@
+from jsonschema import ValidationError
+
 from EventCenter.responses import error_json_response
 
 
@@ -15,6 +17,8 @@ def json_request(func):
             return func(*args, **kwargs)
         except ValueError:
             return error_json_response('Invalid JSON file')
+        except ValidationError as err:
+            return error_json_response(err.message)
         except (KeyError, TypeError):
             return error_json_response('Missing / Invalid arguments')
     return wrapper
