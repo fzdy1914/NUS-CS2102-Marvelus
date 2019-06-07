@@ -38,6 +38,8 @@ def event_detail(request, pk):
     elif request.method == 'DELETE':
         return delete_event(request, pk)
 
+    return error_json_response('No such API')
+
 
 @cache_page(60)
 @args_request

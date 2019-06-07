@@ -104,7 +104,7 @@ export default {
             timestamp: this.event.timestamp,
             location: this.event.location,
             image_url: this.event.image_url,
-            channel: this.event.channel
+            channel_name: this.event.channel
           }
         }).then(response => {
           let data = response.data
@@ -126,7 +126,7 @@ export default {
             timestamp: this.event.timestamp,
             location: this.event.location,
             image_url: this.event.image_url,
-            channel: this.event.channel
+            channel_name: this.event.channel
           }
         }).then(response => {
           let data = response.data
