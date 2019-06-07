@@ -10,19 +10,8 @@
 
         <EventList :events="events" :isAdmin="true" v-on:editEvent="editEvent" v-on:loadEvent="loadEvent"/>
 
-        <nav>
-          <ul class="pagination">
-            <li v-bind:class="{ disabled: startPage === 1 }">
-              <a @click="startPage=prevPage"><span>&laquo;</span></a>
-            </li>
-            <li v-for="index in indexArray" :key="index" :class="{ active: index === currentPage}">
-              <a @click="goPage(index)">{{ index }}</a>
-            </li>
-            <li v-bind:class="{ disabled: endPage === maxPage }">
-              <a @click="startPage=nextPage"><span>&raquo;</span></a>
-            </li>
-          </ul>
-        </nav>
+        <NavigationBar :isAdmin="true" :count="count"/>
+
         <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -68,9 +57,11 @@
 import AdminEvent from './AdminEvent'
 import EventList from '../EventList'
 import ChannelBar from '../ChannelBar'
+import NavigationBar from '../NavigationBar'
 export default {
   name: 'AdminEventListPage',
   components: {
+    NavigationBar,
     ChannelBar,
     EventList,
     AdminEvent
@@ -86,8 +77,6 @@ export default {
       offset: 0,
       limit: 15,
       channelId: null,
-      startPage: 1,
-      currentPage: 1,
       sinceDate: null,
       untilDate: null,
 
@@ -101,31 +90,17 @@ export default {
   mounted () {
     let parse = this.$util.parse
     this.channelId = parse(this.$route.query.channelId)
-    this.startPage = parse(this.$route.query.startPage) || 1
-    this.currentPage = parse(this.$route.query.currentPage) || 1
     this.offset = parse(this.$route.query.offset)
     this.sinceDate = parse(this.$route.query.sinceDate)
     this.untilDate = parse(this.$route.query.untilDate)
     this.isEdit = this.$route.query.isEdit === true || this.$route.query.isEdit === 'true'
     this.eventId = parse(this.$route.query.eventId)
+    if (this.$route.query.limit) {
+      this.limit = parse(this.$route.query.limit)
+    }
     this.updateEventList()
   },
   methods: {
-    goPage: function (index) {
-      this.$router.push({
-        name: 'AdminEventList',
-        query: {
-          offset: (index - 1) * this.limit,
-          channelId: this.channelId,
-          limit: this.limit,
-          currentPage: index,
-          startPage: this.startPage,
-          sinceDate: this.sinceDate,
-          untilDate: this.untilDate,
-          isEdit: false
-        }
-      })
-    },
     updateEventList: function () {
       this.$axios.request({
         url: this.$url + 'events/',
@@ -190,33 +165,36 @@ export default {
       }
     },
     editEvent: function (eventId) {
+      let query = this.$route.query
       this.$router.push({
         name: 'AdminEventList',
         query: {
-          offset: this.offset,
-          channelId: this.channelId,
-          limit: this.limit,
-          currentPage: this.index,
-          startPage: this.startPage,
-          sinceDate: this.sinceDate,
-          untilDate: this.untilDate,
+          offset: query.offset,
+          channelId: query.channelId,
+          limit: query.limit,
+          currentPage: query.currentPage,
+          startPage: query.startPage,
+          sinceDate: query.sinceDate,
+          untilDate: query.untilDate,
           isEdit: true,
           eventId: eventId
         }
       })
     },
     cancelEdit: function () {
+      let query = this.$route.query
       this.$router.push({
         name: 'AdminEventList',
         query: {
-          offset: this.offset,
-          channelId: this.channelId,
-          limit: this.limit,
-          currentPage: this.index,
-          startPage: this.startPage,
-          sinceDate: this.sinceDate,
-          untilDate: this.untilDate,
-          isEdit: false
+          offset: query.offset,
+          channelId: query.channelId,
+          limit: query.limit,
+          currentPage: query.currentPage,
+          startPage: query.startPage,
+          sinceDate: query.sinceDate,
+          untilDate: query.untilDate,
+          isEdit: false,
+          eventId: null
         }
       })
     }
@@ -226,34 +204,14 @@ export default {
       let parse = this.$util.parse
       this.offset = parse(to.query.offset)
       this.channelId = parse(to.query.channelId)
-      if (to.query.startPage) {
-        this.startPage = parse(to.query.startPage)
-      }
-      if (to.query.currentPage) {
-        this.currentPage = parse(to.query.currentPage)
-      }
       this.sinceDate = parse(to.query.sinceDate)
       this.untilDate = parse(to.query.untilDate)
       this.isEdit = to.query.isEdit === true || to.query.isEdit === 'true'
       this.eventId = parse(to.query.eventId)
+      if (to.query.limit) {
+        this.limit = parse(to.query.limit)
+      }
       this.updateEventList()
-    }
-  },
-  computed: {
-    maxPage: function () {
-      return Math.ceil(this.count / this.limit)
-    },
-    endPage: function () {
-      return this.startPage + 9 < this.maxPage ? this.startPage + 9 : this.maxPage
-    },
-    prevPage: function () {
-      return this.startPage - 10 < 1 ? 1 : this.startPage - 10
-    },
-    nextPage: function () {
-      return this.endPage === this.maxPage ? this.startPage : this.endPage + 1
-    },
-    indexArray: function () {
-      return this.$util.generateArray(this.startPage, this.endPage)
     }
   }
 }

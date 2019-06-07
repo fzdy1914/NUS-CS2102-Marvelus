@@ -58,9 +58,7 @@ export default {
     }
   },
   mounted () {
-    console.log('a')
     let date = this.inputDate
-    console.log(date)
     if (this.inputDate) {
       date = new Date(date)
       this.year = date.getFullYear()
