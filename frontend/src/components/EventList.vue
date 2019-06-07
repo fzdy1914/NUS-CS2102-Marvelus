@@ -44,7 +44,8 @@ export default {
         },
         query: {
           startPage: 1,
-          currentPage: 1
+          currentPage: 1,
+          limit: 5
         }
       })
     },

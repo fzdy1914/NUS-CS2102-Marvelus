@@ -18,6 +18,9 @@
 export default {
   name: 'NavigationBar',
   props: {
+    isComment: Boolean,
+    eventId: Number,
+
     isAdmin: Boolean,
     count: Number
   },
@@ -38,6 +41,13 @@ export default {
   },
   methods: {
     goPage: function (index) {
+      if (this.isComment) {
+        this.goCommentPage(index, this.startPage)
+      } else {
+        this.goEventPage(index)
+      }
+    },
+    goEventPage: function (index) {
       let query = this.$route.query
       this.$router.push({
         name: this.isAdmin ? 'AdminEventList' : 'EventList',
@@ -49,6 +59,20 @@ export default {
           startPage: this.startPage,
           sinceDate: query.sinceDate,
           untilDate: query.untilDate
+        }
+      })
+    },
+    goCommentPage: function (index, startPage) {
+      this.$router.push({
+        name: 'Event',
+        params: {
+          eventId: this.eventId
+        },
+        query: {
+          offset: (index - 1) * this.limit,
+          limit: this.limit,
+          currentPage: index,
+          startPage: startPage
         }
       })
     }

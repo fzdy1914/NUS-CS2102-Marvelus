@@ -51,19 +51,9 @@
           </tr>
         </tbody>
       </table>
-      <nav>
-        <ul class="pagination">
-          <li v-bind:class="{ disabled: startPage === 1 }">
-            <a @click="startPage=prevPage"><span>&laquo;</span></a>
-          </li>
-          <li v-for="index in indexArray" :key="index" :class="{ active: index === currentPage}">
-            <a @click="goPage(index)">{{ index }}</a>
-          </li>
-          <li v-bind:class="{ disabled: endPage === maxPage }">
-            <a @click="startPage=nextPage"><span>&raquo;</span></a>
-          </li>
-        </ul>
-      </nav>
+
+      <NavigationBar ref="navBar" :isComment="true" :count="count" :eventId="eventId"/>
+
     </div>
     <div v-else>
       <h3>{{ msg }}</h3>
@@ -72,21 +62,24 @@
 </template>
 
 <script>
+import NavigationBar from '../NavigationBar'
 export default {
   name: 'CommentList',
+  components: {
+    NavigationBar
+  },
   props: {
     eventId: Number
   },
   data () {
     return {
       msg: 'Network Error',
+      count: null,
       comments: null,
       state: false,
 
       offset: 0,
       limit: 5,
-      startPage: 1,
-      currentPage: 1,
 
       commentTitle: '',
       commentContent: '',
@@ -95,27 +88,13 @@ export default {
   },
   mounted () {
     let parse = this.$util.parse
-    this.startPage = parse(this.$route.query.startPage) || 1
-    this.currentPage = parse(this.$route.query.currentPage) || 1
     this.offset = parse(this.$route.query.offset)
+    if (this.$route.query.limit) {
+      this.limit = parse(this.$route.query.limit)
+    }
     this.updateCommentList()
   },
   methods: {
-    goPage: function (index) {
-      this.$router.push({
-        name: 'Event',
-        params: {
-          eventId: this.eventId
-        },
-        query: {
-          offset: (index - 1) * this.limit,
-          limit: this.limit,
-          currentPage: index,
-          startPage: this.startPage
-        }
-      })
-      this.currentPage = index
-    },
     updateCommentList: function () {
       this.$axios.request({
         url: this.$url + 'comments/' + this.eventId + '/',
@@ -147,14 +126,10 @@ export default {
       }).then(response => {
         let data = response.data
         if (data.state === true) {
-          this.state = true
-          this.startPage = 1
-          this.goPage(1)
-          this.comments.unshift(data.data.comment)
-          this.comments.splice(this.limit, 1)
           this.commentTitle = ''
           this.commentContent = ''
           this.error = null
+          this.$refs.navBar.goCommentPage(1, 1)
           document.getElementById('close').click()
         } else {
           this.error = data.error
@@ -166,30 +141,10 @@ export default {
     '$route' (to, from) {
       let parse = this.$util.parse
       this.offset = parse(to.query.offset)
-      if (to.query.startPage) {
-        this.startPage = parse(to.query.startPage)
-      }
-      if (to.query.currentPage) {
-        this.currentPage = parse(to.query.currentPage)
+      if (to.query.limit) {
+        this.limit = parse(to.query.limit)
       }
       this.updateCommentList()
-    }
-  },
-  computed: {
-    maxPage: function () {
-      return Math.ceil(this.count / this.limit)
-    },
-    endPage: function () {
-      return this.startPage + 9 < this.maxPage ? this.startPage + 9 : this.maxPage
-    },
-    prevPage: function () {
-      return this.startPage - 10 < 1 ? 1 : this.startPage - 10
-    },
-    nextPage: function () {
-      return this.endPage === this.maxPage ? this.startPage : this.endPage + 1
-    },
-    indexArray: function () {
-      return this.$util.generateArray(this.startPage, this.endPage)
     }
   }
 }
