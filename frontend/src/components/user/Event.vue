@@ -6,7 +6,7 @@
           <a @click="goChannel(null)">EventCenter</a>
         </li>
         <li>
-          <a @click="goChannel(event.channel_id)">{{ event.channel }}</a>
+          <a @click="goChannel(event.channel_id)">{{ event.channel_name }}</a>
         </li>
         <li class="active">{{ event.title }}</li>
       </ul>

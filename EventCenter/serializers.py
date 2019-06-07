@@ -24,7 +24,7 @@ def event_serializer(event):
               'location': event.location,
               'image_url': event.image_url,
               'channel_id': event.channel_id,
-              'channel': event.channel.name,
+              'channel_name': event.channel.name,
               'likes': Like.objects.filter(event=event).count()
               }
     return fields

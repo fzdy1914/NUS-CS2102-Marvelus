@@ -1,4 +1,7 @@
+from jsonschema import Draft4Validator
+
 from EventCenter.models import Event
+from EventCenter.managers.schemas import event_schema
 from . import channel_manager
 
 
@@ -9,20 +12,10 @@ def is_event_exists(event_id):
 def is_valid_event(data):
     validation = {'state': False}
 
-    if data['title'] == '':
-        validation['error'] = 'Empty event title'
-    elif data['channel_name'] == '':
-        validation['error'] = 'Empty event channel'
-    elif not channel_manager.is_channel_name_exists(data['channel_name']):
+    Draft4Validator(event_schema).validate(data)
+
+    if not channel_manager.is_channel_name_exists(data['channel_name']):
         validation['error'] = 'No such channel'
-    elif data['location'] == '':
-        validation['error'] = 'Empty event location'
-    elif not str(data['timestamp']).isdigit():
-        validation['error'] = 'Invalid / Empty event time'
-    elif data['description'] == '':
-        validation['error'] = 'Empty event description'
-    elif data['image_url'] == '':
-        validation['error'] = 'Empty event image url'
     else:
         validation['state'] = True
 

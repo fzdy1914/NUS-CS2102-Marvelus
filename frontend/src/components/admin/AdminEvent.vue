@@ -8,7 +8,7 @@
       </div>
       <div class="form-group">
         <h3>Event channel: (case insensitive)</h3>
-        <input type="text" class="form-control" placeholder="Event channel" v-model="event.channel"/>
+        <input type="text" class="form-control" placeholder="Event channel" v-model="event.channel_name"/>
       </div>
       <div class="form-group">
         <h3>Event location:</h3>
@@ -60,7 +60,7 @@ export default {
         timestamp: 0,
         description: '',
         image_url: '',
-        channel: ''
+        channel_name: ''
       },
       tinymceInit: {
         height: 400,
@@ -94,53 +94,60 @@ export default {
       this.$emit('cancelEdit')
     },
     submit: function () {
-      if (this.eventId) {
-        this.$axios.request({
-          url: this.$url + 'event/' + this.eventId + '/',
-          method: 'PUT',
-          data: {
-            title: this.event.title,
-            description: this.event.description,
-            timestamp: this.event.timestamp,
-            location: this.event.location,
-            image_url: this.event.image_url,
-            channel_name: this.event.channel
-          }
-        }).then(response => {
-          let data = response.data
-          if (data.state === true) {
-            this.error = null
-            this.$emit('replaceEvent', data.data.event)
-            document.getElementById('close').click()
-          } else {
-            this.error = data.error
-          }
-        })
-      } else {
-        this.$axios.request({
-          url: this.$url + 'events/',
-          method: 'POST',
-          data: {
-            title: this.event.title,
-            description: this.event.description,
-            timestamp: this.event.timestamp,
-            location: this.event.location,
-            image_url: this.event.image_url,
-            channel_name: this.event.channel
-          }
-        }).then(response => {
-          let data = response.data
-          if (data.state === true) {
-            this.error = null
-            this.$router.push({name: 'AdminEventList'})
-          } else {
-            this.error = data.error
-          }
-        })
+      this.validate()
+      if (!this.error) {
+        if (this.eventId) {
+          this.$axios.request({
+            url: this.$url + 'event/' + this.eventId + '/',
+            method: 'PUT',
+            data: this.event
+          }).then(response => {
+            let data = response.data
+            if (data.state === true) {
+              this.error = null
+              this.$emit('replaceEvent', data.data.event)
+              document.getElementById('close').click()
+            } else {
+              this.error = data.error
+            }
+          })
+        } else {
+          this.$axios.request({
+            url: this.$url + 'events/',
+            method: 'POST',
+            data: this.event
+          }).then(response => {
+            let data = response.data
+            if (data.state === true) {
+              this.error = null
+              this.$router.push({name: 'AdminEventList'})
+            } else {
+              this.error = data.error
+            }
+          })
+        }
       }
     },
     updateDate: function (date) {
-      this.event.timestamp = date === '' ? null : Date.parse(date)
+      this.event.timestamp = date === '' ? 0 : Date.parse(date)
+    },
+    validate: function () {
+      let event = this.event
+      if (event.title === '') {
+        this.error = 'Empty event title'
+      } else if (event.channel_name === '') {
+        this.error = 'Empty event channel'
+      } else if (event.location === '') {
+        this.error = 'Empty event location'
+      } else if (event.timestamp === 0) {
+        this.error = 'Empty event date'
+      } else if (event.description === '') {
+        this.error = 'Empty event description'
+      } else if (event.image_url === '') {
+        this.error = 'Empty event image url'
+      } else {
+        this.error = null
+      }
     }
   },
   watch: {
@@ -154,7 +161,7 @@ export default {
           timestamp: 0,
           description: '',
           image_url: '',
-          channel: ''
+          channel_name: ''
         }
       }
     }
