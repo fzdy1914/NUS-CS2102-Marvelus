@@ -1,4 +1,7 @@
+from jsonschema import Draft4Validator
+
 from EventCenter.models import Channel
+from EventCenter.managers.schemas import channel_schema
 
 
 def is_channel_exists(pk):
@@ -25,9 +28,9 @@ def is_valid_channel(data):
     validation = {'state': False}
     name = data['name']
 
-    if name == '':
-        validation['error'] = 'Empty channel name'
-    elif is_channel_name_exists(name):
+    Draft4Validator(channel_schema).validate(data)
+
+    if is_channel_name_exists(name):
         validation['error'] = 'Duplicated channel name'
     else:
         validation['state'] = True

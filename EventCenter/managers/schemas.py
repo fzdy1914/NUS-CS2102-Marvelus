@@ -47,3 +47,14 @@ event_schema = {
         }
     }
 }
+
+channel_schema = {
+    'type': 'object',
+    'properties': {
+        'name': {
+            'type': 'string',
+            'minLength': 1,
+            'maxLength': 128
+        }
+    }
+}

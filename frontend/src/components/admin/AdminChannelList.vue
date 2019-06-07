@@ -47,7 +47,7 @@
                   <label>Id: {{ channelId }}</label>
                 </div>
                 <div class="form-group">
-                  <label>Name</label>
+                  <label>Name: (case insensitive)</label>
                   <input v-if="isEdit" type="text" class="form-control" placeholder="Channel Name" v-model="channelName"/>
                   <p v-else>{{ channelName }}</p>
                 </div>
@@ -142,25 +142,29 @@ export default {
       })
     },
     submit: function () {
-      this.$axios.request({
-        url: this.$url + 'channels/',
-        method: 'PUT',
-        data: {
-          id: this.channelId,
-          name: this.channelName
-        }
-      }).then(response => {
-        let data = response.data
-        if (data.state === true) {
-          this.replaceChannel(data.data.channel)
-          this.channelId = ''
-          this.channelName = ''
-          this.error = null
-          document.getElementById('close').click()
-        } else {
-          this.error = data.error
-        }
-      })
+      if (this.channelName === '') {
+        this.error = 'Empty channel name'
+      } else {
+        this.$axios.request({
+          url: this.$url + 'channels/',
+          method: 'PUT',
+          data: {
+            id: this.channelId,
+            name: this.channelName
+          }
+        }).then(response => {
+          let data = response.data
+          if (data.state === true) {
+            this.replaceChannel(data.data.channel)
+            this.channelId = ''
+            this.channelName = ''
+            this.error = null
+            document.getElementById('close').click()
+          } else {
+            this.error = data.error
+          }
+        })
+      }
     },
     deleteChannel: function () {
       this.$axios.request({
