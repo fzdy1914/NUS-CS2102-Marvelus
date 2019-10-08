@@ -13,21 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import TemplateView
+from django.urls import path
 
-from EventCenter.views_helper import index, event_detail_a
+from luminus import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
-    path('api/', include('EventCenter.urls')),
-    path('new/', include('luminus.urls')),
-
-    # path('event-center/index/', index, name='event_index'),
-    # path('event-center/event/<int:event_id>/', event_detail_a, name='detail'),
-
-    path('index/', TemplateView.as_view(template_name="index.html"), name='frontend'),
-    path('', TemplateView.as_view(template_name="index.html"), name='frontend'),
+    path('test/', views.template),
 ]
