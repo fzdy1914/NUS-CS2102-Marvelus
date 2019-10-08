@@ -19,4 +19,6 @@ from luminus import views
 
 urlpatterns = [
     path('test/', views.template),
+
+    path('course/<code>/', views.get_course),
 ]
