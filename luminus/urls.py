@@ -21,4 +21,12 @@ urlpatterns = [
     path('test/', views.template),
 
     path('course/<code>/', views.get_course),
+
+    path('course/code/<code>/', views.get_course_by_code),
+
+    path('course/puname/<puname>/', views.get_course_by_puname),
+
+    path('course/tuname/<tuname>/', views.get_course_by_tuname),
+
+    path('course/suname/<suname>/', views.get_course_by_suname),
 ]
