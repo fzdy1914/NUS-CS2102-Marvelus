@@ -15,10 +15,17 @@ Including another URLconf
 """
 from django.urls import path
 
-from luminus import views
+from luminus.views import course_view,tut_view
+
 
 urlpatterns = [
-    path('test/', views.template),
+    path('test/', course_view.template),
 
-    path('course/<code>/', views.get_course),
+    path('course/<code>/', course_view.get_course),
+
+
+    path('tutorial/<code>/',tut_view.get_tutorials_by_coursecode),
+    path('tutorial/<code>/<num>/',tut_view.get_tutorials_by_course_and_group),
+    path('tutorial/<username>/',tut_view.get_tutorials_by_student),
+    path('tutorial/<username>/<code>/',tut_view.get_tutorials_by_tA_and_course),
 ]

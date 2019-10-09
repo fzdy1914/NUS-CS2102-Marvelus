@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 
 from luminus.managers import course_manager
-from . import sql_helper
+
+from luminus import sql_helper
 
 
 def template(request):
@@ -14,3 +15,4 @@ def template(request):
 def get_course(request, code):
     course = course_manager.get_course(code)
     return HttpResponse(str(course), status=200)
+
