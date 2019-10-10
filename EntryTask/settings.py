@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'EventCenter',
+    'luminus',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +112,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'entrytask',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST':'localhost',
+        'PORT':'3306',
+    },
+    'luminus': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'luminus',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST':'localhost',
