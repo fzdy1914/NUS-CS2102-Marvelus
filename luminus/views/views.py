@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
 from luminus.managers import course_manager
-from . import sql_helper
+from luminus import sql_helper
 
 
 def template(request):
