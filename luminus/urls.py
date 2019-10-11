@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from luminus.views import course_view, prof_view, TA_view, student_view
+from luminus.views import course_view, prof_view, TA_view, student_view, forum_view
 
 from luminus import views_helper
 
@@ -33,6 +33,9 @@ urlpatterns = [
     path('course/puname/<puname>/', course_view.get_course_by_puname),
     path('course/tuname/<tuname>/', course_view.get_course_by_tuname),
     path('course/suname/<suname>/', course_view.get_course_by_suname),
+
+    path('forum/code/<code>/', forum_view.get_forum_by_code),
+    path('forum/<code>/<group_num>/', forum_view.get_forum_by_code_and_group_num),
 
     # path('add/', views_helper.add_participator),
 ]
