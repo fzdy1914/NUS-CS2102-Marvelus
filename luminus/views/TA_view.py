@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 
 from luminus.managers import TA_manager
-from luminus import sql_helper
 
 
 def get_TAs_by_coursecode(code):

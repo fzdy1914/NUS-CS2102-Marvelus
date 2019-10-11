@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 
 from luminus.managers import prof_manager
-from luminus import sql_helper
 
 
 def get_profs_by_username(username):
