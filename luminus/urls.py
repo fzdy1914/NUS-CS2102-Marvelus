@@ -20,11 +20,11 @@ from luminus.views import views, course_view, prof_view, TA_view, student_view
 urlpatterns = [
     path('test/', views.template),
 
-    path('prof/<code>/', prof_view.get_profs_by_coursecode),
-    path('prof/<username>/', prof_view.get_profs_by_username),
-    path('TA/<code>/', TA_view.get_TAs_by_coursecode),
+    path('prof/code/<code>/', prof_view.get_profs_by_coursecode),
+    path('prof/uname/<username>/', prof_view.get_profs_by_username),
+    path('TA/code/<code>/', TA_view.get_TAs_by_coursecode),
     path('TA/<code>/<group_num>/', TA_view.get_TAs_by_coursecode_and_groupnum),
-    path('student/<code>/', student_view.get_students_by_coursecode),
+    path('student/code/<code>/', student_view.get_students_by_coursecode),
     path('student/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
 
     path('course/code/<code>/', course_view.get_course_by_code),
