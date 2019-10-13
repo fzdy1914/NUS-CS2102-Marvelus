@@ -24,8 +24,8 @@ urlpatterns = [
     path('course/<code>/', course_view.get_course),
 
 
-    path('tutorial/<code>/',tut_view.get_tutorials_by_coursecode),
-    path('tutorial/<code>/<num>/',tut_view.get_tutorials_by_course_and_group),
-    path('tutorial/<username>/',tut_view.get_tutorials_by_student),
-    path('tutorial/<username>/<code>/',tut_view.get_tutorials_by_tA_and_course),
+    path('tutorial/code/<code>/',tut_view.get_tutorials_by_coursecode),
+    path('tutorial/uname/<username>/',tut_view.get_tutorials_by_student),
+    path('tutorial/ta/<username>/<code>/',tut_view.get_tutorials_by_tA_and_course),
+    path('tutorial/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 ]
