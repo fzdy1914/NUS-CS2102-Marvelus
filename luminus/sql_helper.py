@@ -5,7 +5,6 @@ def exec_sql(sql, params=None, db='luminus'):
     cursor = connections[db].cursor()
     cursor.execute(sql, params)
     cursor.close()
-    cursor.last_insert_id()
     return True
 
 
