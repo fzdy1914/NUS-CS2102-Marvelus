@@ -39,9 +39,9 @@ urlpatterns = [
     path('post/<code>/<fid>/', post_view.get_post_by_code_and_fid),
     path('post/<code>/<fid>/<pid>/', post_view.get_post_by_code_and_fid_and_pid),
 
-    path('tutorial/code/<code>/',tut_view.get_tutorials_by_coursecode),
-    path('tutorial/uname/<username>/',tut_view.get_tutorials_by_student),
-    path('tutorial/ta/<username>/<code>/',tut_view.get_tutorials_by_tA_and_course),
+    path('tutorial/code/<code>/', tut_view.get_tutorials_by_coursecode),
+    path('tutorial/uname/<username>/', tut_view.get_tutorials_by_student),
+    path('tutorial/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorial/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
     # path('add/', views_helper.add_participator),

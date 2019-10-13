@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-
-
 import os
 import logging
 import django.utils.log
@@ -115,7 +113,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'entrytask',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'root',
         'HOST':'localhost',
         'PORT':'3306',
     },
@@ -123,7 +121,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'luminus',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'root',
         'HOST':'localhost',
         'PORT':'3306',
     }
