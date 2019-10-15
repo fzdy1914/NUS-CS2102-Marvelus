@@ -233,3 +233,8 @@ CACHES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'luminus.MyAuthenticationBackend.MyAuthenticationBackend',
+)
+
+AUTH_USER_MODEL = 'luminus.User'

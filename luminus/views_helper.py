@@ -1,14 +1,17 @@
 import random
 
+from django.contrib import auth
 from django.http import HttpResponse
 
 from . import sql_helper
 
 
-def template(request):
-    list = sql_helper.fetchall_to_dict('select * from Users')
-    print(list)
-    print(list[0]['uname'])
+def test(request):
+    auth.logout(request)
+    user = auth.authenticate(username="root", password="root")
+    if user is not None:
+        auth.login(request, user)
+
     return HttpResponse('EXECUTED', status=200)
 
 

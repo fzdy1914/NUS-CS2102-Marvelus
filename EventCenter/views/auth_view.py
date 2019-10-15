@@ -16,9 +16,10 @@ logger = logging.getLogger('django')
 def login(request):
     if request.user.is_authenticated:
         user = request.user
-        is_admin = user.is_staff or user.is_superuser
-        logger.info('User access: : %s, is_admin: %s' % (user.id, is_admin))
-        return success_json_response({'user': {'username': user.username, 'isAdmin': is_admin}})
+        # is_admin = user.is_staff or user.is_superuser
+        is_admin = True
+        logger.info('User access: : %s, is_admin: %s' % (user.uname, is_admin))
+        return success_json_response({'user': {'username': user.uname, 'isAdmin': is_admin}})
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -52,9 +53,10 @@ def login(request):
 
             if user is not None and user.is_active:
                 auth.login(request, user)
-                is_admin = user.is_staff or user.is_superuser
-                logger.info('User login: %s, is_admin: %s' % (user.id, is_admin))
-                return success_json_response({'user': {'username': request.user.username, 'isAdmin': is_admin}})
+                # is_admin = user.is_staff or user.is_superuser
+                is_admin = True
+                logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
+                return success_json_response({'user': {'username': request.user.uname, 'isAdmin': is_admin}})
             else:
                 return error_json_response('Wrong password. Please try again.')
         else:

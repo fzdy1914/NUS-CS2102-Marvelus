@@ -20,7 +20,7 @@ from luminus.views import course_view, prof_view, TA_view, student_view, forum_v
 from luminus import views_helper
 
 urlpatterns = [
-    path('test/', views_helper.template),
+    path('test/', views_helper.test),
 
     path('prof/code/<code>/', prof_view.get_profs_by_coursecode),
     path('prof/uname/<username>/', prof_view.get_profs_by_username),
