@@ -8,7 +8,7 @@ def exec_sql(sql, params=None, db='luminus'):
     return True
 
 
-def fetchone_sql(sql, params = None, db='luminus', flat=False):
+def fetchone_sql(sql, params=None, db='luminus', flat=False):
     cursor = connections[db].cursor()
     cursor.execute(sql, params)
     fetchone = cursor.fetchone()
@@ -22,8 +22,12 @@ def fetchone_to_dict(sql, params=None, db='luminus'):
     cursor = connections[db].cursor()
     cursor.execute(sql, params)
     desc = cursor.description
-    row = dict(zip([col[0] for col in desc], cursor.fetchone()))
-    cursor.close()
+    try:
+        row = dict(zip([col[0] for col in desc], cursor.fetchone()))
+    except TypeError:
+        return None
+    finally:
+        cursor.close()
     return row
 
 
@@ -41,9 +45,13 @@ def fetchall_to_dict(sql, params=None, db='luminus'):
     cursor = connections[db].cursor()
     cursor.execute(sql, params)
     desc = cursor.description
-    object_list = [
-        dict(zip([col[0] for col in desc], row))
-        for row in cursor.fetchall()
-    ]
-    cursor.close()
+    try:
+        object_list = [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+        ]
+    except TypeError:
+        return None
+    finally:
+        cursor.close()
     return object_list
