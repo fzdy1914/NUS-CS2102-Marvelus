@@ -20,7 +20,8 @@ from luminus.views import course_view, prof_view, TA_view, student_view, forum_v
 from luminus import views_helper
 
 urlpatterns = [
-    path('test/', views_helper.test),
+    path('login/', views_helper.login_root),
+    path('logout/', views_helper.logout),
 
     path('prof/code/<code>/', prof_view.get_profs_by_coursecode),
     path('prof/uname/<username>/', prof_view.get_profs_by_username),
@@ -29,10 +30,11 @@ urlpatterns = [
     path('student/code/<code>/', student_view.get_students_by_coursecode),
     path('student/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
 
+    path('courses/', course_view.get_courses),
     path('course/code/<code>/', course_view.get_course_by_code),
-    path('course/puname/<puname>/', course_view.get_course_by_puname),
-    path('course/tuname/<tuname>/', course_view.get_course_by_tuname),
-    path('course/suname/<suname>/', course_view.get_course_by_suname),
+    path('courses/puname/<puname>/', course_view.get_courses_by_puname),
+    path('courses/tuname/<tuname>/', course_view.get_courses_by_tuname),
+    path('courses/suname/<suname>/', course_view.get_courses_by_suname),
 
     path('forum/code/<code>/', forum_view.get_forum_by_code),
     path('forum/<code>/<group_num>/', forum_view.get_forum_by_code_and_group_num),

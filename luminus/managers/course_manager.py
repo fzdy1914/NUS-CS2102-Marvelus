@@ -1,10 +1,5 @@
 from luminus import sql_helper
 
-
-def get_course(code):
-    return sql_helper.fetchone_to_dict("SELECT * FROM Courses WHERE code = %(code)s", {'code': code})
-
-
 def get_course_by_code(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Courses WHERE code = %(code)s", {'code': code})
 

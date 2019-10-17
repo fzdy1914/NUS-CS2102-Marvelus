@@ -51,7 +51,7 @@ def login(request):
 
             user = auth.authenticate(username=username, password=password)
 
-            if user is not None and user.is_active:
+            if user is not None:  # and user.is_active:
                 auth.login(request, user)
                 # is_admin = user.is_staff or user.is_superuser
                 is_admin = True

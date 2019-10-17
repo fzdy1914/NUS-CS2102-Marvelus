@@ -3,16 +3,21 @@ import random
 from django.contrib import auth
 from django.http import HttpResponse
 
+from luminus.responses import success_json_response
 from . import sql_helper
 
 
-def test(request):
-    auth.logout(request)
+def login_root(request):
     user = auth.authenticate(username="root", password="root")
     if user is not None:
         auth.login(request, user)
+    return success_json_response({'user': {'username': user.uname}})
 
-    return HttpResponse('EXECUTED', status=200)
+
+def logout(request):
+    auth.logout(request)
+
+    return HttpResponse('Logged Out', status=200)
 
 
 def add_user(request):
