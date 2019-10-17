@@ -13,15 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.urls import path
 
-from luminus.views import course_view, prof_view, TA_view, student_view, forum_view, post_view, tut_view
+from luminus.views import course_view, prof_view, TA_view, student_view, forum_view, post_view, tut_view, auth_view
 
 from luminus import views_helper
 
 urlpatterns = [
-    path('login/', views_helper.login_root),
-    path('logout/', views_helper.logout),
+    path('login/', auth_view.login),
+    path('logout/', auth_view.logout),
 
     path('prof/code/<code>/', prof_view.get_profs_by_coursecode),
     path('prof/uname/<username>/', prof_view.get_profs_by_username),
@@ -45,6 +46,8 @@ urlpatterns = [
     path('tutorial/uname/<username>/', tut_view.get_tutorials_by_student),
     path('tutorial/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorial/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
+
+    url(r'', auth_view.default)
 
     # path('add/', views_helper.add_participator),
 ]

@@ -14,12 +14,6 @@ def login_root(request):
     return success_json_response({'user': {'username': user.uname}})
 
 
-def logout(request):
-    auth.logout(request)
-
-    return HttpResponse('Logged Out', status=200)
-
-
 def add_user(request):
     sql = 'insert into Users values (%(username)s, %(password)s, %(name)s, %(email)s)'
     for i in range(20):

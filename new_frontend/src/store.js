@@ -5,10 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    username: null,
+    isAdmin: false
   },
   mutations: {
-
+    setUsername (state, username) {
+      state.username = username
+    },
+    isAdmin (state, isAdmin) {
+      state.isAdmin = isAdmin
+    }
   },
   actions: {
 
