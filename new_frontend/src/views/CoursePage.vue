@@ -1,17 +1,22 @@
 <template>
   <div class="module-page">
     <NavBar :showAssists="assists" :whichActive="'courses'"/>
-    <div v-for="course in courses">{{ course.code }}</div>
+    <SidebarMenu/>
+    <div class="placeholder"><router-view :courses="courses" :assists="assists"/></div>
   </div>
 </template>
 
 <script>
-import NavBar from "../components/NavBar";
+import NavBar from '../components/NavBar'
+import SidebarMenu from '../components/SidebarMenu'
+import Sidebar from 'primevue/sidebar';
 
 export default {
   name: 'CoursePage',
   components: {
-    NavBar
+    SidebarMenu,
+    NavBar,
+    Sidebar
   },
   data () {
     return {
@@ -44,3 +49,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.placeholder {
+  width: calc(100% - 175px);
+  float:right;
+}
+</style>

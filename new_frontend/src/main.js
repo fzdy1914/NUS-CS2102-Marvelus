@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import util from './util'
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import 'primevue/resources/themes/nova-light/theme.css'
+import 'primevue/resources/primevue.min.css'
+import 'primeicons/primeicons.css'
 
 const backendUrl = 'http://127.0.0.1:8000/new/'
 
