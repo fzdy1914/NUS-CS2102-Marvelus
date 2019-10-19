@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     username: null,
-    isAdmin: false
+    isAdmin: false,
+    isProf: true
   },
   mutations: {
     setUsername (state, username) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     isAdmin (state, isAdmin) {
       state.isAdmin = isAdmin
+    },
+    isProf (state, isProf) {
+      state.isProf = isProf
     }
   },
   actions: {

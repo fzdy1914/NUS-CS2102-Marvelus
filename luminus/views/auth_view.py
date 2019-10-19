@@ -8,6 +8,7 @@ from rsa import DecryptionError
 
 from EventCenter.forms import LoginForm
 from EventCenter.responses import success_json_response, error_json_response
+from luminus.managers import prof_manager
 
 logger = logging.getLogger('django')
 
@@ -17,9 +18,14 @@ def login(request):
     if request.user.is_authenticated:
         user = request.user
         # is_admin = user.is_staff or user.is_superuser
+        prof = prof_manager.get_profs_by_username(user.uname)
+        if len(prof) > 0:
+            is_prof = True
+        else:
+            is_prof = False
         is_admin = True
         logger.info('User access: : %s, is_admin: %s' % (user.uname, is_admin))
-        return success_json_response({'user': {'username': user.uname, 'isAdmin': is_admin}})
+        return success_json_response({'user': {'username': user.uname, 'isAdmin': is_admin, 'isProf': is_prof}})
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -54,9 +60,16 @@ def login(request):
             if user is not None:  # and user.is_active:
                 auth.login(request, user)
                 # is_admin = user.is_staff or user.is_superuser
+                prof = prof_manager.get_profs_by_username(user.uname)
+                if len(prof) > 0:
+                    is_prof = True
+                else:
+                    is_prof = False
                 is_admin = True
                 logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
-                return success_json_response({'user': {'username': request.user.uname, 'isAdmin': is_admin}})
+                return success_json_response({'user': {'username': request.user.uname,
+                                                       'isAdmin': is_admin,
+                                                       'isProf': is_prof}})
             else:
                 return error_json_response('Wrong password. Please try again.')
         else:

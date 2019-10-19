@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import util from './util'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 const backendUrl = 'http://127.0.0.1:8000/new/'
 
@@ -29,6 +31,7 @@ router.beforeEach((to, from, next) => {
       if (data.state) {
         store.commit('setUsername', data.data.user.username)
         store.commit('isAdmin', data.data.user.isAdmin)
+        store.commit('isProf', data.data.user.isProf)
         if (to.meta.requireAdmin && !store.state.isAdmin) {
           next({name: 'Index'})
         } else {

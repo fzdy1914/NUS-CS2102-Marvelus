@@ -1,23 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <div v-for="course in courses">{{ course.code }}</div>>
+  <div class="module-page">
+    <NavBar :showAssists="assists" :whichActive="'courses'"/>
+    <div v-for="course in courses">{{ course.code }}</div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import NavBar from "../components/NavBar";
 
 export default {
-  name: 'home',
+  name: 'CoursePage',
   components: {
-    HelloWorld
+    NavBar
   },
   data () {
     return {
       msg: 'Network Error',
       courses: null,
+      assists: null,
       state: false,
     }
   },
@@ -34,6 +34,7 @@ export default {
         if (data.state === true) {
           this.state = true
           this.courses = data.data.courses
+          this.assists = data.data.assists
         } else {
           this.state = false
           this.msg = data.error
