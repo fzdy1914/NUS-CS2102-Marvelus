@@ -6,7 +6,7 @@ def get_courses(request):
     user = request.user
     if request.user.is_authenticated:
         uname = user.uname
-        puname = prof_manager.get_profs_by_username(uname)
+        puname = prof_manager.get_prof_by_username(uname)
         if len(puname) > 0:
             return get_courses_by_puname(request, puname)
 

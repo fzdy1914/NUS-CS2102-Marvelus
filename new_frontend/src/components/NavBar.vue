@@ -26,17 +26,18 @@ export default {
   },
   methods: {
     goCourses: function () {
-      if (this.whichActive != 'courses') {
+
+      if (this.$route.name != 'CourseList') {
         this.$router.push({name: 'CourseList'})
       }
     },
     goSearch: function () {
-      if (this.whichActive != 'search') {
+      if (this.$route.name != 'CourseSearch') {
         this.$router.push({name: 'CourseSearch'})
       }
     },
     goAssists: function () {
-      if (this.whichActive != 'assists') {
+      if (this.$route.name != 'AssistList') {
         this.$router.push({name: 'AssistList'})
       }
     }

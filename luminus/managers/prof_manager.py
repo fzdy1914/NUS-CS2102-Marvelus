@@ -1,7 +1,7 @@
 from luminus import sql_helper
 
 
-def get_profs_by_username(username):
+def get_prof_by_username(username):
     return sql_helper.fetchall_to_dict("SELECT name, email, expr FROM Users NATURAL JOIN Profs"
                                        " WHERE uname = %(username)s", {'username': username})
 

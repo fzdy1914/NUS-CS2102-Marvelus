@@ -24,9 +24,9 @@ urlpatterns = [
     path('login/', auth_view.login),
     path('logout/', auth_view.logout),
 
-    path('prof/code/<code>/', prof_view.get_profs_by_coursecode),
-    path('prof/uname/<username>/', prof_view.get_profs_by_username),
-    path('TA/code/<code>/', TA_view.get_TAs_by_coursecode),
+    path('profs/code/<code>/', prof_view.get_profs_by_coursecode),
+    path('prof/uname/<username>/', prof_view.get_prof_by_username),
+    path('TAs/code/<code>/', TA_view.get_TAs_by_coursecode),
     path('TA/<code>/<group_num>/', TA_view.get_TAs_by_coursecode_and_groupnum),
     path('student/code/<code>/', student_view.get_students_by_coursecode),
     path('student/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),

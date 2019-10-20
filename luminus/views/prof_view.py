@@ -1,13 +1,12 @@
-from django.http import HttpResponse
-
 from luminus.managers import prof_manager
+from luminus.responses import success_json_response
 
 
-def get_profs_by_username(request, username):
-    profs = prof_manager.get_profs_by_username(username)
-    return HttpResponse(str(profs), status=200)
+def get_prof_by_username(request, username):
+    profs = prof_manager.get_prof_by_username(username)
+    return success_json_response({'profs': profs})
 
 
 def get_profs_by_coursecode(request, code):
     profs = prof_manager.get_profs_by_coursecode(code)
-    return HttpResponse(str(profs, status=200))
+    return success_json_response({'profs': profs})

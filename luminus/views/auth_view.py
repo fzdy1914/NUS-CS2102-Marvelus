@@ -18,9 +18,9 @@ def login(request):
     if request.user.is_authenticated:
         user = request.user
         # is_admin = user.is_staff or user.is_superuser
-        prof = prof_manager.get_profs_by_username(user.uname)
+        prof = prof_manager.get_prof_by_username(user.uname)
         is_prof = len(prof) > 0
-        ta = TA_manager.get_TAs_by_username(user.uname)
+        ta = TA_manager.get_TA_by_username(user.uname)
         is_ta = len(ta) > 0
         is_admin = True
         logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
@@ -64,7 +64,7 @@ def login(request):
                 # is_admin = user.is_staff or user.is_superuser
                 prof = prof_manager.get_profs_by_username(user.uname)
                 is_prof = len(prof) > 0
-                ta = TA_manager.get_TAs_by_username(user.uname)
+                ta = TA_manager.get_TA_by_username(user.uname)
                 is_ta = len(ta) > 0
                 is_admin = True
                 logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
