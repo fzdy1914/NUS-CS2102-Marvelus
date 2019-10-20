@@ -12,6 +12,7 @@ export default {
             this.$store.commit('setUsername', null)
             this.$store.commit('isAdmin', false)
             this.$store.commit('isProf', false)
+            this.$store.commit('isTA', false)
             this.$axios({
                 method: 'get',
                 url: this.$url + 'logout/'

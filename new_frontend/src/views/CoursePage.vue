@@ -9,14 +9,12 @@
 <script>
 import NavBar from '../components/NavBar'
 import SidebarMenu from '../components/SidebarMenu'
-import Sidebar from 'primevue/sidebar';
 
 export default {
   name: 'CoursePage',
   components: {
     SidebarMenu,
-    NavBar,
-    Sidebar
+    NavBar
   },
   data () {
     return {

@@ -1,5 +1,11 @@
 from luminus import sql_helper
 
+
+def search_courses(keyword):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Courses WHERE code LIKE %(keyword)s",
+                                       {'keyword': '%' + keyword + '%'})
+
+
 def get_course_by_code(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Courses WHERE code = %(code)s", {'code': code})
 

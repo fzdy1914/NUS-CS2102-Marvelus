@@ -9,6 +9,7 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'primevue/resources/themes/nova-light/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
 
 const backendUrl = 'http://127.0.0.1:8000/new/'
 
@@ -21,7 +22,7 @@ Vue.prototype.$util = util
 router.beforeEach((to, from, next) => {
   if (store.state.username || to.name === 'Login') {
     if (to.meta.requireAdmin && !store.state.isAdmin) {
-      next({name: 'Index'})
+      next({path: 'Index'})
     } else {
       next()
     }
@@ -35,6 +36,7 @@ router.beforeEach((to, from, next) => {
         store.commit('setUsername', data.data.user.username)
         store.commit('isAdmin', data.data.user.isAdmin)
         store.commit('isProf', data.data.user.isProf)
+        store.commit('isTA', data.data.user.isTA)
         if (to.meta.requireAdmin && !store.state.isAdmin) {
           next({name: 'Index'})
         } else {

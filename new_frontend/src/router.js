@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import CoursePage from './views/CoursePage.vue'
 import Login from "./views/Login";
 import CourseDetailPage from "./views/courses/CourseDetailPage";
+import CourseSearchPage from "./views/CourseSearchPage";
 
 Vue.use(Router)
 
@@ -14,7 +15,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'index',
+          name: 'Index',
           component: CourseDetailPage,
         }
       ]
@@ -25,7 +26,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'course-detail',
+          name: 'CourseDetail',
           component: CourseDetailPage,
         }
       ]
@@ -34,6 +35,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/search',
+      name: 'CourseSearch',
+      component: CourseSearchPage
     },
   ]
 })

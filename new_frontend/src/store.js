@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     username: null,
     isAdmin: false,
-    isProf: true
+    isProf: false,
+    isTA: false
   },
   mutations: {
     setUsername (state, username) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     isProf (state, isProf) {
       state.isProf = isProf
+    },
+    isTA (state, isTA) {
+      state.isTA = isTA
     }
   },
   actions: {

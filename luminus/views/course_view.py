@@ -21,15 +21,24 @@ def get_course_by_code(request, code):
 
 
 def get_courses_by_puname(request, puname):
-    course = course_manager.get_course_by_puname(puname)
-    return success_json_response({'courses': course})
+    courses = course_manager.get_course_by_puname(puname)
+    return success_json_response({'courses': courses})
 
 
 def get_courses_by_tuname(request, tuname):
-    course = course_manager.get_course_by_tuname(tuname)
-    return success_json_response({'courses': course})
+    courses = course_manager.get_course_by_tuname(tuname)
+    return success_json_response({'courses': courses})
 
 
 def get_courses_by_suname(request, suname):
-    course = course_manager.get_course_by_suname(suname)
+    courses = course_manager.get_course_by_suname(suname)
+    return success_json_response({'courses': courses})
+
+
+def search_courses(request, keyword):
+    course = course_manager.search_courses(keyword)
     return success_json_response({'courses': course})
+
+
+def get_all_courses(request):
+    return search_courses(request, '')

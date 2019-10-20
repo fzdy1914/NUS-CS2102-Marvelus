@@ -36,6 +36,8 @@ urlpatterns = [
     path('courses/puname/<puname>/', course_view.get_courses_by_puname),
     path('courses/tuname/<tuname>/', course_view.get_courses_by_tuname),
     path('courses/suname/<suname>/', course_view.get_courses_by_suname),
+    path('courses/search/<keyword>/', course_view.search_courses),
+    path('courses/search/', course_view.get_all_courses),
 
     path('forum/code/<code>/', forum_view.get_forum_by_code),
     path('forum/<code>/<group_num>/', forum_view.get_forum_by_code_and_group_num),
