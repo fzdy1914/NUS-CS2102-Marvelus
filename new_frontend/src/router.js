@@ -4,6 +4,8 @@ import CoursePage from './views/CoursePage.vue'
 import Login from "./views/Login";
 import CourseDetailPage from "./views/courses/CourseDetailPage";
 import CourseSearchPage from "./views/CourseSearchPage";
+import CourseListPage from "./views/courses/CourseListPage";
+import AssistPage from "./views/AssistPage";
 
 Vue.use(Router)
 
@@ -26,6 +28,11 @@ export default new Router({
       children: [
         {
           path: '/',
+          name: 'CourseList',
+          component: CourseListPage,
+        },
+        {
+          path: ':code',
           name: 'CourseDetail',
           component: CourseDetailPage,
         }
@@ -40,6 +47,22 @@ export default new Router({
       path: '/search',
       name: 'CourseSearch',
       component: CourseSearchPage
+    },
+    {
+      path: '/assists',
+      component: AssistPage,
+      children: [
+        {
+          path: '/',
+          name: 'AssistList',
+          component: CourseListPage,
+        },
+        {
+          path: ':code',
+          name: 'AssistDetail',
+          component: CourseDetailPage,
+        }
+      ]
     },
   ]
 })

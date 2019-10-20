@@ -1,7 +1,7 @@
 <template>
   <div class="module-page">
-    <NavBar :whichActive="'courses'"/>
-    <router-view :courses="courses"/>
+    <NavBar :whichActive="'assists'"/>
+    <router-view :courses="assists"/>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import NavBar from '../components/NavBar'
 
 export default {
-  name: 'CoursePage',
+  name: 'AssistPage',
   components: {
     NavBar
   },
@@ -17,22 +17,23 @@ export default {
     return {
       msg: 'Network Error',
       courses: null,
+      assists: null,
       state: false,
     }
   },
   mounted () {
-    this.getCourses()
+    this.getAssists()
   },
   methods: {
-    getCourses: function () {
+    getAssists: function () {
       this.$axios.request({
-        url: this.$url + 'courses/',
+        url: this.$url + 'assists/',
         method: 'GET'
       }).then(response => {
         let data = response.data
         if (data.state === true) {
           this.state = true
-          this.courses = data.data.courses
+          this.assists = data.data.assists
         } else {
           this.state = false
           this.msg = data.error

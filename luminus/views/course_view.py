@@ -10,8 +10,15 @@ def get_courses(request):
         if len(puname) > 0:
             return get_courses_by_puname(request, puname)
 
-        return success_json_response({'courses': course_manager.get_course_by_suname(uname),
-                                      'assists': course_manager.get_course_by_tuname(uname)})
+        return success_json_response({'courses': course_manager.get_course_by_suname(uname)})
+    return error_json_response("User not logged in")
+
+
+def get_assists(request):
+    user = request.user
+    if request.user.is_authenticated:
+        uname = user.uname
+        return success_json_response({'assists': course_manager.get_course_by_tuname(uname)})
     return error_json_response("User not logged in")
 
 

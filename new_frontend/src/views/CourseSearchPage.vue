@@ -1,6 +1,11 @@
 <template>
     <div>
         <NavBar :whichActive="'search'"/>
+        <div>
+            Keyword:
+            <InputText type="text" v-model="keyword"/>
+            <Button @click="getCourses(keyword)">Search</Button>
+        </div>
         <DataView :value="courses" :layout="'list'">
             <template #list="slotProps">
                 <div class="p-col-12">
@@ -22,17 +27,20 @@
 <script>
 import DataView from 'primevue/dataview';
 import NavBar from "../components/NavBar";
+import InputText from 'primevue/inputtext';
 export default {
     name: "CourseSearchPage",
     components: {
         NavBar,
-        DataView
+        DataView,
+        InputText
     },
     data () {
         return {
             msg: 'Network Error',
             courses: null,
             state: false,
+            keyword: ''
         }
     },
     mounted () {
@@ -41,7 +49,7 @@ export default {
     methods: {
         getCourses: function (keyword) {
             this.$axios.request({
-            url: keyword ? this.$url + 'courses/search/' + keyword + '/' : this.$url + 'courses/search/',
+            url: keyword ? this.$url + 'courses/search/' + keyword + '/' : this.$url + 'courses/all/',
             method: 'GET'
           }).then(response => {
             let data = response.data

@@ -6,7 +6,9 @@
         <!--<li :class="{ active: !channelId }"><a @click="goChannel(null)">All</a></li>-->
         <li :class="{ active: whichActive === 'courses' }" @click="goCourses()"><a>My Modules</a></li>
         <li :class="{ active: whichActive === 'search' }" @click="goSearch()"><a>Module Search</a></li>
-        <li v-if="$store.state.isTA" :class="{ active: whichActive === 'assists' }"><a>My Assisting Modules</a></li>
+        <li v-if="$store.state.isTA" :class="{ active: whichActive === 'assists' }" @click="goAssists()">
+          <a>My Assisting Modules</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -25,7 +27,7 @@ export default {
   methods: {
     goCourses: function () {
       if (this.whichActive != 'courses') {
-        this.$router.push({name: 'CourseDetail'})
+        this.$router.push({name: 'CourseList'})
       }
     },
     goSearch: function () {
@@ -35,7 +37,7 @@ export default {
     },
     goAssists: function () {
       if (this.whichActive != 'assists') {
-        this.$router.push({name: 'Assists'})
+        this.$router.push({name: 'AssistList'})
       }
     }
   }
