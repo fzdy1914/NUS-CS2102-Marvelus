@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CourseSidebarMenu/>
+    <TeachSidebarMenu/>
     <div class="placeholder">
       <router-view/>
     </div>
@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import CourseSidebarMenu from '../../components/CourseSidebarMenu'
+import TeachSidebarMenu from '../../components/TeachSidebarMenu'
 export default {
-  name: "CourseDetailPage",
+  name: "TeachDetailPage",
   components:{
-    CourseSidebarMenu
+    TeachSidebarMenu
   }
 }
 </script>

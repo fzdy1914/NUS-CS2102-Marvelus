@@ -8,6 +8,10 @@ import CourseListPage from "./views/courses/CourseListPage";
 import AssistPage from "./views/AssistPage";
 import CourseDetailInfoPage from "./views/courses/CourseDetailInfoPage";
 import AssistListPage from "./views/assists/AssistListPage";
+import CourseDetailTutPage from "./views/courses/CourseDetailTutPage";
+import TeachPage from "./views/TeachPage";
+import TeachListPage from "./views/teachs/TeachListPage";
+import TeachDetailPage from "./views/teachs/TeachDetailPage";
 
 Vue.use(Router)
 
@@ -20,7 +24,7 @@ export default new Router({
         {
           path: '/',
           name: 'Index',
-          component: CourseDetailPage,
+          component: CourseListPage,
         }
       ]
     },
@@ -46,6 +50,11 @@ export default new Router({
               path: 'info',
               name: 'CourseDetailInfo',
               component: CourseDetailInfoPage,
+            },
+            {
+              path: 'tut',
+              name: 'CourseDetailTut',
+              component: CourseDetailTutPage,
             },
           ]
         }
@@ -88,5 +97,37 @@ export default new Router({
         }
       ]
     },
+    {
+      path: '/teach',
+      component: TeachPage,
+      children: [
+        {
+          path: '/',
+          name: 'TeachList',
+          component: TeachListPage,
+        },
+        {
+          path: ':code',
+          component: TeachDetailPage,
+          children: [
+            {
+              path: '/',
+              name: 'TeachDetail',
+              component: CourseDetailInfoPage,
+            },
+            {
+              path: 'info',
+              name: 'TeachDetailInfo',
+              component: CourseDetailInfoPage,
+            },
+            {
+              path: 'tut',
+              name: 'TeachDetailTut',
+              component: CourseDetailTutPage,
+            },
+          ]
+        }
+      ]
+    }
   ]
 })

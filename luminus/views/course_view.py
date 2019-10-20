@@ -8,7 +8,7 @@ def get_courses(request):
         uname = user.uname
         puname = prof_manager.get_prof_by_username(uname)
         if len(puname) > 0:
-            return get_courses_by_puname(request, puname)
+            return get_courses_by_puname(request, uname)
 
         return success_json_response({'courses': course_manager.get_course_by_suname(uname)})
     return error_json_response("User not logged in")

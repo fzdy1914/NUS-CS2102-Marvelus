@@ -6,13 +6,13 @@
 
 <script>
 export default {
-  name: "CourseListPage",
+  name: "TeachListPage",
   props:{
     courses:Array
   },
   methods: {
     goCourse: function (code) {
-      this.$router.push({name: 'CourseDetail', params: {code: code}})
+      this.$router.push({name: 'TeachDetail', params: {code: code}})
     }
   }
 }

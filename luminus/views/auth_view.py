@@ -62,7 +62,7 @@ def login(request):
             if user is not None:  # and user.is_active:
                 auth.login(request, user)
                 # is_admin = user.is_staff or user.is_superuser
-                prof = prof_manager.get_profs_by_username(user.uname)
+                prof = prof_manager.get_prof_by_username(user.uname)
                 is_prof = len(prof) > 0
                 ta = TA_manager.get_TA_by_username(user.uname)
                 is_ta = len(ta) > 0

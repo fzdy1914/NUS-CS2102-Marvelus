@@ -22,9 +22,17 @@ Vue.prototype.$util = util
 router.beforeEach((to, from, next) => {
   if (store.state.username || to.name === 'Login') {
     if (to.meta.requireAdmin && !store.state.isAdmin) {
-      next({path: 'Index'})
+      if (store.state.isProf) {
+        next({name: 'TeachList'})
+      } else {
+        next({name: 'Index'})
+      }
     } else {
-      next()
+      if (to.name === 'Index' && store.state.isProf) {
+        next({name: 'TeachList'})
+      } else {
+        next()
+      }
     }
   } else {
     axios({
@@ -38,9 +46,17 @@ router.beforeEach((to, from, next) => {
         store.commit('isProf', data.data.user.isProf)
         store.commit('isTA', data.data.user.isTA)
         if (to.meta.requireAdmin && !store.state.isAdmin) {
-          next({name: 'Index'})
+          if (store.state.isProf) {
+            next({name: 'TeachList'})
+          } else {
+            next({name: 'Index'})
+          }
         } else {
-          next()
+          if (to.name === 'Index' && store.state.isProf) {
+            next({name: 'TeachList'})
+          } else {
+            next()
+          }
         }
       } else {
         next({name: 'Login'})

@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'EventList',
+  name: 'BasicStudentList',
   props: {
     students: Array,
     isProf: Boolean
