@@ -5,7 +5,7 @@
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
           <a class="p-menuitem-link">Course Info</a>
         </li>
-        <li class="p-menuitem">
+        <li class="p-menuitem" :class="{ active: isStudentActive }" @click="goStudent()">
           <a class="p-menuitem-link">Students</a>
         </li>
         <li class="p-menuitem">
@@ -14,8 +14,8 @@
         <li class="p-menuitem">
           <a class="p-menuitem-link">TAs</a>
         </li>
-        <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTut()">
-          <a class="p-menuitem-link">Tutorial</a>
+        <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTuts()">
+          <a class="p-menuitem-link">Tutorials</a>
         </li>
         <li class="p-menuitem">
           <a class="p-menuitem-link">Forum</a>
@@ -35,6 +35,9 @@ export default {
     isTutActive: function () {
       return this.$route.name == 'TeachDetailTut'
     },
+    isStudentActive: function () {
+      return this.$route.name == 'TeachDetailStudent'
+    },
   },
   methods: {
     goInfo: function () {
@@ -42,9 +45,14 @@ export default {
         this.$router.push({name: 'TeachDetailInfo', params: {code: this.$route.params.code}})
       }
     },
-    goTut: function () {
+    goTuts: function () {
       if (this.$route.name != 'TeachDetailTut') {
         this.$router.push({name: 'TeachDetailTut', params: {code: this.$route.params.code}})
+      }
+    },
+    goStudent: function () {
+      if (this.$route.name != 'TeachDetailStudent') {
+        this.$router.push({name: 'TeachDetailStudent', params: {code: this.$route.params.code}})
       }
     },
   }

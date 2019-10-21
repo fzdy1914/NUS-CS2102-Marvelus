@@ -28,8 +28,8 @@ urlpatterns = [
     path('prof/uname/<username>/', prof_view.get_prof_by_username),
     path('TAs/code/<code>/', TA_view.get_TAs_by_coursecode),
     path('TA/<code>/<group_num>/', TA_view.get_TAs_by_coursecode_and_groupnum),
-    path('student/code/<code>/', student_view.get_students_by_coursecode),
-    path('student/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
+    path('students/code/<code>/', student_view.get_students_by_coursecode),
+    path('students/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
 
     path('courses/', course_view.get_courses),
     path('assists/', course_view.get_assists),

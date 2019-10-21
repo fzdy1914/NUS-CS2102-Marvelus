@@ -12,6 +12,7 @@ import CourseDetailTutPage from "./views/courses/CourseDetailTutPage";
 import TeachPage from "./views/TeachPage";
 import TeachListPage from "./views/teachs/TeachListPage";
 import TeachDetailPage from "./views/teachs/TeachDetailPage";
+import TeachDetailStudentPage from "./views/teachs/TeachDetailStudentPage";
 
 Vue.use(Router)
 
@@ -124,6 +125,11 @@ export default new Router({
               path: 'tut',
               name: 'TeachDetailTut',
               component: CourseDetailTutPage,
+            },
+            {
+              path: 'students',
+              name: 'TeachDetailStudent',
+              component: TeachDetailStudentPage,
             },
           ]
         }

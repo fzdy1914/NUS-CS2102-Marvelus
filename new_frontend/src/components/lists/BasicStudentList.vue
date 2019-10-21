@@ -41,7 +41,7 @@ export default {
     width: 150px;
   }
   .email {
-    width: 550px;
+    width: 350px;
   }
   .operation {
     width: 200px

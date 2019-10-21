@@ -1,5 +1,3 @@
-from django.http import HttpResponse
-
 from luminus.managers import student_manager
 from luminus.responses import success_json_response
 
