@@ -33,7 +33,7 @@ export default {
       return this.$route.name == 'TeachDetail' || this.$route.name == 'TeachDetailInfo'
     },
     isTutActive: function () {
-      return this.$route.name == 'TeachDetailTut'
+      return this.$route.name == 'TeachDetailTutList' || this.$route.name == 'TeachDetailTutDetail'
     },
     isStudentActive: function () {
       return this.$route.name == 'TeachDetailStudent'
@@ -46,8 +46,8 @@ export default {
       }
     },
     goTuts: function () {
-      if (this.$route.name != 'TeachDetailTut') {
-        this.$router.push({name: 'TeachDetailTut', params: {code: this.$route.params.code}})
+      if (this.$route.name != 'TeachDetailTutList') {
+        this.$router.push({name: 'TeachDetailTutList', params: {code: this.$route.params.code}})
       }
     },
     goStudent: function () {
