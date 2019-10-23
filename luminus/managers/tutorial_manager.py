@@ -2,7 +2,7 @@ from luminus import sql_helper
 
 
 def get_tutorials_by_coursecode(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Tutorials WHERE code= %(code)s", {'code': code})
+    return sql_helper.fetchall_to_dict("SELECT group_num FROM Tutorials NATURAL JOIN Attend WHERE code= %(code)s", {'code': code})
 
 
 def get_tutorials_by_student(username):
