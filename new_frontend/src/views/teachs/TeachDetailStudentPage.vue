@@ -1,15 +1,18 @@
 <template>
   <div>
-    This is all students:
+    This is all students under this module:
     <BasicStudentList :students="students"/>
   </div>
 </template>
 
 <script>
 import BasicStudentList from '../../components/lists/BasicStudentList'
+
 export default {
   name: "TeachDetailStudentPage",
-  components: {BasicStudentList},
+  components: {
+    BasicStudentList
+  },
   data() {
     return {
       state: false,

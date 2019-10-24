@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import Router from 'vue-router';
 import CoursePage from './views/CoursePage.vue'
 import Login from "./views/Login";
 import CourseDetailPage from "./views/courses/CourseDetailPage";
@@ -13,6 +13,8 @@ import TeachPage from "./views/TeachPage";
 import TeachListPage from "./views/teachs/TeachListPage";
 import TeachDetailPage from "./views/teachs/TeachDetailPage";
 import TeachDetailStudentPage from "./views/teachs/TeachDetailStudentPage";
+import TeachDetailRequestsPage from "./views/teachs/TeachDetailRequestsPage";
+import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
 
 Vue.use(Router)
 
@@ -130,6 +132,16 @@ export default new Router({
               path: 'students',
               name: 'TeachDetailStudent',
               component: TeachDetailStudentPage,
+            },
+            {
+              path: 'requests',
+              name: 'TeachDetailRequests',
+              component: TeachDetailRequestsPage,
+            },
+            {
+              path: 'tas',
+              name: 'TeachDetailTAs',
+              component: TeachDetailTAsPage,
             },
           ]
         }

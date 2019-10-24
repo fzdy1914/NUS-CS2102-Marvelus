@@ -29,9 +29,10 @@ export default {
   name: 'BasicStudentList',
   props: {
     students: Array,
-    isProf: Boolean
+    isProf: Boolean,
   },
   methods: {
+
   }
 }
 </script>
