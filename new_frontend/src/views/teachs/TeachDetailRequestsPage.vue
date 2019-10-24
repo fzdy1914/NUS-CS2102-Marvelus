@@ -3,11 +3,12 @@
         This is all students requesting to join the module:
         <!--<BasicStudentList :students="students" :isProf="true"/>-->
       <div>
-        <table class="table table-bordered table-hover" :students="students">
+        <table class="table table-bordered table-hover" :students="students" :sticky-header=true>
           <thead>
             <tr>
               <th>Name</th>
               <th>Major</th>
+              <th>Year</th>
               <th>Email</th>
                 <th>Operation</th>
             </tr>
@@ -16,6 +17,7 @@
             <tr v-for="student in students" :key="student.uname">
               <td class="name">{{ student.name }}</td>
               <td class="major">{{ student.major }}</td>
+              <td class="year">{{ student.year }}</td>
               <td class="email">{{ student.email }}</td>
               <td class="operation">
                 <button class="btn btn-primary approve" @click="approveRequest(student.uname)">Approve</button>
@@ -101,7 +103,7 @@ export default {
 </script>
 
 <style scoped>
-  .name, .major {
+  .name, .major, .year {
     width: 150px;
   }
   .email {
