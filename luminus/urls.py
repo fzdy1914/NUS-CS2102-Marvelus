@@ -58,6 +58,5 @@ urlpatterns = [
     url(r'', auth_view.default)
 
 
-
     # path('add/', views_helper.add_participator),
 ]
