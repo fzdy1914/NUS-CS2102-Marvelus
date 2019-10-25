@@ -55,6 +55,8 @@ urlpatterns = [
     path('requests/reject/<uname>/<code>/', student_view.reject_requests),
 
     path('candidates/code/<code>/', student_view.get_ta_candidates_by_coursecode),
+    path('candidates/add/<uname>/<code>/', student_view.add_TA_by_uname_coursecode_group),
+
     url(r'', auth_view.default)
 
 

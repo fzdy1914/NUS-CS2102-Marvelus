@@ -2,7 +2,7 @@
     <div>
         This is all tutors under the module:
         <div>
-            <BasicStudentList :students="tas" :is-select-tutor="true"/>
+            <BasicStudentList :students="tas" :is-select-tutor="false"/>
         </div>
       <Button label="Add more tutors" icon="pi pi-plus" @click="openAddTA()" />
       <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
@@ -85,21 +85,21 @@
           })
         },
         addTA: function(){
-        //   this.$axios.request({
-        //     url: this.$url + 'student/addtut/' +this.selectedCandidate.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num +'/',
-        //     method: 'GET'
-        //   }).then(response => {
-        //     console.log(response)
-        //     let data = response.data
-        //     if (data.state === true) {
-        //       this.state = true
-        //       this.display = false
-        //       this.getStudents()
-        //     } else {
-        //       this.state = false
-        //       this.msg = data.error
-        //     }
-        //   })
+          this.$axios.request({
+            url: this.$url + 'candidates/add/' +this.selectedCandidate.uname +'/'+ this.$route.params.code+'/',
+            method: 'GET'
+          }).then(response => {
+            console.log(response)
+            let data = response.data
+            if (data.state === true) {
+              this.state = true
+              this.display = false
+              this.getTAs()
+            } else {
+              this.state = false
+              this.msg = data.error
+            }
+          })
         },
       }
     }

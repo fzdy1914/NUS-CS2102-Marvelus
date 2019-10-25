@@ -7,11 +7,11 @@ def get_TA_by_username(username):
 
 
 def get_TAs_by_coursecode(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN (TAs NATURAL JOIN Facilitate)"
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN (TAs NATURAL JOIN Assist)"
                                        " WHERE code = %(code)s", {'code': code})
 
 
 def get_TAs_by_coursecode_and_groupnum(code, group_num):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN (TAs NATURAL JOIN Facilitate)"
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN (TAs NATURAL JOIN Assist NATURAL JOIN Facilitate)"
                                        " WHERE code = %(code)s AND group_num = %(group)s",
                                        {'code': code, 'group_num': group_num})
