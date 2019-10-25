@@ -1,7 +1,7 @@
 <template>
-  <div>
-    This is all students:
-    <BasicStudentList :students="students"/>
+  <div >
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all students:</div>
+    <BasicStudentList style="font-size: 20px; text-align: left;margin-left: 15px;":students="students"/>
   </div>
 </template>
 

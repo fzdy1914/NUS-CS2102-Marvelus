@@ -7,7 +7,7 @@ def get_TA_by_username(username):
 
 
 def get_TAs_by_coursecode(code):
-    return sql_helper.fetchall_to_dict("SELECT name, email FROM Users NATURAL JOIN (TAs NATURAL JOIN Assist)"
+    return sql_helper.fetchall_to_dict("SELECT name, major, email FROM Users NATURAL JOIN ((TAs NATURAL JOIN Participators) NATURAL JOIN Assist)"
                                        " WHERE code = %(code)s", {'code': code})
 
 

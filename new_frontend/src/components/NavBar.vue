@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="navbar-h">
     <nav class="navbar navbar-default">
       <!-- Collect the nav links, forms, and other content for toggling -->
       <ul class="nav navbar-nav navbar-left">
@@ -52,8 +52,16 @@ export default {
 </script>
 
 <style scoped>
-  .nav{
+  .navbar-left{
     font-size: 18px;
-    background: #FCFCFC
+    font-weight: bold;
+    background: #002970;
+  }
+  .navbar-default{
+    border: #002970;
+    background: #002970;
+  }
+  .navbar-h{
+    background: #002970;
   }
 </style>
