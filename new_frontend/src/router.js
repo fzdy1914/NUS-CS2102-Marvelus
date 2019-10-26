@@ -15,6 +15,9 @@ import TeachDetailPage from "./views/teachs/TeachDetailPage";
 import TeachDetailStudentPage from "./views/teachs/TeachDetailStudentPage";
 import TeachDetailRequestsPage from "./views/teachs/TeachDetailRequestsPage";
 import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
+import TeachDetailTutListPage from "./views/teachs/TeachDetailTutListPage";
+import TeachDetailTutPage from "./views/teachs/TeachDetailTutPage";
+import TeachDetailTutDetailPage from "./views/teachs/TeachDetailTutDetailPage";
 
 Vue.use(Router)
 
@@ -125,8 +128,19 @@ export default new Router({
             },
             {
               path: 'tut',
-              name: 'TeachDetailTut',
-              component: CourseDetailTutPage,
+              component: TeachDetailTutPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'TeachDetailTutList',
+                  component: TeachDetailTutListPage,
+                },
+                {
+                  path: ':group_num',
+                  name: 'TeachDetailTutDetail',
+                  component: TeachDetailTutDetailPage,
+                }
+              ]
             },
             {
               path: 'students',

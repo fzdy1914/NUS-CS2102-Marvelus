@@ -1,7 +1,7 @@
 <template>
   <div>
     This is all students under this module:
-    <BasicStudentList :students="students"/>
+    <BasicStudentList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :students="students"/>
   </div>
 </template>
 

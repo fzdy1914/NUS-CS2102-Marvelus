@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <nav class="navbar navbar-default">
+  <div class="navbar-h">
+    <nav class="navbar navbar-inverse">
       <!-- Collect the nav links, forms, and other content for toggling -->
       <ul class="nav navbar-nav navbar-left">
         <li v-if="$store.state.isProf" :class="{ active: whichActive === 'courses' }" @click="goTeach()">
@@ -52,8 +52,28 @@ export default {
 </script>
 
 <style scoped>
-  .nav{
+  .navbar-h{
+    background-color: #002970;
+  }
+  .navbar-left{
     font-size: 18px;
-    background: #FCFCFC
+    font-weight: bold;
+    background: #002970;
+  }
+  .navbar-inverse {
+    border: #002970;
+    background-color: #002970;
+  }
+  .navbar-inverse .navbar-nav > .active > a,
+  .navbar-inverse .navbar-nav > .active > a:hover,
+  .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #002970;
+    background-color: white;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    color: white;
+  }
+  .navbar-inverse .navbar-nav > li > a:hover {
+    color: lightblue;
   }
 </style>
