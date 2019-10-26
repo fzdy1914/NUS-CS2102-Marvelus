@@ -3,7 +3,7 @@ from datetime import datetime
 
 def get_students_by_coursecode(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE code = %(code)s", {'code': code})
+                                       " (Students NATURAL JOIN Enroll) WHERE code = %(code)s AND status='enrolled' ", {'code': code})
 
 
 def get_students_by_coursecode_and_groupnum(code, group_num):
@@ -51,9 +51,9 @@ def add_student_to_tut_by_uname_coursecode_groupnum(uname, code, group_num):
 def get_student_enrolledbutnotattend_by_coursecode(code):
     # return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN"
     #                                    " (Students NATURAL JOIN Enroll) WHERE code = %(code)s", {'code': code})
-    return sql_helper.fetchall_to_dict("SELECT * FROM USERS NATURAL JOIN Students NATURAL JOIN Enroll "
-                                       "WHERE code = %(code)s ",{'code': code})
-                                       # "AND "
-                                       # "NOT EXISTS "
-                                       # "(SELECT 1 FROM Attend a WHERE a.uname=use.uname AND a.code=%(code)s ) "
-                                       # ,{'code': code})
+    return sql_helper.fetchall_to_dict("SELECT * FROM USERS u NATURAL JOIN Participators NATURAL JOIN (Students stu NATURAL JOIN Enroll e) "
+                                       "WHERE e.code = %(code)s AND e.status ='enrolled' "
+                                       "AND "
+                                       "(NOT EXISTS (SELECT 1 FROM Attend a WHERE a.uname = stu.uname AND a.code = e.code ) )"
+                                       ,{'code': code})
+

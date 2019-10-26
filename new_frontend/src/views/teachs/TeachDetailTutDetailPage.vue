@@ -5,7 +5,7 @@
     <div>Group Num: {{ $route.params.group_num }}</div>
     <div>
       <h3>List of TA</h3>
-      <Button label="Add New " @click="" />
+      <Button label="Add New " @click="openAddTA()" />
       <DataTable :value="TAs">
         <Column field="name" header="TA Name"></Column>
         <Column field="uname" header="User Name"></Column>
@@ -13,16 +13,34 @@
         <Column field="color" header="..."></Column>
       </DataTable>
     </div>
+    <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '50vw'}" :modal="true">
+
+      <Dropdown v-model="selectedTA" :options="notInTAs" optionLabel="uname" placeholder="Select a TA" />
+
+        <template #footer>
+            <Button label="Yes" icon="pi pi-check" @click="addTA()" />
+            <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
+        </template>
+    </Dialog>
     <div>
       <h3>List of Forums</h3>
-      <Button label="Add New " @click="" />
+      <Button label="Add New " @click="openAddForum()" />
       <DataTable :value="Forums">
         <Column field="name" header="Forum Name"></Column>
-        <Column field="uname" header="Forum ID"></Column>
+        <Column field="fid" header="Forum ID"></Column>
         <Column field="brand" header="..."></Column>
         <Column field="color" header="..."></Column>
       </DataTable>
     </div>
+    <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '50vw'}" :modal="true">
+
+      <Dropdown v-model="selectedForum" :options="notInForums" optionLabel="fid" placeholder="Select a Forum" />
+
+        <template #footer>
+            <Button label="Yes" icon="pi pi-check" @click="addForum()" />
+            <Button label="No" icon="pi pi-times" @click="closeAddForum()" class="p-button-secondary"/>
+        </template>
+    </Dialog>
     <div>
       <h3>List of Students</h3>
       <Button label="Add New " @click="openAddStu()" />
@@ -34,7 +52,7 @@
       </DataTable>
     </div>
 
-<Button label="Show" icon="pi pi-external-link" @click="openAddStu()" />
+<Button label="Show" icon="pi pi-external-link" @click="test()" />
 <Dialog header="Add New Student" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
 
   <Dropdown v-model="selectedStu" :options="noAttendStus" optionLabel="uname" placeholder="Select a student" />
@@ -44,7 +62,7 @@
         <Button label="No" icon="pi pi-times" @click="closeAddStu()" class="p-button-secondary"/>
     </template>
 </Dialog>
-
+<Toast/>
   </div>
 </template>
 
@@ -56,6 +74,7 @@ import ColumnGroup from 'primevue/columngroup';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
+import Toast from 'primevue/toast';
 export default {
   name: "TeachDetailTutDetailPage",
   data() {
@@ -63,11 +82,18 @@ export default {
       state: false,
       msg: 'Network Error',
       TAs: null,
+      notInTAs: null,
       Students: null,
       Forums: null,
       display:false,
+      displayTA: false,
+      displayForum:false,
+      notInForums:null,
       selectedStu: null,
+      selectedTA: null,
+      selectedForum: null,
       noAttendStus:null,
+      messages: [],
     }
   },
   components:{
@@ -76,13 +102,57 @@ export default {
     ColumnGroup,
     Button,
     Dialog,
-    Dropdown
+    Dropdown,
+    Toast
   },
   mounted() {
     this.getTAs()
     this.getStudents()
     this.getForums()
   },methods: {
+    test: function(){
+      console.log("test toast");
+      this.$toast.add({severity:'success', summary: 'Success ', detail:'Student added in!', life: 3000});
+    },
+    closeAddForum: function(){
+      this.displayForum = false;
+    },
+    openAddForum: function(){
+      this.displayForum = true
+      this.$axios.request({
+        url: this.$url + 'forums/notin/' + this.$route.params.code + '/'+ this.$route.params.group_num +'/' ,
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        console.log(response)
+        if (data.state === true) {
+          this.state = true
+          this.notInForums = data.data.forums
+          console.log(this.notInForums)
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
+    addForum: function(){
+      this.$axios.request({
+        url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid+'/',
+        method: 'GET'
+      }).then(response => {
+        console.log(response)
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.displayForum = false
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Forum added in!', life: 3000});
+          this.getForums()
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
     closeAddStu:function(){
       this.display = false
     },
@@ -114,12 +184,52 @@ export default {
         if (data.state === true) {
           this.state = true
           this.display = false
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Student added in!', life: 3000});
           this.getStudents()
         } else {
           this.state = false
           this.msg = data.error
         }
       })
+    },
+    openAddTA: function(){
+      this.displayTA = true
+      this.$axios.request({
+        url: this.$url + 'TAs/notin/' + this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        console.log(response)
+        if (data.state === true) {
+          this.state = true
+          this.notInTAs = data.data.TAs
+          console.log(this.notInTAs)
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
+    addTA: function(){
+      this.$axios.request({
+        url: this.$url + 'TAs/addtut/' +this.selectedTA.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        method: 'GET'
+      }).then(response => {
+        console.log(response)
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.displayTA = false
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'TA added in!', life: 3000});
+          this.getTAs()
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
+    closeAddTA:function(){
+      this.displayTA = false
     },
     getTAs: function () {
       this.$axios.request({

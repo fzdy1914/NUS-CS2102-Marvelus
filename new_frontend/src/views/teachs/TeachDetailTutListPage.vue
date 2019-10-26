@@ -20,11 +20,11 @@
 <!--                    <img :src="'demo/images/car/' + slotProps.data.brand + '.png'" :alt="slotProps.data.brand"/>-->
                   <div class="p-grid">
                       <div class="p-col-9">Group Number: <b>{{tutorials.data.group_num}}</b></div>
-                      <div class="p-col-9">TA Amount: <b></b></div>
+                      <div class="p-col-9">TA Amount: <b>{{tutorials.data.taAmount}}</b></div>
                     <div class="p-col-3">
                         <Button  icon="pi pi-search " @click="goTutorial(tutorials.data.group_num)" ></Button>
                     </div>
-                      <div class="p-col-9">Student Amount: <b></b></div>
+                      <div class="p-col-9">Student Amount: <b>{{tutorials.data.stuAmount}}</b></div>
 <!--                 <div class="p-col-12">Color: <b>{{slotProps.data.color}}</b></div>-->
                   </div>
               </div>

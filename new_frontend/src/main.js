@@ -10,6 +10,7 @@ import 'primevue/resources/themes/nova-light/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import ToastService from 'primevue/toastservice';
 
 const backendUrl = 'http://127.0.0.1:8000/new/'
 
@@ -18,6 +19,7 @@ Vue.prototype.$axios = axios
 axios.defaults.withCredentials = true
 Vue.prototype.$url = backendUrl
 Vue.prototype.$util = util
+Vue.use(ToastService);
 
 router.beforeEach((to, from, next) => {
   if (store.state.username || to.name === 'Login') {
