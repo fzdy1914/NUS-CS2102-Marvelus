@@ -8,7 +8,7 @@
 <script>
 import BasicTutorialList from "../../components/lists/BasicTutorialList";
 export default {
-  name: "CourseDetailTutPage",
+  name: "TeachDetailTutPage",
   components: {BasicTutorialList},
   data() {
     return {

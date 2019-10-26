@@ -1,13 +1,21 @@
 <template>
   <div>
-    This is Course Info:
-    <div>Code: {{ $route.params.code }}</div>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Course Info</div>
+    <div style="font-size: 16px; text-align: left;margin-left: 15px;" v-if=course> {{course.info}} </div>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all Profs:</div>
+    <BasicProfList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :profs="profs"/>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all TAs:</div>
+    <BasicTAList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :TAs="TAs"/>
   </div>
 </template>
 
 <script>
+import BasicTAList from "../../components/lists/BasicTAList";
+import BasicProfList from "../../components/lists/BasicProfList";
+
 export default {
   name: "CourseDetailInfoPage",
+  components: {BasicTAList, BasicProfList},
   data() {
     return {
       state: false,
