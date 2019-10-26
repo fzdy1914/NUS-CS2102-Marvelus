@@ -1,10 +1,14 @@
 <template>
   <div class="info-bar">
-    <div>Welcome: {{ $store.state.username }}, <a @click="logout()">Logout</a></div>
+    <img class="logo-img" src="../assets/luminus-logo.png">
+    <div class="user">{{ $store.state.username }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
   </div>
 </template>
 
+
 <script>
+  import Button from 'primevue/button';
+
   export default {
     name: "InfoBar",
     methods: {
@@ -18,13 +22,31 @@
           url: this.$url + 'logout/'
         })
         this.$router.push({name: 'Login'})
-      },
+      }
+    },
+    components:{
+      Button
     }
   }
 </script>
 
 <style scoped>
   .info-bar {
-    height: 100px;
+    height: 60px;
+    background: #002970;
+  }
+  .user {
+    color: white;
+    padding-top: 10px;
+    padding-right: 25px;
+    float:right;
+    font-size: 14pt;
+  }
+  .logo-img {
+    float:left;
+    width: auto;
+    margin-top: 5px;
+    margin-left: 10px;
+    height: 50px;
   }
 </style>

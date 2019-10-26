@@ -1,7 +1,7 @@
 <template>
   <div>
-    This is all students:
-    <BasicStudentList :students="students"/>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all students under this module:</div>
+    <BasicStudentList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :students="students"/>
   </div>
 </template>
 
@@ -9,7 +9,9 @@
 import BasicStudentList from '../../components/lists/BasicStudentList'
 export default {
   name: "TeachDetailStudentPage",
-  components: {BasicStudentList},
+  components: {
+    BasicStudentList
+  },
   data() {
     return {
       state: false,

@@ -1,5 +1,7 @@
 <template>
-  <router-view :tutorials = "tutorials" />
+  <div>
+    <router-view :tutorials = "tutorials" />
+  </div>
 </template>
 
 <script>
@@ -13,20 +15,18 @@ export default {
     }
   },
   mounted() {
-  this.getTuts();
+    this.getTuts();
   },
   methods:{
     getTuts: function () {
       this.$axios.request({
-        url: this.$url + 'tutorials/code/'+this.$route.params.code+ '/' ,
+        url: this.$url + 'tutorials/code/'+ this.$route.params.code + '/',
         method: 'GET'
       }).then(response => {
-        console.log(response);
         let data = response.data
         if (data.state === true) {
           this.state = true
           this.tutorials = data.data.tutorials
-          console.log(this.tutorials)
         } else {
           this.state = false
           this.msg = data.error

@@ -13,6 +13,8 @@ import TeachPage from "./views/TeachPage";
 import TeachListPage from "./views/teachs/TeachListPage";
 import TeachDetailPage from "./views/teachs/TeachDetailPage";
 import TeachDetailStudentPage from "./views/teachs/TeachDetailStudentPage";
+import TeachDetailRequestsPage from "./views/teachs/TeachDetailRequestsPage";
+import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
 import TeachDetailTutListPage from "./views/teachs/TeachDetailTutListPage";
 import TeachDetailTutPage from "./views/teachs/TeachDetailTutPage";
 import TeachDetailTutDetailPage from "./views/teachs/TeachDetailTutDetailPage";
@@ -144,6 +146,16 @@ export default new Router({
               path: 'students',
               name: 'TeachDetailStudent',
               component: TeachDetailStudentPage,
+            },
+            {
+              path: 'requests',
+              name: 'TeachDetailRequests',
+              component: TeachDetailRequestsPage,
+            },
+            {
+              path: 'tas',
+              name: 'TeachDetailTAs',
+              component: TeachDetailTAsPage,
             },
           ]
         }

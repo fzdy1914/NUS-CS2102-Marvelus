@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <Button label = "Back" @click="goBack()"/>
     This is Tut Detail Info:
@@ -16,9 +15,7 @@
       </DataTable>
     </div>
     <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '50vw'}" :modal="true">
-
       <Dropdown v-model="selectedTA" :options="notInTAs" optionLabel="uname" placeholder="Select a TA" />
-
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addTA()" />
             <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
@@ -35,9 +32,7 @@
       </DataTable>
     </div>
     <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '50vw'}" :modal="true">
-
       <Dropdown v-model="selectedForum" :options="notInForums" optionLabel="fid" placeholder="Select a Forum" />
-
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addForum()" />
             <Button label="No" icon="pi pi-times" @click="closeAddForum()" class="p-button-secondary"/>
@@ -53,18 +48,14 @@
         <Column field="color" header="..."></Column>
       </DataTable>
     </div>
-
-<Button label="Show" icon="pi pi-external-link" @click="test()" />
-<Dialog header="Add New Student" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
-
-  <Dropdown v-model="selectedStu" :options="noAttendStus" optionLabel="uname" placeholder="Select a student" />
-
-    <template #footer>
+    <Dialog header="Add New Student" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
+      <Dropdown v-model="selectedStu" :options="noAttendStus" optionLabel="uname" placeholder="Select a student" />
+      <template #footer>
         <Button label="Yes" icon="pi pi-check" @click="addStudent()" />
         <Button label="No" icon="pi pi-times" @click="closeAddStu()" class="p-button-secondary"/>
-    </template>
-</Dialog>
-<Toast/>
+      </template>
+    </Dialog>
+  <Toast/>
   </div>
 </template>
 
@@ -111,13 +102,10 @@ export default {
     this.getTAs()
     this.getStudents()
     this.getForums()
-  },methods: {
+  },
+  methods: {
     goBack: function(){
        this.$router.push({name: 'TeachDetailTutList', params: {code: this.$route.params.code}})
-    },
-    test: function(){
-      console.log("test toast");
-      this.$toast.add({severity:'success', summary: 'Success ', detail:'Student added in!', life: 3000});
     },
     closeAddForum: function(){
       this.displayForum = false;
