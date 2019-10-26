@@ -50,6 +50,13 @@ urlpatterns = [
     path('tutorial/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorial/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
+    path('requests/code/<code>/', student_view.get_requests_by_coursecode),
+    path('requests/approve/<uname>/<code>/', student_view.approve_requests),
+    path('requests/reject/<uname>/<code>/', student_view.reject_requests),
+
+    path('candidates/code/<code>/', student_view.get_ta_candidates_by_coursecode),
+    path('candidates/add/<uname>/<code>/', student_view.add_TA_by_uname_coursecode_group),
+
     url(r'', auth_view.default)
 
     # path('add/', views_helper.add_participator),
