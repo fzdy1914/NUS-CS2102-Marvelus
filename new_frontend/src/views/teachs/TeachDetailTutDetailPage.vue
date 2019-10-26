@@ -1,5 +1,7 @@
 <template>
+
   <div>
+    <Button label = "Back" @click="goBack()"/>
     This is Tut Detail Info:
     <div>Course Code: {{ $route.params.code }}</div>
     <div>Group Num: {{ $route.params.group_num }}</div>
@@ -110,6 +112,9 @@ export default {
     this.getStudents()
     this.getForums()
   },methods: {
+    goBack: function(){
+       this.$router.push({name: 'TeachDetailTutList', params: {code: this.$route.params.code}})
+    },
     test: function(){
       console.log("test toast");
       this.$toast.add({severity:'success', summary: 'Success ', detail:'Student added in!', life: 3000});
