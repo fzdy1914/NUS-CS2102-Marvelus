@@ -1,6 +1,7 @@
 from luminus import sql_helper
 from datetime import datetime
 
+
 def get_students_by_coursecode(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
                                        " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s ",
@@ -23,16 +24,11 @@ def add_student_for_TA_by_uname_coursecode_groupnum(uname,code,group_num):
 
 
 def add_student_to_tut_by_uname_coursecode_groupnum(uname, code, group_num):
-    sql = 'insert into Attend values (%(uname)s, %(code)s, %(group_num)s, %(date)s )'
-    data = {}
-    data['uname'] = uname
-    data['code'] = code
-    data['group_num'] = group_num
-    data['date'] = datetime.now()
-    sql_helper.exec_sql(sql, data)
+    sql_helper.exec_sql('insert into Attend values (%(uname)s, %(code)s, %(group_num)s, %(date)s )',
+                        {'uname': uname, 'code': code, 'group_num': group_num, 'date': datetime.now()})
 
-    sql1 = 'SELECT * FROM Users NATURAL JOIN (Students NATURAL JOIN Attend) WHERE code = %(code)s AND group_num = %(group_num)s'
-    return sql_helper.fetchall_to_dict(sql1, {'code': code, 'group_num': group_num})
+    return sql_helper.fetchall_to_dict('SELECT * FROM Users NATURAL JOIN (Students NATURAL JOIN Attend) WHERE code = %(code)s AND group_num = %(group_num)s',
+                                       {'code': code, 'group_num': group_num})
 
 
 def get_student_enrolledbutnotattend_by_coursecode(code):

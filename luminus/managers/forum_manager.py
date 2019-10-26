@@ -26,15 +26,9 @@ def get_forum_notintut_by_code_and_group_num(code, group_num):
 
 
 def add_forum_to_tut_by_code_group_num_fid(code, group_num, fid):
-    sql = 'insert into View values (%(f_code)s, %(fid)s,%(t_code)s ,%(group_num)s)'
-    data = {}
-    data['f_code'] = code
-    data['fid'] = fid
-    data['t_code'] = code
-    data['group_num'] = group_num
+    sql_helper.exec_sql('insert into View values (%(f_code)s, %(fid)s,%(t_code)s ,%(group_num)s)',
+                        {'f_code': code, 'fid': fid, 't_code': code, 'group_num': group_num})
 
-    sql_helper.exec_sql(sql, data)
-
-    return sql_helper.fetchall_to_dict(" SELECT * FROM Forums f "
+    return sql_helper.fetchall_to_dict("SELECT * FROM Forums f "
                                        "WHERE f.code = %(code)s AND f.fid = %(fid)s",
-                                       {'code': code, 'fid': fid } )
+                                       {'code': code, 'fid': fid})

@@ -18,5 +18,3 @@ def get_TAs_notincurtut_by_code_group_num(request,code,group_num):
 def add_TA_to_tut_by_uname_code_group_num(request, uname,code,group_num):
     TA = TA_manager.add_TA_to_tut_by_uname_code_group_num(uname,code,group_num)
     return success_json_response({'TA': TA})
-
-
