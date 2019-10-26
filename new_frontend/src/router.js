@@ -18,6 +18,10 @@ import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
 import TeachDetailTutListPage from "./views/teachs/TeachDetailTutListPage";
 import TeachDetailTutPage from "./views/teachs/TeachDetailTutPage";
 import TeachDetailTutDetailPage from "./views/teachs/TeachDetailTutDetailPage";
+import CourseDetailForumPage from "./views/courses/CourseDetailForumPage";
+import CourseDetailForumListPage from "./views/courses/CourseDetailForumListPage";
+import CourseDetailForumDetailPage from "./views/courses/CourseDetailForumDetailPage";
+import CourseDetailPostListPage from "./views/courses/CourseDetailPostListPage";
 
 Vue.use(Router)
 
@@ -61,6 +65,28 @@ export default new Router({
               path: 'tut',
               name: 'CourseDetailTut',
               component: CourseDetailTutPage,
+            },
+            {
+              path: 'forum',
+              component: CourseDetailForumPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'CourseDetailForumList',
+                  component: CourseDetailForumListPage,
+                },
+                {
+                  path: ':fid',
+                  component: CourseDetailForumDetailPage,
+                  children: [
+                    {
+                      path: '/',
+                      name: 'CourseDetailPostList',
+                      component: CourseDetailPostListPage
+                    }
+                  ]
+                },
+              ]
             },
           ]
         }

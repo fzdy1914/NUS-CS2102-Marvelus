@@ -16,6 +16,18 @@ def get_forum_by_code_and_group_num(code, group_num):
                                        ")", {'code': code, 'group_num': group_num})
 
 
+def get_forum_by_code_and_uname(code, uname):
+    return sql_helper.fetchall_to_dict("WITH X AS (SELECT * FROM Attend NATURAL JOIN tutorials "
+                                       "    WHERE uname = %(uname)s AND code=%(code)s) "
+                                       "SELECT * FROM Forums F JOIN X "
+                                       "ON F.code = X.code "
+                                       "WHERE EXISTS("
+                                       "    SELECT 1 FROM View V "
+                                       "    WHERE V.f_code = F.code AND V.t_code = X.code "
+                                       "    AND V.fid = F.fid AND V.group_num = X.group_num)",
+                                       {'uname': uname, 'code': code})
+
+
 def get_forum_notintut_by_code_and_group_num(code, group_num):
     return sql_helper.fetchall_to_dict("SELECT * FROM Forums f "
                                        "WHERE f.code = %(code)s AND"
