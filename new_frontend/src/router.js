@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router';
+import Router from 'vue-router'
 import CoursePage from './views/CoursePage.vue'
 import Login from "./views/Login";
 import CourseDetailPage from "./views/courses/CourseDetailPage";

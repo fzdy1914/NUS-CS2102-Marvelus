@@ -24,5 +24,5 @@ def get_course_by_tuname(tuname):
 
 def get_course_by_suname(suname):
     return sql_helper.fetchall_to_dict("SELECT * FROM Courses c, Enroll e "
-                                       "WHERE e.uname = %(suname)s AND c.code = e.code",
+                                       "WHERE e.uname = %(suname)s AND c.code = e.code AND e.status='enrolled'",
                                        {'suname': suname})

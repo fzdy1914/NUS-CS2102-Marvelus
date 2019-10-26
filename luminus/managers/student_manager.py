@@ -39,14 +39,9 @@ def get_ta_candidates_by_coursecode(code):
                                        {'code': code})
 
 
-def add_TA_by_uname_coursecode_group(uname,code):
-    print('uname'+uname)
-    print('code'+code)
+def add_TA_by_uname_coursecode_group(uname, code):
     # for students that are yet not tutoring any course
-    sql1 = 'INSERT IGNORE INTO TAs VALUES(%(uname)s)'
-    data = {'uname': uname}
-    sql_helper.exec_sql(sql1, data)
+    sql_helper.exec_sql('INSERT IGNORE INTO TAs VALUES(%(uname)s)', {'uname': uname})
 
-    sql2 = 'INSERT ignore INTO Assist values(%(uname)s,  %(code)s)'
-    return sql_helper.exec_sql(sql2,
-                                       {'uname': uname,  'code': code})
+    return sql_helper.exec_sql('INSERT IGNORE INTO Assist values(%(uname)s,  %(code)s)',
+                               {'uname': uname,  'code': code})
