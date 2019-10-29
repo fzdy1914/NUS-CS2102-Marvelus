@@ -45,3 +45,8 @@ def get_ta_candidates_by_coursecode(request, code):
 def add_TA_by_uname_coursecode_group(request, uname, code):
     ta = student_manager.add_TA_by_uname_coursecode_group(uname, code)
     return success_json_response({'ta': ta})
+
+
+def get_students_by_student_uname_and_coursecode(request, uname, code):
+    students = student_manager.get_students_by_student_uname_and_coursecode(uname, code)
+    return success_json_response({'students': students})

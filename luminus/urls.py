@@ -35,6 +35,7 @@ urlpatterns = [
     path('students/code/<code>/', student_view.get_students_by_coursecode),
     path('students/noattend/<code>/',student_view.get_students_noattend_by_coursecode),
     path('students/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
+    path('students/uname/code/<uname>/<code>/', student_view.get_students_by_student_uname_and_coursecode),
     path('student/addtut/<uname>/<code>/<group_num>/',student_view.add_student_to_tut_by_uname_coursecode_groupnum),
 
     path('courses/', course_view.get_courses),
@@ -56,6 +57,7 @@ urlpatterns = [
 
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),
     path('tutorials/uname/<username>/', tut_view.get_tutorials_by_student),
+    path('tutorials/uname/code/<username>/<code>/', tut_view.get_tutorials_by_student_and_course),
     path('tutorials/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorials/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
