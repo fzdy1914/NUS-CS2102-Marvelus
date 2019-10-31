@@ -1,7 +1,7 @@
 <template>
   <div class="info-bar">
     <img class="logo-img" src="../assets/luminus-logo.png">
-    <div class="user">{{ $store.state.username }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
+    <div class="user">Welcome, {{ $store.state.username }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
   </div>
 </template>
 

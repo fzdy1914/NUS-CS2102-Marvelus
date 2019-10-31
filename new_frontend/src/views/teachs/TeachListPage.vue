@@ -28,10 +28,17 @@ export default {
 </script>
 
 <style scoped>
+  .teach-list-page{
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+  }
   .course-card {
     display: inline-block;
     background:#FFFFFF;
-    border: #FFFFFF solid 1px;
+    box-shadow: 7px 7px 10px #EEEEEE;
     float: left;
     padding: 20px;
     margin: 10px;

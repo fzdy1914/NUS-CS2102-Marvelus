@@ -50,3 +50,23 @@ def add_TA_by_uname_coursecode_group(request, uname, code):
 def get_students_by_student_uname_and_coursecode(request, uname, code):
     students = student_manager.get_students_by_student_uname_and_coursecode(uname, code)
     return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_enrolled(request, code):
+    students = student_manager.get_students_by_coursecode_enrolled(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_completed(request, code):
+    students = student_manager.get_students_by_coursecode_completed(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_rejected(request, code):
+    students = student_manager.get_students_by_coursecode_rejected(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_requesting(request, code):
+    students = student_manager.get_students_by_coursecode_requesting(code)
+    return success_json_response({'students': students})
