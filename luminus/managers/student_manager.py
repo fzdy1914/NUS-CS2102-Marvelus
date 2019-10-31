@@ -71,7 +71,7 @@ def get_ta_candidates_by_coursecode(code):
                                        {'code': code})
 
 
-def add_TA_by_uname_coursecode_group(uname, code):
+def add_ta_by_uname_coursecode_group(uname, code):
     # for students that are yet not tutoring any course
     sql_helper.exec_sql('INSERT IGNORE INTO TAs VALUES(%(uname)s)', {'uname': uname})
 
