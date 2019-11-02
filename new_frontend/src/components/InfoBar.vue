@@ -1,5 +1,6 @@
 <template>
   <div class="info-bar">
+    <img class="logo-img" src="../assets/logo-transparent-bg.png">
     <div class="user">Welcome, {{ $store.state.username }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
   </div>
 </template>

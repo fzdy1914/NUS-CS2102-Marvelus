@@ -33,7 +33,7 @@ export default {
   name: "TeachSideBarMenu",
   data(){
     return{
-      course:null,
+      course: {},
     }
   },
   computed: {
@@ -65,7 +65,6 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.course = data.data.course
-          console.log(this.course)
         } else {
           this.state = false
           this.msg = data.error
