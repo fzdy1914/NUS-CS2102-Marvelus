@@ -7,7 +7,7 @@
       <!--</TabPanel>-->
       <TabPanel header="Enrolled students">
         <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Students enrolled in this module:</div>
-        <BasicStudentList :students="studentsEnrolled"/>
+        <StudentListDataTable :peoples="studentsEnrolled" />
       </TabPanel>
       <TabPanel header="Completed students">
         <div style="font-size: 20px; text-align: left;margin-left: 15px; margin-right: 15px; font-weight: bold;">
@@ -27,6 +27,7 @@ import StudentListGradeMode from '../../components/lists/StudentListGradeMode'
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Button from 'primevue/button';
+import StudentListDataTable from "../../components/lists/StudentListDataTable";
 export default {
   name: "TeachDetailStudentPage",
   components: {
@@ -34,7 +35,8 @@ export default {
     StudentListGradeMode,
     TabView,
     TabPanel,
-    Button
+    Button,
+    StudentListDataTable
   },
   data() {
     return {

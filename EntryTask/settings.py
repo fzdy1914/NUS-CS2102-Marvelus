@@ -116,6 +116,7 @@ DATABASES = {
         'NAME': 'entrytask',
         'USER': 'root',
         'PASSWORD': 'root',
+        # 'PASSWORD': 'password',
         'HOST':'localhost',
         'PORT':'3306',
     },
@@ -124,6 +125,7 @@ DATABASES = {
         'NAME': 'luminus',
         'USER': 'root',
         'PASSWORD': 'root',
+        # 'PASSWORD': 'password',
         'HOST':'localhost',
         'PORT':'3306',
     }
