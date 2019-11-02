@@ -2,25 +2,31 @@
   <div class="navbar-h">
     <nav class="navbar navbar-inverse">
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <ul class="nav navbar-nav navbar-left">
-        <li v-if="$store.state.isProf" :class="{ active: whichActive === 'courses' }" @click="goTeach()">
-          <a>My Teaching Modules</a>
+      <ul class="nav navbar-nav navbar-left ">
+        <li class="tab" v-if="$store.state.isProf" :class="{ active: whichActive === 'courses' }" @click="goTeach()">
+          <a >My Teaching Modules</a>
         </li>
-        <li v-else :class="{ active: whichActive === 'courses' }" @click="goCourses()"><a>My Modules</a></li>
-        <li :class="{ active: whichActive === 'search' }" @click="goSearch()"><a>Module Search</a></li>
-        <li v-if="$store.state.isTA" :class="{ active: whichActive === 'assists' }" @click="goAssists()">
+        <li class="tab" v-else :class="{ active: whichActive === 'courses' }" @click="goCourses()"><a>My Modules</a></li>
+        <li class="tab" :class="{ active: whichActive === 'search' }" @click="goSearch()"><a>Module Search</a></li>
+        <li class="tab" v-if="$store.state.isTA" :class="{ active: whichActive === 'assists' }" @click="goAssists()">
           <a>My Assisting Modules</a>
         </li>
       </ul>
     </nav>
   </div>
+
 </template>
 
 <script>
+  import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 export default {
   name: 'NavBar',
   props: {
     whichActive:String
+  },components:{
+    TabView,
+    TabPanel,
   },
   data () {
     return {
@@ -52,22 +58,26 @@ export default {
 </script>
 
 <style scoped>
+  .tab{
+    border-radius: 10px;
+  }
   .navbar-h{
-    background-color: #002970;
+    background-color: #1976d2;
   }
   .navbar-left{
     font-size: 18px;
     font-weight: bold;
-    background: #002970;
+    background:  #1e88e5;
   }
   .navbar-inverse {
-    border: #002970;
-    background-color: #002970;
+    border: #1565c0;
+    background-color:#1565c0;
+
   }
   .navbar-inverse .navbar-nav > .active > a,
   .navbar-inverse .navbar-nav > .active > a:hover,
   .navbar-inverse .navbar-nav > .active > a:focus {
-    color: #002970;
+    color: #1976d2;
     background-color: white;
   }
   .navbar-inverse .navbar-nav > li > a {

@@ -1,6 +1,6 @@
 <template>
   <div class="info-bar">
-    <img class="logo-img" src="../assets/luminus-logo.png">
+    <img class="logo-img" src="../assets/logo-transparent-bg.png">
     <div class="user">{{ $store.state.username }} <Button class="p-button-danger" icon="pi pi-sign-out" @click="logout()"/></div>
   </div>
 </template>
@@ -33,7 +33,8 @@
 <style scoped>
   .info-bar {
     height: 60px;
-    background: #002970;
+    /*background: #99000a;*/
+    background-color: #1565c0;
   }
   .user {
     color: white;

@@ -115,7 +115,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'entrytask',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'password',
         'HOST':'localhost',
         'PORT':'3306',
     },
@@ -123,7 +123,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'luminus',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'password',
         'HOST':'localhost',
         'PORT':'3306',
     }
