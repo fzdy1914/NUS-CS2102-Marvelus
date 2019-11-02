@@ -8,7 +8,13 @@ def get_posts_by_code_and_fid(code, fid):
                                        {'code': code, 'fid': fid})
 
 
-def get_posts_by_code_and_fid_and_pid(code, fid, pid):
+def get_post_by_code_and_fid_and_pid(code, fid, pid):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Posts "
+                                       "WHERE code = %(code)s AND fid = %(fid)s AND pid = %(pid)s",
+                                       {'code': code, 'fid': fid, 'pid': pid})
+
+
+def get_replies_by_code_and_fid_and_pid(code, fid, pid):
     return sql_helper.fetchall_to_dict("SELECT * FROM Posts "
                                        "WHERE t_code = %(code)s AND t_fid = %(fid)s AND t_pid = %(pid)s"
                                        "ORDER BY pid",

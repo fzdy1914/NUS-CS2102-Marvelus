@@ -7,7 +7,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="post in posts" :key="post.pid">
+        <tr v-for="post in posts" :key="post.pid" @click="clickAction(post.pid)">
           <td>{{ post.title }}</td>
           <td class="operation" v-if="canDelete">
             <button class="btn btn-primary delete">Delete</button>
@@ -26,6 +26,9 @@ export default {
     canDelete: Boolean
   },
   methods: {
+    clickAction: function (pid) {
+      this.$emit('goPost', pid)
+    }
   }
 }
 </script>

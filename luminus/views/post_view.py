@@ -10,5 +10,6 @@ def get_posts_by_code_and_fid(request, code, fid):
 
 
 def get_posts_by_code_and_fid_and_pid(request, code, fid, pid):
-    posts = post_manager.get_posts_by_code_and_fid_and_pid(code, fid, pid)
-    return success_json_response({'posts': posts})
+    post = post_manager.get_post_by_code_and_fid_and_pid(code, fid, pid)
+    replies = post_manager.get_replies_by_code_and_fid_and_pid(code, fid, pid)
+    return success_json_response({'post': post[0], 'replies': replies})

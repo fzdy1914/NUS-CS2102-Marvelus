@@ -22,6 +22,7 @@ import CourseDetailForumPage from "./views/courses/CourseDetailForumPage";
 import CourseDetailForumListPage from "./views/courses/CourseDetailForumListPage";
 import CourseDetailForumDetailPage from "./views/courses/CourseDetailForumDetailPage";
 import CourseDetailPostListPage from "./views/courses/CourseDetailPostListPage";
+import CourseDetailPostDetailPage from "./views/courses/CourseDetailPostDetailPage";
 
 Vue.use(Router)
 
@@ -83,6 +84,11 @@ export default new Router({
                       path: '/',
                       name: 'CourseDetailPostList',
                       component: CourseDetailPostListPage
+                    },
+                    {
+                      path: ':pid',
+                      name: 'CourseDetailPostDetail',
+                      component: CourseDetailPostDetailPage
                     }
                   ]
                 },
