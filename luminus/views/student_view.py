@@ -42,6 +42,31 @@ def get_ta_candidates_by_coursecode(request, code):
     return success_json_response({'students': students})
 
 
-def add_TA_by_uname_coursecode_group(request, uname, code):
-    ta = student_manager.add_TA_by_uname_coursecode_group(uname, code)
+def add_ta_by_uname_coursecode_group(request, uname, code):
+    ta = student_manager.add_ta_by_uname_coursecode_group(uname, code)
     return success_json_response({'ta': ta})
+
+
+def get_students_by_student_uname_and_coursecode(request, uname, code):
+    students = student_manager.get_students_by_student_uname_and_coursecode(uname, code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_enrolled(request, code):
+    students = student_manager.get_students_by_coursecode_enrolled(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_completed(request, code):
+    students = student_manager.get_students_by_coursecode_completed(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_rejected(request, code):
+    students = student_manager.get_students_by_coursecode_rejected(code)
+    return success_json_response({'students': students})
+
+
+def get_students_by_coursecode_requesting(request, code):
+    students = student_manager.get_students_by_coursecode_requesting(code)
+    return success_json_response({'students': students})

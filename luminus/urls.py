@@ -33,9 +33,14 @@ urlpatterns = [
     path('TAs/addtut/<uname>/<code>/<group_num>/', TA_view.add_TA_to_tut_by_uname_code_group_num),
 
     path('students/code/<code>/', student_view.get_students_by_coursecode),
-    path('students/noattend/<code>/',student_view.get_students_noattend_by_coursecode),
+    path('students/noattend/<code>/', student_view.get_students_noattend_by_coursecode),
     path('students/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
-    path('student/addtut/<uname>/<code>/<group_num>/',student_view.add_student_to_tut_by_uname_coursecode_groupnum),
+    path('students/uname/code/<uname>/<code>/', student_view.get_students_by_student_uname_and_coursecode),
+    path('student/addtut/<uname>/<code>/<group_num>/', student_view.add_student_to_tut_by_uname_coursecode_groupnum),
+    path('students/code/enrolled/<code>/', student_view.get_students_by_coursecode_enrolled),
+    path('students/code/completed/<code>/', student_view.get_students_by_coursecode_completed),
+    path('students/code/requesting/<code>/', student_view.get_students_by_coursecode_requesting),
+    path('students/code/rejected/<code>/', student_view.get_students_by_coursecode_rejected),
 
     path('courses/', course_view.get_courses),
     path('assists/', course_view.get_assists),
@@ -59,6 +64,7 @@ urlpatterns = [
 
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),
     path('tutorials/uname/<username>/', tut_view.get_tutorials_by_student),
+    path('tutorials/uname/code/<username>/<code>/', tut_view.get_tutorials_by_student_and_course),
     path('tutorials/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorials/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
@@ -67,7 +73,11 @@ urlpatterns = [
     path('requests/reject/<uname>/<code>/', student_view.reject_requests),
 
     path('candidates/code/<code>/', student_view.get_ta_candidates_by_coursecode),
-    path('candidates/add/<uname>/<code>/', student_view.add_TA_by_uname_coursecode_group),
+    path('candidates/add/<uname>/<code>/', student_view.add_ta_by_uname_coursecode_group),
+
+    path('attendance/get/<uname>/<code>/<group_num>/', tut_view.retrieve_attendance_by_uname_code_group_num),
+    path('attendance/add/<uname>/<code>/<group_num>/<attend_week>/', tut_view.add_stu_to_attendance_by_uname_code_group_num),
+
 
     url(r'', auth_view.default)
 

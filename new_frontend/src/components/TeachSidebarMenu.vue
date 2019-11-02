@@ -1,5 +1,8 @@
 <template>
   <div class="sidebar-menu">
+    <div class="nav-code">{{course.code}}</div>
+    <div class="nav-title">{{course.title}}</div>
+    <div class="nav-info">{{course.info}}</div>
     <div class="p-menu p-component">
       <ul class="p-menu-list p-reset">
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
@@ -28,6 +31,11 @@
 <script>
 export default {
   name: "TeachSideBarMenu",
+  data(){
+    return{
+      course: {},
+    }
+  },
   computed: {
     isInfoActive: function () {
       return this.$route.name == 'TeachDetail' || this.$route.name == 'TeachDetailInfo'
@@ -45,7 +53,24 @@ export default {
       return this.$route.name == 'TeachDetailTAs'
     },
   },
+  mounted(){
+    this.getCourse();
+  },
   methods: {
+    getCourse: function () {
+      this.$axios.request({
+        url: this.$url + 'course/code/' + this.$route.params.code + '/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.course = data.data.course
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
     goInfo: function () {
       if (this.$route.name != 'TeachDetailInfo') {
         this.$router.push({name: 'TeachDetailInfo', params: {code: this.$route.params.code}})
@@ -79,8 +104,28 @@ export default {
 .sidebar-menu {
   display: inline-block;
   float: left;
+
+}
+.nav-code{
+
+  color: #1976d2;
+  max-width: 150px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.nav-title{
+  max-width: 150px;
+  font-weight: Bold ;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.nav-info{
+  max-width: 150px;
+  margin-bottom: 15px;
 }
 .active {
   background-color: #dedede;
+  font-size:15px;
+  font-family: Arial Rounded MT Bold
 }
 </style>

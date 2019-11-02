@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;">
     <table class="table table-bordered table-hover" :sticky-header=true>
       <thead>
         <tr>
           <th>Name</th>
+          <th>Matriculation number</th>
           <th>Major</th>
           <th>Year</th>
           <th>Email</th>
+          <th v-if="isSelectCandidate">Course Final Grade</th>
           <th v-if="isSelectTutor">Group Number</th>
           <th v-if="isProf">Operation</th>
         </tr>
@@ -14,9 +16,11 @@
       <tbody>
         <tr v-for="student in students" :key="student.uname">
           <td class="name">{{ student.name }}</td>
+          <td class="matnum">{{ student.matriculation_num }}</td>
           <td class="major">{{ student.major }}</td>
           <td class="year">{{ student.year }}</td>
           <td class="email">{{ student.email }}</td>
+          <td class="email" v-if="isSelectCandidate">{{ student.final_grade }}</td>
           <td class="grpNum" v-if="isSelectTutor">{{ student.group_num }}</td>
           <td class="operation" v-if="isProf">
             <button class="btn btn-primary approve">Approve</button>
@@ -34,7 +38,8 @@ export default {
   props: {
     students: Array,
     isProf: Boolean,
-    isSelectTutor: Boolean
+    isSelectTutor: Boolean,
+    isSelectCandidate: Boolean
   },
   methods: {
 
@@ -46,8 +51,8 @@ export default {
   .name, .major, .year {
     width: 150px;
   }
-  .email {
-    width: 350px;
+  .email, .matnum {
+    width: 300px;
   }
   .operation {
     width: 200px;
