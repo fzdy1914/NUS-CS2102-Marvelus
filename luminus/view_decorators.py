@@ -1,6 +1,6 @@
 from jsonschema import ValidationError
 
-from EventCenter.responses import error_json_response
+from luminus.responses import error_json_response
 
 
 # def admin_required(func):

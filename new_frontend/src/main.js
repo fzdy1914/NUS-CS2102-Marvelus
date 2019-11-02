@@ -12,7 +12,7 @@ import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import ToastService from 'primevue/toastservice';
 
-const backendUrl = 'http://127.0.0.1:8000/new/'
+const backendUrl = 'http://127.0.0.1:8000/api/'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

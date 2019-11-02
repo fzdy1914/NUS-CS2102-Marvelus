@@ -17,17 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
-from EventCenter.views_helper import index, event_detail_a
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/', include('EventCenter.urls')),
-    path('new/', include('luminus.urls')),
+    path('api/', include('luminus.urls')),
 
-    # path('event-center/index/', index, name='event_index'),
-    # path('event-center/event/<int:event_id>/', event_detail_a, name='detail'),
-
-    path('index/', TemplateView.as_view(template_name="index.html"), name='frontend'),
     path('', TemplateView.as_view(template_name="index.html"), name='frontend'),
 ]

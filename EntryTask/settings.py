@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'EventCenter',
     'luminus',
 ]
 
@@ -91,7 +90,7 @@ ROOT_URLCONF = 'EntryTask.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'frontend/dist')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'new_frontend/dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -173,9 +172,12 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/api/reject/'
 LOGIN_REDIRECT_URL = '/index/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/dist/static"),
-]
+FRONTEND_ROOT = 'new_frontend/dist'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, FRONTEND_ROOT),
+    os.path.join(BASE_DIR, FRONTEND_ROOT + '/static/'),
+)
 
 LOG_PATH = os.path.join(BASE_DIR, 'log')
 if not os.path.isdir(LOG_PATH):

@@ -6,8 +6,8 @@ from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
 from rsa import DecryptionError
 
-from EventCenter.forms import LoginForm
-from EventCenter.responses import success_json_response, error_json_response
+from luminus.forms import LoginForm
+from luminus.responses import success_json_response, error_json_response
 from luminus.managers import prof_manager, TA_manager
 
 logger = logging.getLogger('django')
