@@ -3,15 +3,15 @@ from datetime import datetime
 
 
 def get_students_by_coursecode(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s ",
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN"
+                                       " (Students NATURAL JOIN Enroll) WHERE Enroll.status = 'enrolled' AND Enroll.code = %(code)s ",
                                        {'code': code})
 
 
 def get_students_for_TAs_by_coursecode(code):
     return  sql_helper.fetchall_to_dict("SELECT * FROM (Enrolls NATURAL JOIN Students) AS es WHERE es.code = %(code)s AND es.status ='COMPLETED' "
                                         "AND NOT EXISTS (SELECT 1 FROM Facilitate f WHERE f.code = %(code)s AND f.uname=es.uname)",
-                                        {'code':code})
+                                        {'code': code})
 
 
 def add_student_for_TA_by_uname_coursecode_groupnum(uname,code,group_num):
@@ -65,13 +65,15 @@ def reject_requests(uname, code):
 
 
 def get_ta_candidates_by_coursecode(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users u NATURAL JOIN participators NATURAL JOIN (Students s NATURAL JOIN Enroll e) "
-                                       "WHERE status = 'completed' AND code = %(code)s AND "
-                                       "(NOT EXISTS(SELECT 1 FROM Assist a WHERE a.uname=s.uname AND a.code = e.code))",
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users u NATURAL JOIN Participators p NATURAL JOIN (Students s NATURAL JOIN Enroll e) "
+                                       "WHERE status = 'completed' AND code = %(code)s AND (e.final_grade = 'A' OR e.final_grade = 'B') AND"
+                                       "(NOT EXISTS(SELECT 1 FROM Assist a WHERE a.uname=s.uname AND a.code = e.code))"
+                                       "ORDER BY e.final_grade ASC,"
+                                       "          p.year DESC",
                                        {'code': code})
 
 
-def add_TA_by_uname_coursecode_group(uname, code):
+def add_ta_by_uname_coursecode_group(uname, code):
     # for students that are yet not tutoring any course
     sql_helper.exec_sql('INSERT IGNORE INTO TAs VALUES(%(uname)s)', {'uname': uname})
 

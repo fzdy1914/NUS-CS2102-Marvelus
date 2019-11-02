@@ -2,11 +2,16 @@
   <div>
   This is all tutors under the module:
     <div>
-      <BasicStudentList :students="tas" :is-select-tutor="false"/>
+      <StudentListDataTable :peoples="tas" />
     </div>
+    <br/>
+    <br/>
     <Button label="Add more tutors" icon="pi pi-plus" @click="openAddTA()" />
     <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
-      <BasicStudentList :students="candidates"/>
+      <!--<BasicStudentList :students="candidates" :is-select-candidate="true"/>-->
+      Eligible candidates who have completed the module and obtained grade 'A' or 'B':
+      <StudentListDataTable :peoples="candidates" :is-select-candidate="true"/>
+      <br/>
       <Dropdown v-model="selectedCandidate" :options="candidates" optionLabel="name" placeholder="Select a tutor" />
         <template #footer>
           <Button label="Yes" icon="pi pi-check" @click="addTA()" />
@@ -21,10 +26,13 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 import BasicStudentList from '../../components/lists/BasicStudentList';
+import StudentListDataTable from "../../components/lists/StudentListDataTable";
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';
 export default {
   name: "TeachDetailTAsPage",
   props: {
-    tas: Array,
   },
   data() {
     return {
@@ -37,9 +45,13 @@ export default {
     }
   },
   components:{
+    StudentListDataTable,
     Button,
     Dialog,
     Dropdown,
+    DataTable,
+    Column,
+    ColumnGroup,
     BasicStudentList
   },
   mounted() {
@@ -75,7 +87,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.candidates = data.data.students
-          console.log(this.candidates)
         } else {
           this.state = false
           this.msg = data.error
@@ -87,7 +98,6 @@ export default {
         url: this.$url + 'candidates/add/' +this.selectedCandidate.uname +'/'+ this.$route.params.code+'/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true

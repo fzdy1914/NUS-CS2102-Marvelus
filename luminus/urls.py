@@ -64,7 +64,7 @@ urlpatterns = [
     path('requests/reject/<uname>/<code>/', student_view.reject_requests),
 
     path('candidates/code/<code>/', student_view.get_ta_candidates_by_coursecode),
-    path('candidates/add/<uname>/<code>/', student_view.add_TA_by_uname_coursecode_group),
+    path('candidates/add/<uname>/<code>/', student_view.add_ta_by_uname_coursecode_group),
 
     path('attendance/get/<uname>/<code>/<group_num>/', tut_view.retrieve_attendance_by_uname_code_group_num),
     path('attendance/add/<uname>/<code>/<group_num>/<attend_week>/', tut_view.add_stu_to_attendance_by_uname_code_group_num),
