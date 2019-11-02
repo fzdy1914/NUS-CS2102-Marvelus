@@ -1,5 +1,14 @@
 from luminus.managers import forum_manager
-from luminus.responses import success_json_response
+from luminus.responses import success_json_response, error_json_response
+
+
+def get_viewable_forum(request, code):
+    user = request.user
+    if request.user.is_authenticated:
+        uname = user.uname
+        forums = forum_manager.get_forum_by_code_and_uname(code, uname)
+        return success_json_response({'forums': forums})
+    return error_json_response("User not logged in")
 
 
 def get_forum_by_code(request, code):

@@ -52,12 +52,15 @@ urlpatterns = [
     path('courses/all/', course_view.get_all_courses),
 
     path('forums/code/<code>/', forum_view.get_forum_by_code),
+    path('forums/view/<code>/', forum_view.get_viewable_forum),
     path('forums/<code>/<group_num>/', forum_view.get_forum_by_code_and_group_num),
     path('forums/notin/<code>/<group_num>/', forum_view.get_forum_notintut_by_code_and_group_num),
     path('forums/addtut/<code>/<group_num>/<fid>/', forum_view.add_forum_to_tut_by_code_group_num_fid),
 
-    path('post/<code>/<fid>/', post_view.get_post_by_code_and_fid),
-    path('post/<code>/<fid>/<pid>/', post_view.get_post_by_code_and_fid_and_pid),
+    path('posts/<code>/<fid>/', post_view.get_posts_by_code_and_fid),
+    path('posts/<code>/<fid>/<pid>/', post_view.get_posts_by_code_and_fid_and_pid),
+    path('post/add/', post_view.add_post),
+    path('reply/add/', post_view.add_reply),
 
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),
     path('tutorials/uname/<username>/', tut_view.get_tutorials_by_student),

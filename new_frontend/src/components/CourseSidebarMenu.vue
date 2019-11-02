@@ -8,7 +8,7 @@
         <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTut()">
           <a class="p-menuitem-link">Tutorial</a>
         </li>
-        <li class="p-menuitem">
+        <li class="p-menuitem" :class="{ active: isForumActive }" @click="goForum()">
           <a class="p-menuitem-link">Forum</a>
         </li>
       </ul>
@@ -26,6 +26,9 @@ export default {
     isTutActive: function () {
       return this.$route.name == 'CourseDetailTut'
     },
+    isForumActive: function () {
+      return this.$route.name == 'CourseDetailForumList' || this.$route.name == 'CourseDetailPostList'
+    },
   },
   methods: {
     goInfo: function () {
@@ -36,6 +39,11 @@ export default {
     goTut: function () {
       if (this.$route.name != 'CourseDetailTut') {
         this.$router.push({name: 'CourseDetailTut', params: {code: this.$route.params.code}})
+      }
+    },
+    goForum: function () {
+      if (this.$route.name != 'CourseDetailForumList') {
+        this.$router.push({name: 'CourseDetailForumList', params: {code: this.$route.params.code}})
       }
     },
   }

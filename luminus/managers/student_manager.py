@@ -15,7 +15,7 @@ def get_students_for_TAs_by_coursecode(code):
 
 
 def add_student_for_TA_by_uname_coursecode_groupnum(uname,code,group_num):
-    return sql_helper.fetchall_to_dict("INSERT INTO Facilitate VALUES (uname,coursecode,groupnum;"
+    return sql_helper.fetchall_to_dict("INSERT INTO Facilitate VALUES (uname,coursecode,groupnum);"
                                        "INSERT INTO TAs VALUES (uname)"
                                        "WHERE NOT EXISTS (SELECT 1 FROM TAs t WHERE t.uname=uname);"
                                        "SELECT * FROM Facilitate f "
