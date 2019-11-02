@@ -1,55 +1,93 @@
 <template>
   <div>
-    <Button label = "Back" @click="goBack()"/>
-    This is Tut Detail Info:
-    <div>Course Code: {{ $route.params.code }}</div>
-    <div>Group Num: {{ $route.params.group_num }}</div>
+    <div style="text-align: left"><Button class="p-button-raised " icon="pi pi-arrow-left" label = "Back"  @click="goBack()"/></div>
+    <div class="title">This is Tut Detail Info:</div>
+    <div class="title" >Course Code: {{ $route.params.code }}</div>
+    <div class="title" >Group Num: {{ $route.params.group_num }}</div>
     <div>
-      <h3>List of TA</h3>
-      <Button label="Add New " @click="openAddTA()" />
+      <div class="p-grid">
+        <h3 class="list-name p-col-9">List of TA</h3>
+        <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New TA" @click="openAddTA()"></Button></div>
+      </div>
+
       <DataTable :value="TAs">
         <Column field="name" header="TA Name"></Column>
-        <Column field="uname" header="User Name"></Column>
-        <Column field="brand" header="..."></Column>
-        <Column field="color" header="..."></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="matriculationNum" header="Matriculation Number"></Column>
+        <Column field="year" header="Year"></Column>
       </DataTable>
     </div>
-    <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '50vw'}" :modal="true">
-      <Dropdown v-model="selectedTA" :options="notInTAs" optionLabel="uname" placeholder="Select a TA" />
+    <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '80vw'}" :modal="true">
+      <DataTable :value="notInTAs" :selection.sync="selectedTA" selectionMode="single" >
+        <Column field="name" header="TA Name"></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="matriculationNum" header="Matriculation Number"></Column>
+        <Column field="year" header="Year"></Column>
+      </DataTable>
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addTA()" />
             <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
         </template>
     </Dialog>
+
     <div>
-      <h3>List of Forums</h3>
-      <Button label="Add New " @click="openAddForum()" />
+      <div class="p-grid">
+        <h3 class="list-name p-col-9">List of Forums</h3>
+        <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New Forum" @click="openAddForum()" /></div>
+      </div>
       <DataTable :value="Forums">
-        <Column field="name" header="Forum Name"></Column>
-        <Column field="fid" header="Forum ID"></Column>
-        <Column field="brand" header="..."></Column>
-        <Column field="color" header="..."></Column>
+        <Column field="title" header="Forum Title"></Column>
+        <Column field="fid" header="Forum Number"></Column>
+        <Column field="stuNum" header="Amount of Students"></Column>
+        <Column field="taNum" header="..."></Column>
       </DataTable>
     </div>
-    <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '50vw'}" :modal="true">
-      <Dropdown v-model="selectedForum" :options="notInForums" optionLabel="fid" placeholder="Select a Forum" />
+    <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '80vw'}" :modal="true">
+        <DataTable :value="notInForums" :selection.sync="selectedForum" selectionMode="single" >
+            <Column field="title" header="Forum Title"></Column>
+            <Column field="fid" header="Forum Number"></Column>
+            <Column field="stuNum" header="Amount of Students"></Column>
+            <Column field="taNum" header="..."></Column>
+          </DataTable>
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addForum()" />
             <Button label="No" icon="pi pi-times" @click="closeAddForum()" class="p-button-secondary"/>
         </template>
     </Dialog>
     <div>
-      <h3>List of Students</h3>
-      <Button label="Add New " @click="openAddStu()" />
-      <DataTable :value="Students">
+      <div class="p-grid">
+        <h3 class="list-name p-col-7">List of Students</h3>
+          <div class="p-col-2 button-pos"><Button v-if="selectedAttend" class="p-button-raised " icon="pi pi-plus" label="Attendance" @click="openAttendance()" /></div>
+        <div class="p-col-2 button-pos" ><Button class="p-button-raised" icon="pi pi-plus" label="Add New Student" @click="openAddStu()" /></div>
+      </div>
+      <DataTable :value="Students" :selection.sync="selectedAttend" dataKey="uname">
+        <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="Student Name"></Column>
         <Column field="uname" header="User Name"></Column>
         <Column field="brand" header="..."></Column>
         <Column field="color" header="..."></Column>
       </DataTable>
     </div>
-    <Dialog header="Add New Student" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
-      <Dropdown v-model="selectedStu" :options="noAttendStus" optionLabel="uname" placeholder="Select a student" />
+      <Dialog header="Tutorial Attendance" :visible.sync="displayAttendance" :style="{width: '80vw'}" :modal="true">
+         <DataTable :value="attendances"  >
+            <Column field="attend_week" header="Attended Week"></Column>
+            <Column field="group_num" header="Tut Group"></Column>
+            <Column field="stuNum" header="..."></Column>
+            <Column field="taNum" header="..."></Column>
+          </DataTable>
+          <div>
+              <InputText placeholer="eg:6" v-model="attendWeek" />
+              <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
+          </div>
+    </Dialog>
+
+    <Dialog header="Add New Student" :visible.sync="display" :style="{width: '80vw'}" :modal="true">
+         <DataTable :value="noAttendStus" :selection.sync="selectedStu" selectionMode="single" >
+            <Column field="name" header="Student Name"></Column>
+            <Column field="uname" header="User Name"></Column>
+            <Column field="stuNum" header="..."></Column>
+            <Column field="taNum" header="..."></Column>
+          </DataTable>
       <template #footer>
         <Button label="Yes" icon="pi pi-check" @click="addStudent()" />
         <Button label="No" icon="pi pi-times" @click="closeAddStu()" class="p-button-secondary"/>
@@ -62,11 +100,11 @@
 <script>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 import Toast from 'primevue/toast';
+import InputText from "primevue/components/inputtext/InputText";
 export default {
   name: "TeachDetailTutDetailPage",
   data() {
@@ -80,18 +118,22 @@ export default {
       display:false,
       displayTA: false,
       displayForum:false,
+      displayAttendance: false,
       notInForums:null,
       selectedStu: null,
       selectedTA: null,
       selectedForum: null,
+      selectedAttend: null,
       noAttendStus:null,
+      attendances:null,
+      attendWeek:0,
       messages: [],
     }
   },
   components:{
+    InputText,
     DataTable,
     Column,
-    ColumnGroup,
     Button,
     Dialog,
     Dropdown,
@@ -103,6 +145,42 @@ export default {
     this.getForums()
   },
   methods: {
+    openAttendance:function(){
+      this.displayAttendance = true
+      this.getAttendance();
+    },
+    getAttendance:function(){
+      this.$axios.request({
+        url: this.$url + 'attendance/get/' + this.selectedAttend.uname+'/'+ this.$route.params.code + '/'+ this.$route.params.group_num +'/' ,
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.attendances = data.data.attendances
+          this.attendWeek=0;
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
+    addAttendance: function(){
+      this.$axios.request({
+        url: this.$url + 'attendance/add/' + this.selectedAttend.uname+'/' +this.$route.params.code + '/'+ this.$route.params.group_num +'/'+this.attendWeek+'/' ,
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+            this.$toast.add({severity:'success', summary: 'Success ', detail:'Attendance added in!', life: 3000});
+            this.getAttendance();
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
     goBack: function(){
        this.$router.push({name: 'TeachDetailTutList', params: {code: this.$route.params.code}})
     },
@@ -116,11 +194,9 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.notInForums = data.data.forums
-          console.log(this.notInForums)
         } else {
           this.state = false
           this.msg = data.error
@@ -129,7 +205,7 @@ export default {
     },
     addForum: function(){
       this.$axios.request({
-        url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid+'/',
+        url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid + '/',
         method: 'GET'
       }).then(response => {
         console.log(response)
@@ -155,11 +231,9 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.noAttendStus = data.data.students
-          console.log(this.noAttendStus)
         } else {
           this.state = false
           this.msg = data.error
@@ -168,7 +242,7 @@ export default {
     },
     addStudent: function(){
       this.$axios.request({
-        url: this.$url + 'student/addtut/' +this.selectedStu.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        url: this.$url + 'student/addtut/' + this.selectedStu.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num + '/',
         method: 'GET'
       }).then(response => {
         console.log(response)
@@ -187,15 +261,13 @@ export default {
     openAddTA: function(){
       this.displayTA = true
       this.$axios.request({
-        url: this.$url + 'TAs/notin/' + this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        url: this.$url + 'TAs/notin/' + this.$route.params.code + '/'+ this.$route.params.group_num + '/',
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.notInTAs = data.data.TAs
-          console.log(this.notInTAs)
         } else {
           this.state = false
           this.msg = data.error
@@ -277,5 +349,25 @@ export default {
 </script>
 
 <style scoped>
-
+.button-style{
+  background-color: #9c1b1b;
+  border: #9c1b1b ;
+}
+.button-style:hover{
+  background-color: #b71c1c;
+  border: #b71c1c;
+}
+.button-pos{
+  padding-top: 25px;
+}
+  .title{
+    text-align: center;
+    font-size: 20px;
+  }
+  .list-name{
+    text-align: left;
+    margin-left: 20px;
+    /*margin-right: 20px;*/
+    /*max-width: 300px;*/
+  }
 </style>

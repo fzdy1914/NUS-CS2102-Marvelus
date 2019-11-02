@@ -24,8 +24,8 @@ def add_student_for_TA_by_uname_coursecode_groupnum(uname,code,group_num):
 
 
 def add_student_to_tut_by_uname_coursecode_groupnum(uname, code, group_num):
-    sql_helper.exec_sql('insert into Attend values (%(uname)s, %(code)s, %(group_num)s, %(date)s )',
-                        {'uname': uname, 'code': code, 'group_num': group_num, 'date': datetime.now()})
+    sql_helper.exec_sql('insert into Attend values (%(uname)s, %(code)s, %(group_num)s )',
+                        {'uname': uname, 'code': code, 'group_num': group_num})
 
     return sql_helper.fetchall_to_dict('SELECT * FROM Users NATURAL JOIN (Students NATURAL JOIN Attend) WHERE code = %(code)s AND group_num = %(group_num)s',
                                        {'code': code, 'group_num': group_num})

@@ -8,7 +8,7 @@
               <div class="p-col-12" >
                 <div class="p-grid">
                     <div class="p-col-9">Group Number: <b>{{tutorials.data.group_num}}</b></div>
-                    <div class="p-col-9">TA Amount: <b>{{tutorials.data.taAmount}}</b></div>
+                    <div class="p-col-9">TA Amount: <b>{{tutorials.data.TAAmount}}</b></div>
                   <div class="p-col-3">
                       <Button  icon="pi pi-search " @click="goTutorial(tutorials.data.group_num)" ></Button>
                   </div>
@@ -25,12 +25,14 @@
 <script>
 import Button from 'primevue/button';
 import DataView from 'primevue/dataview';
+import Paginator from 'primevue/paginator';
 
 export default {
   name: "TeachDetailTutListPage",
   components:{
     Button,
-    DataView
+    DataView,
+    Paginator
   },
   props:{
     tutorials:Array
@@ -45,4 +47,8 @@ export default {
 
 <style scoped>
 
+/*  body .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {*/
+/*    background-color: #9c1b1b;*/
+/*    color: #ffffff;*/
+/*}*/
 </style>
