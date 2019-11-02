@@ -21,8 +21,8 @@ def get_TAs_notincurtut_by_code_group_num(code, group_num):
     return sql_helper.fetchall_to_dict("SELECT * FROM USERS u NATURAL JOIN Participators NATURAL JOIN (TAs ta NATURAL JOIN assist a) "
                                        "WHERE a.code = %(code)s "
                                        "AND "
-                                       "(NOT EXISTS (SELECT 1 FROM Facilitate f WHERE f.uname = ta.uname AND f.code = f.code AND f.group_num = group_num ))",
-                                       {'code': code, 'group_num': group_num })
+                                       "(NOT EXISTS (SELECT 1 FROM Facilitate f WHERE f.uname = ta.uname AND f.code = f.code AND f.group_num = %(group_num)s))",
+                                       {'code': code, 'group_num': group_num})
 
 
 def add_TA_to_tut_by_uname_code_group_num(uname, code, group_num):

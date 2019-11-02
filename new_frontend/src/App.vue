@@ -31,7 +31,7 @@ export default {
     }
   }
 }
-  html {
-    background-color: #fff;
-  }
+html {
+  background-color: #fff;
+}
 </style>

@@ -7,33 +7,32 @@
 
 
 <script>
-  import Button from 'primevue/button';
+import Button from 'primevue/button';
 
-  export default {
-    name: "InfoBar",
-    methods: {
-      logout: function() {
-        this.$store.commit('setUsername', null)
-        this.$store.commit('isAdmin', false)
-        this.$store.commit('isProf', false)
-        this.$store.commit('isTA', false)
-        this.$axios({
-          method: 'get',
-          url: this.$url + 'logout/'
-        })
-        this.$router.push({name: 'Login'})
-      }
-    },
-    components:{
-      Button
+export default {
+  name: "InfoBar",
+  methods: {
+    logout: function() {
+      this.$store.commit('setUsername', null)
+      this.$store.commit('isAdmin', false)
+      this.$store.commit('isProf', false)
+      this.$store.commit('isTA', false)
+      this.$axios({
+        method: 'get',
+        url: this.$url + 'logout/'
+      })
+      this.$router.push({name: 'Login'})
     }
+  },
+  components:{
+    Button
   }
+}
 </script>
 
 <style scoped>
   .info-bar {
     height: 60px;
-    /*background: #99000a;*/
     background-color: #1565c0;
   }
   .user {

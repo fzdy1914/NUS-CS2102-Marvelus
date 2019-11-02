@@ -18,7 +18,6 @@
       </DataTable>
     </div>
     <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '80vw'}" :modal="true">
-<!--      <Dropdown v-model="selectedTA" :options="notInTAs" optionLabel="uname" placeholder="Select a TA" />-->
       <DataTable :value="notInTAs" :selection.sync="selectedTA" selectionMode="single" >
         <Column field="name" header="TA Name"></Column>
         <Column field="major" header="Major"></Column>
@@ -32,7 +31,6 @@
     </Dialog>
 
     <div>
-
       <div class="p-grid">
         <h3 class="list-name p-col-9">List of Forums</h3>
         <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New Forum" @click="openAddForum()" /></div>
@@ -45,7 +43,6 @@
       </DataTable>
     </div>
     <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '80vw'}" :modal="true">
-<!--      <Dropdown v-model="selectedForum" :options="notInForums" optionLabel="fid" placeholder="Select a Forum" />-->
         <DataTable :value="notInForums" :selection.sync="selectedForum" selectionMode="single" >
             <Column field="title" header="Forum Title"></Column>
             <Column field="fid" header="Forum Number"></Column>
@@ -58,14 +55,11 @@
         </template>
     </Dialog>
     <div>
-<!--      <h3 class="list-name" >List of Students</h3>-->
-<!--      <Button label="Add New " @click="openAddStu()" />-->
       <div class="p-grid">
         <h3 class="list-name p-col-7">List of Students</h3>
           <div class="p-col-2 button-pos"><Button v-if="selectedAttend" class="p-button-raised " icon="pi pi-plus" label="Attendance" @click="openAttendance()" /></div>
         <div class="p-col-2 button-pos" ><Button class="p-button-raised" icon="pi pi-plus" label="Add New Student" @click="openAddStu()" /></div>
       </div>
-<!--        <p v-if="selectedAttend">{{selectedAttend.uname}}</p>-->
       <DataTable :value="Students" :selection.sync="selectedAttend" dataKey="uname">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="Student Name"></Column>
@@ -106,7 +100,6 @@
 <script>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-// import ColumnGroup from 'primevue/columngroup';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
@@ -125,7 +118,7 @@ export default {
       display:false,
       displayTA: false,
       displayForum:false,
-        displayAttendance: false,
+      displayAttendance: false,
       notInForums:null,
       selectedStu: null,
       selectedTA: null,
@@ -138,10 +131,9 @@ export default {
     }
   },
   components:{
-      InputText,
+    InputText,
     DataTable,
     Column,
-    // ColumnGroup,
     Button,
     Dialog,
     Dropdown,
@@ -153,35 +145,32 @@ export default {
     this.getForums()
   },
   methods: {
-      openAttendance:function(){
+    openAttendance:function(){
       this.displayAttendance = true
-        this.getAttendance();
-      },
-      getAttendance:function(){
-          this.$axios.request({
+      this.getAttendance();
+    },
+    getAttendance:function(){
+      this.$axios.request({
         url: this.$url + 'attendance/get/' + this.selectedAttend.uname+'/'+ this.$route.params.code + '/'+ this.$route.params.group_num +'/' ,
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.attendances = data.data.attendances
           this.attendWeek=0;
-          console.log(this.attendances)
         } else {
           this.state = false
           this.msg = data.error
         }
       })
-      },
+    },
     addAttendance: function(){
-        this.$axios.request({
+      this.$axios.request({
         url: this.$url + 'attendance/add/' + this.selectedAttend.uname+'/' +this.$route.params.code + '/'+ this.$route.params.group_num +'/'+this.attendWeek+'/' ,
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
             this.$toast.add({severity:'success', summary: 'Success ', detail:'Attendance added in!', life: 3000});
@@ -205,11 +194,9 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.notInForums = data.data.forums
-          console.log(this.notInForums)
         } else {
           this.state = false
           this.msg = data.error
@@ -218,7 +205,7 @@ export default {
     },
     addForum: function(){
       this.$axios.request({
-        url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid+'/',
+        url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid + '/',
         method: 'GET'
       }).then(response => {
         console.log(response)
@@ -244,11 +231,9 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.noAttendStus = data.data.students
-          console.log(this.noAttendStus)
         } else {
           this.state = false
           this.msg = data.error
@@ -257,7 +242,7 @@ export default {
     },
     addStudent: function(){
       this.$axios.request({
-        url: this.$url + 'student/addtut/' +this.selectedStu.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        url: this.$url + 'student/addtut/' + this.selectedStu.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num + '/',
         method: 'GET'
       }).then(response => {
         console.log(response)
@@ -276,15 +261,13 @@ export default {
     openAddTA: function(){
       this.displayTA = true
       this.$axios.request({
-        url: this.$url + 'TAs/notin/' + this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        url: this.$url + 'TAs/notin/' + this.$route.params.code + '/'+ this.$route.params.group_num + '/',
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.notInTAs = data.data.TAs
-          console.log(this.notInTAs)
         } else {
           this.state = false
           this.msg = data.error
