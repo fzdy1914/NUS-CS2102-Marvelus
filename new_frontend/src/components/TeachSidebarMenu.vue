@@ -6,7 +6,7 @@
     <div class="p-menu p-component">
       <ul class="p-menu-list p-reset">
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
-          <a class="p-menuitem-link ">Course Info</a>
+          <a class="p-menuitem-link">Course Info</a>
         </li>
         <li class="p-menuitem" :class="{ active: isStudentActive }" @click="goStudent()">
           <a class="p-menuitem-link">Students</a>

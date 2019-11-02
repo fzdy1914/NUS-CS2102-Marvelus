@@ -6,7 +6,7 @@
           <a class="p-menuitem-link">Course Info</a>
         </li>
         <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTut()">
-          <a class="p-menuitem-link" >Tutorial</a>
+          <a class="p-menuitem-link">Tutorial</a>
         </li>
         <li class="p-menuitem">
           <a class="p-menuitem-link">Forum</a>
@@ -46,9 +46,7 @@ export default {
 .sidebar-menu {
   display: inline-block;
   float: left;
-  /*font-family: Arial Rounded MT;*/
 }
-
 .active {
   background-color: #dedede;
 }

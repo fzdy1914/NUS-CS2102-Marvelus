@@ -24,7 +24,8 @@ export default {
   name: 'NavBar',
   props: {
     whichActive:String
-  },components:{
+  },
+  components:{
     TabView,
     TabPanel,
   },
@@ -67,7 +68,7 @@ export default {
   .navbar-left{
     font-size: 18px;
     font-weight: bold;
-    background:  #1e88e5;
+    background: #1e88e5;
   }
   .navbar-inverse {
     border: #1565c0;
