@@ -1,45 +1,45 @@
 <template>
+  <div>
+    This is all students requesting to join the module:
     <div>
-        This is all students requesting to join the module:
-      <div>
-        <!--<DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple" v-for="student in students" :key="student.uname">
-          <Column field="name" header="TA Name"></Column>
-          <Column field="matriculation_num" header="Matriculation number"></Column>
-          <Column field="major" header="Major"></Column>
-          <Column field="year" header="Year" sortable="true"></Column>
-          <Column field="email" header="Email"></Column>
-          <Column header="Operation">
-              <button class="btn btn-primary approve" >Approve</button>
-              <button class="btn btn-primary reject" >Reject</button>
-          </Column>
-        </DataTable>-->
-        <table class="table table-bordered table-hover" :students="students" :sticky-header=true>
-          <thead>
-            <tr>
-              <th>Name</th>
-                <th>Matriculation number</th>
-              <th>Major</th>
-              <th>Year</th>
-              <th>Email</th>
-                <th>Operation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="student in students" :key="student.uname">
-              <td class="name">{{ student.name }}</td>
-                <td class="matnum">{{ student.matriculation_num }}</td>
-              <td class="major">{{ student.major }}</td>
-              <td class="year">{{ student.year }}</td>
-              <td class="email">{{ student.email }}</td>
-              <td class="operation">
-                <button class="btn btn-primary approve" @click="approveRequest(student.uname)">Approve</button>
-                <button class="btn btn-primary reject" @click="rejectRequest(student.uname)">Reject</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        </div>
+      <!--<DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple" v-for="student in students" :key="student.uname">
+        <Column field="name" header="TA Name"></Column>
+        <Column field="matriculation_num" header="Matriculation number"></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="year" header="Year" sortable="true"></Column>
+        <Column field="email" header="Email"></Column>
+        <Column header="Operation">
+            <button class="btn btn-primary approve" >Approve</button>
+            <button class="btn btn-primary reject" >Reject</button>
+        </Column>
+      </DataTable>-->
+      <table class="table table-bordered table-hover" :students="students" :sticky-header=true>
+        <thead>
+          <tr>
+            <th>Name</th>
+              <th>Matriculation number</th>
+            <th>Major</th>
+            <th>Year</th>
+            <th>Email</th>
+              <th>Operation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in students" :key="student.uname">
+            <td class="name">{{ student.name }}</td>
+            <td class="matnum">{{ student.matriculation_num }}</td>
+            <td class="major">{{ student.major }}</td>
+            <td class="year">{{ student.year }}</td>
+            <td class="email">{{ student.email }}</td>
+            <td class="operation">
+              <button class="btn btn-primary approve" @click="approveRequest(student.uname)">Approve</button>
+              <button class="btn btn-primary reject" @click="rejectRequest(student.uname)">Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </template>
 
 <script>

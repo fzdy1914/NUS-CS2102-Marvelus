@@ -67,7 +67,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.tas = data.data.TAs
-          console.log(this.tas)
         } else {
           this.state = false
           this.msg = data.error
@@ -88,7 +87,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.candidates = data.data.students
-          console.log(this.candidates)
         } else {
           this.state = false
           this.msg = data.error
@@ -100,7 +98,6 @@ export default {
         url: this.$url + 'candidates/add/' +this.selectedCandidate.uname +'/'+ this.$route.params.code+'/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true

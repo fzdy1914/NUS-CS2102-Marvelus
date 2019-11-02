@@ -51,7 +51,7 @@ export default {
   .name, .major, .year {
     width: 150px;
   }
-  .email,.matnum {
+  .email, .matnum {
     width: 300px;
   }
   .operation {
