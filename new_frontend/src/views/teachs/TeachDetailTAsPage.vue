@@ -8,10 +8,10 @@
     <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
       <BasicStudentList :students="candidates"/>
       <Dropdown v-model="selectedCandidate" :options="candidates" optionLabel="name" placeholder="Select a tutor" />
-        <template #footer>
-          <Button label="Yes" icon="pi pi-check" @click="addTA()" />
-          <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
-        </template>
+      <template #footer>
+        <Button label="Yes" icon="pi pi-check" @click="addTA()" />
+        <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
+      </template>
     </Dialog>
   </div>
 </template>
