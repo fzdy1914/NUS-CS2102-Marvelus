@@ -1,10 +1,10 @@
 <template>
   <div>
     <TabView class="p-tabview">
-      <TabPanel header="All students">
-        <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Students completed or enrolled in this module:</div>
-        <BasicStudentList :students="students"/>
-      </TabPanel>
+      <!--<TabPanel header="All students">-->
+        <!--<div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Students completed or enrolled in this module:</div>-->
+        <!--<BasicStudentList :students="students"/>-->
+      <!--</TabPanel>-->
       <TabPanel header="Enrolled students">
         <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Students enrolled in this module:</div>
         <BasicStudentList :students="studentsEnrolled"/>
@@ -15,8 +15,7 @@
           <Button v-if="isGradeMode" style="float: right" class="p-button-warning" label="View Basic Info" @click="toggleGradeMode()"/>
           <Button v-else style="float: right" class="p-button-warning" label="View/Edit Grades" @click="toggleGradeMode()"/>
         </div>
-<!--        <StudentListGradeMode :students="studentsCompleted" :isGradeMode="this.isGradeMode"/>-->
-        <StudentListGradeMode :students="studentsEnrolled" :isGradeMode="this.isGradeMode"/>
+        <StudentListGradeMode :students="studentsCompleted" :isGradeMode="this.isGradeMode"/>
       </TabPanel>
     </TabView>
   </div>

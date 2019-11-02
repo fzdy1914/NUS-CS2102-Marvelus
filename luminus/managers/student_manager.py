@@ -94,8 +94,7 @@ def get_students_by_coursecode_enrolled(code):
 
 def get_students_by_coursecode_completed(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s"
-                                       " AND status= 'completed'",
+                                       " (Students NATURAL JOIN Enroll) WHERE status = 'completed' AND code = %(code)s",
                                        {'code': code})
 
 
