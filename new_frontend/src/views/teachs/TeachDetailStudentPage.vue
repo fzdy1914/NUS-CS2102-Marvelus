@@ -10,11 +10,13 @@
         <BasicStudentList :students="studentsEnrolled"/>
       </TabPanel>
       <TabPanel header="Completed students">
-        <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">
+        <div style="font-size: 20px; text-align: left;margin-left: 15px; margin-right: 15px; font-weight: bold;">
           Students completed this module:
-          <Button style="float: right" class="p-button-warning" label="ToggleGradeMode" @click="toggleGradeMode()"/>
+          <Button v-if="isGradeMode" style="float: right" class="p-button-warning" label="View Basic Info" @click="toggleGradeMode()"/>
+          <Button v-else style="float: right" class="p-button-warning" label="View/Edit Grades" @click="toggleGradeMode()"/>
         </div>
-        <StudentListGradeMode :students="studentsCompleted" :isGradeMode="this.isGradeMode"/>
+<!--        <StudentListGradeMode :students="studentsCompleted" :isGradeMode="this.isGradeMode"/>-->
+        <StudentListGradeMode :students="studentsEnrolled" :isGradeMode="this.isGradeMode"/>
       </TabPanel>
     </TabView>
   </div>
@@ -42,7 +44,7 @@ export default {
       students: null,
       studentsEnrolled: null,
       studentsCompleted: null,
-      isGradeMode: true
+      isGradeMode: false
     }
   },
   mounted() {
