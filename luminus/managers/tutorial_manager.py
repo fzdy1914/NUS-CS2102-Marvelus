@@ -16,6 +16,10 @@ def get_tutorials_by_student(username):
     return sql_helper.fetchall_to_dict("SELECT * FROM Attend NATURAL JOIN tutorials WHERE uname = %(username)s", {'username': username})
 
 
+def get_tutorials_by_student_and_course(username, code):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Attend NATURAL JOIN tutorials WHERE uname = %(username)s and code = %(code)s", {'username': username, 'code': code})
+
+
 def get_tutorials_by_tA_and_course(username, code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Facilitate WHERE uname=%(username)s AND code=%(code)s ", {'code': code, 'username': username})
 

@@ -28,6 +28,13 @@ export default {
 </script>
 
 <style scoped>
+.teach-list-page{
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+}
 .title-font{
   font-weight: Bold;
   font-size: 25px;
@@ -64,7 +71,6 @@ export default {
 }
 .course-title{
   margin-top: 5px;
-  /*font-size: 20px;*/
   text-align: left;
   height: 100px;
 }

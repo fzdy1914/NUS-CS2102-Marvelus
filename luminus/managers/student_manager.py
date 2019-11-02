@@ -79,3 +79,34 @@ def add_ta_by_uname_coursecode_group(uname, code):
 
     return sql_helper.exec_sql('INSERT IGNORE INTO Assist values(%(uname)s,  %(code)s)',
                                {'uname': uname,  'code': code})
+
+
+def get_students_by_student_uname_and_coursecode(uname, code):
+    return  sql_helper.fetchall_to_dict("SELECT * FROM (SELECT group_num FROM Attend NATURAL JOIN tutorials WHERE uname = %(uname)s and code = %(code)s) AS grp"
+                                        " ,Attend AS atd, Users AS usr, Participators AS ptp WHERE grp.group_num = atd.group_num"
+                                        " AND atd.code = %(code)s AND usr.uname=atd.uname AND ptp.uname=atd.uname",
+                                        {'uname': uname, 'code': code})
+
+
+def get_students_by_coursecode_enrolled(code):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
+                                       " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s ",
+                                       {'code': code})
+
+
+def get_students_by_coursecode_completed(code):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
+                                       " (Students NATURAL JOIN Enroll) WHERE status = 'completed' AND code = %(code)s",
+                                       {'code': code})
+
+
+def get_students_by_coursecode_rejected(code):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
+                                       " (Students NATURAL JOIN Enroll) WHERE status = 'rejected' AND code = %(code)s ",
+                                       {'code': code})
+
+
+def get_students_by_coursecode_requesting(code):
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
+                                       " (Students NATURAL JOIN Enroll) WHERE status = 'requesting' AND code = %(code)s ",
+                                       {'code': code})

@@ -17,6 +17,11 @@ def get_tutorials_by_tA_and_course(request, username, code):
     return success_json_response({'tutorials': tutorials})
 
 
+def get_tutorials_by_student_and_course(request, username, code):
+    tutorials = tutorial_manager.get_tutorials_by_student_and_course(username, code)
+    return success_json_response({'tutorials': tutorials})
+
+
 def get_tutorials_by_course_and_group(request, code, num):
     tutorials = tutorial_manager.get_tutorials_by_course_and_group(code, num)
     return success_json_response({'tutorials': tutorials})

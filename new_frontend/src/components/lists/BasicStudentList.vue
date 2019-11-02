@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Table class="table table-bordered table-hover" :sticky-header=true>
+  <div style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;">
+    <table class="table table-bordered table-hover" :sticky-header=true>
       <thead>
         <tr>
           <th>Name</th>
@@ -28,7 +28,7 @@
           </td>
         </tr>
       </tbody>
-    </Table>
+    </table>
   </div>
 </template>
 

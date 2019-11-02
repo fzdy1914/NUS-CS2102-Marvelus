@@ -1,41 +1,61 @@
 <template>
-  <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all tutorials:</div>
-    <BasicTutorialList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :tutorials="tutorials"/>
+  <div v-if=tutorial>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all students in your tutorial {{tutorial.group_num}}:</div>
+    <BasicStudentList :students="students"/>
+  </div>
+  <div v-else>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">You are assigned to  any tutorial group :(</div>
   </div>
 </template>
 
 <script>
-import BasicTutorialList from "../../components/lists/BasicTutorialList";
+import BasicStudentList from "../../components/lists/BasicStudentList";
 export default {
   name: "CourseDetailTutPage",
-  components: {BasicTutorialList},
+  components: {BasicStudentList},
   data() {
     return {
       state: false,
       msg: 'Network Error',
-      tutorials: null
+      tutorial: null,
+      students: null
     }
   },
   mounted() {
-    this.getTutorials()
+    this.getTutorial()
+    this.getStudents()
   },
   methods: {
-    getTutorials: function () {
+    getTutorial: function () {
       this.$axios.request({
-        url: this.$url + 'tutorial/code/' + this.$route.params.code + '/',
+        url: this.$url + 'tutorials/uname/code/' + this.$store.state.username + '/' + this.$route.params.code + '/',
         method: 'GET'
       }).then(response => {
         let data = response.data
         if (data.state === true) {
           this.state = true
-          this.tutorials = data.data.tutorials
+          this.tutorial = data.data.tutorials[0]
         } else {
           this.state = false
           this.msg = data.error
         }
       })
     },
+    getStudents: function () {
+      this.$axios.request({
+        url: this.$url + 'students/uname/code/' + this.$store.state.username + '/' + this.$route.params.code + '/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.students = data.data.students
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    }
   }
 }
 </script>
