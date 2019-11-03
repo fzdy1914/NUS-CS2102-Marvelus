@@ -37,10 +37,7 @@ urlpatterns = [
     path('students/<code>/<group_num>/', student_view.get_students_by_coursecode_and_groupnum),
     path('students/uname/code/<uname>/<code>/', student_view.get_students_by_student_uname_and_coursecode),
     path('student/addtut/<uname>/<code>/<group_num>/', student_view.add_student_to_tut_by_uname_coursecode_groupnum),
-    path('students/code/enrolled/<code>/', student_view.get_students_by_coursecode_enrolled),
-    path('students/code/completed/<code>/', student_view.get_students_by_coursecode_completed),
-    path('students/code/requesting/<code>/', student_view.get_students_by_coursecode_requesting),
-    path('students/code/rejected/<code>/', student_view.get_students_by_coursecode_rejected),
+    path('students/code/status/<code>/<status>/', student_view.get_students_by_coursecode_and_status),
 
     path('courses/', course_view.get_courses),
     path('assists/', course_view.get_assists),

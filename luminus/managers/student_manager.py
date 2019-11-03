@@ -88,25 +88,8 @@ def get_students_by_student_uname_and_coursecode(uname, code):
                                         {'uname': uname, 'code': code})
 
 
-def get_students_by_coursecode_enrolled(code):
+def get_students_by_coursecode_and_status(code, status):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s ",
-                                       {'code': code})
+                                       " (Students NATURAL JOIN Enroll) WHERE status = %(status)s AND code = %(code)s ",
+                                       {'code': code, 'status': status})
 
-
-def get_students_by_coursecode_completed(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'completed' AND code = %(code)s",
-                                       {'code': code})
-
-
-def get_students_by_coursecode_rejected(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'rejected' AND code = %(code)s ",
-                                       {'code': code})
-
-
-def get_students_by_coursecode_requesting(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'requesting' AND code = %(code)s ",
-                                       {'code': code})
