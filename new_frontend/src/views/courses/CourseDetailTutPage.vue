@@ -1,18 +1,20 @@
 <template>
   <div v-if=tutorial>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all students in your tutorial {{tutorial.group_num}}:</div>
+    <TutorialBasicInfo :tutorial="tutorial"/>
+    <div class="title-font">This is all students in your tutorial:</div>
     <BasicStudentList :students="students"/>
   </div>
   <div v-else>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">You are assigned to  any tutorial group :(</div>
+    <div class="title-font">You are assigned to  any tutorial group :(</div>
   </div>
 </template>
 
 <script>
 import BasicStudentList from "../../components/lists/BasicStudentList";
+import TutorialBasicInfo from "../../components/TutorialBasicInfo";
 export default {
   name: "CourseDetailTutPage",
-  components: {BasicStudentList},
+  components: {BasicStudentList, TutorialBasicInfo},
   data() {
     return {
       state: false,
@@ -61,5 +63,7 @@ export default {
 </script>
 
 <style scoped>
-
+.title-font{
+  font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold
+}
 </style>
