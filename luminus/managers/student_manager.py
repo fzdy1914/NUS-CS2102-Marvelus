@@ -1,5 +1,6 @@
 from luminus import sql_helper
 from datetime import datetime
+from datetime import date
 
 
 def get_students_by_coursecode(code):
@@ -110,3 +111,57 @@ def get_students_by_coursecode_requesting(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
                                        " (Students NATURAL JOIN Enroll) WHERE status = 'requesting' AND code = %(code)s ",
                                        {'code': code})
+
+
+def check_all_complete():
+
+    return sql_helper.fetchall_to_dict("")
+
+
+def retrieve_complete_amount(code):
+    today = date.today()
+    year = today.strftime("%Y")
+    return sql_helper.fetchall_to_dict("select count(*) from enroll e "
+                                       "where e.code=%(code)s and e.status='completed' and e.enroll_year=%(year)s "
+                                       , {'code': code, 'year': year})
+
+
+def calculate_final_grade(code, a, b, c, d, e, f):
+    today = date.today()
+    year = today.strftime("%Y")
+    print(year)
+
+    return sql_helper.fetchall_to_dict(
+                                    "select r.* ,"
+                                    "case when iterator<=%(a)s then 'A' "
+                                    "when iterator>%(a)s AND iterator<=%(b)s then 'B' "
+                                    "when iterator>%(b)s AND iterator<=%(c)s then 'C' "
+                                    "when iterator>%(c)s AND iterator<=%(d)s then 'D'"
+                                    "when iterator>%(d)s AND iterator<=%(e)s then 'E' "
+                                    "else 'F' end as final_result "
+                                    "from "
+                                    "("
+                                    " select @i:=@i+1 as iterator, e.*,(e.attendance_grade + e.test_grade) as grade "
+                                    "from enroll e,(select @i:=0) foo "
+                                    "where e.code=%(code)s and e.status='completed' and e.enroll_year=%(year)s order by grade DESC "
+                                    ") r"
+                                    , {'code': code, 'year': year, 'a': a, 'b': b, 'c': c, 'd': d, 'e': e, 'f': f})
+
+# "select @i:=@i+1 as iterator, e.*,(e.attendance_grade + e.test_grade) as grade from enroll e,(select @i:=0) foo where e.code='cs2102' and e.status='completed' and e.enroll_year='2019' order by grade DESC"
+
+def update_final_grade(uname, code, final_grade):
+    return sql_helper.fetchall_to_dict("update enroll set final_grade=%(final_grade)s"
+                                       "where uname = %(uname)s AND code = %(code)s AND status='completed'"
+                                       "",{'uname':uname,'code':code,'final_grade':final_grade})
+
+def retrieve_after_grading(code):
+    today = date.today()
+    year = today.strftime("%Y")
+    return sql_helper.fetchall_to_dict(" select @i:=@i+1 as iterator, e.*,(e.attendance_grade + e.test_grade) as grade "
+                                       "from enroll e,(select @i:=0) foo "
+                                       "where e.code=%(code)s and e.status='completed' and e.enroll_year=%(year)s order by grade DESC "
+                                       , {'code':code,'year':year}
+
+    )
+
+# "UPDATE Enroll SET status = 'rejected' WHERE uname = %(uname)s AND code = %(code)s AND status='requesting'",

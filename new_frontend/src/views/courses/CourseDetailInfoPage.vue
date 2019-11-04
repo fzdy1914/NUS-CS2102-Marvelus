@@ -15,7 +15,9 @@ import BasicProfList from "../../components/lists/BasicProfList";
 
 export default {
   name: "CourseDetailInfoPage",
-  components: {BasicTAList, BasicProfList},
+  components: {
+    BasicTAList, BasicProfList
+  },
   data() {
     return {
       state: false,

@@ -79,6 +79,8 @@ urlpatterns = [
     path('attendance/add/<uname>/<code>/<group_num>/<attend_week>/', tut_view.add_stu_to_attendance_by_uname_code_group_num),
 
 
+    path('students/calculate/<code>/<a>/<b>/<c>/<d>/<e>/<f>/', student_view.calculate_final_grade),
+
     url(r'', auth_view.default)
 
     # path('add/', views_helper.add_participator),

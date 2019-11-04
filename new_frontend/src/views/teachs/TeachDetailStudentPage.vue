@@ -12,6 +12,7 @@
       <TabPanel header="Completed students">
         <div style="font-size: 20px; text-align: left;margin-left: 15px; margin-right: 15px; font-weight: bold;">
           Students completed this module:
+          <Button label="Generate final result" @click="calculate()" />
           <Button v-if="isGradeMode" style="float: right" class="p-button-warning" label="View Basic Info" @click="toggleGradeMode()"/>
           <Button v-else style="float: right" class="p-button-warning" label="View/Edit Grades" @click="toggleGradeMode()"/>
         </div>
@@ -54,6 +55,22 @@ export default {
     this.getStudentsCompleted()
   },
   methods: {
+    calculate:function(){
+      this.$axios.request({
+        url: this.$url + 'students/calculate/' + this.$route.params.code + '/'+10+'/'+20+'/'+20+'/'+20+'/'+20+'/'+10+'/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        console.log(data)
+        // if (data.state === true) {
+        //   this.state = true
+        //
+        // } else {
+        //   this.state = false
+        //   this.msg = data.error
+        // }
+      })
+    },
     getStudents: function () {
       this.$axios.request({
         url: this.$url + 'students/code/' + this.$route.params.code + '/',
