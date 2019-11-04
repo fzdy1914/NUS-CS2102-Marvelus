@@ -9,8 +9,16 @@
     <Button label="Add more tutors" icon="pi pi-plus" @click="openAddTA()" />
     <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
       <!--<BasicStudentList :students="candidates" :is-select-candidate="true"/>-->
-      Eligible candidates who have completed the module and obtained grade 'A' or 'B':
-      <StudentListDataTable :peoples="candidates" :is-select-candidate="true"/>
+      Eligible candidates who have completed the module and obtained grade 'A' or 'B': hello
+      <!--<StudentListDataTable :peoples="candidates" :is-select-candidate="true"/>-->
+      <DataTable :value="candidates" :paginator="true" :rows="20" >
+        <Column field="name" header="TA Name"></Column>
+        <Column field="matriculation_num" header="Matriculation number"></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="final_grade" header="Course Final Grade"></Column>
+        <Column field="year" header="Year"></Column>
+        <Column field="email" header="Email"></Column>
+      </DataTable>
       <br/>
       <Dropdown v-model="selectedCandidate" :options="candidates" optionLabel="name" placeholder="Select a tutor" />
       <template #footer>
@@ -50,9 +58,7 @@ export default {
     Dialog,
     Dropdown,
     DataTable,
-    Column,
-    ColumnGroup,
-    BasicStudentList
+    Column
   },
   mounted() {
     this.getTAs()

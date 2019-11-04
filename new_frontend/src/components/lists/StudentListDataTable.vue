@@ -1,12 +1,12 @@
 <template>
   <div>
-    <DataTable :value="peoples" :paginator="true" :rows="20" sortMode="multiple">
+    <DataTable :value="peoples" :paginator="true" :rows="20" sortMode="multiple" dataKey="uname">
+      <Column selectionMode="single" headerStyle="width: 3em"></Column>
       <Column field="name" header="TA Name"></Column>
       <Column field="matriculation_num" header="Matriculation number"></Column>
       <Column field="major" header="Major"></Column>
       <Column field="final_grade" header="Course Final Grade" v-if="isSelectCandidate" :sortable="true"></Column>
       <Column field="year" header="Year" :sortable="true"></Column>
-      <Column field="email" header="Email"></Column>
     </DataTable>
   </div>
 </template>
