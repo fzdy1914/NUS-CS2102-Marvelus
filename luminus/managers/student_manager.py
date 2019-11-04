@@ -1,6 +1,6 @@
 from luminus import sql_helper
 from datetime import datetime
-
+from datetime import date
 
 def get_students_by_coursecode(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN"
@@ -102,6 +102,7 @@ def update_testgrade_by_uname_and_code(uname, code, grade):
 
 
 def add_enroll_request_by_uname_and_code(uname, code):
-    return sql_helper.exec_sql("INSERT IGNORE INTO Enroll (uname, code, status) VALUES (%(uname)s,  %(code)s, 'requesting')",
-                               {'uname': uname, 'code':code})
+    year = str(date.today().year)
+    return sql_helper.exec_sql("INSERT IGNORE INTO Enroll (uname, code, status, enroll_year) VALUES (%(uname)s,  %(code)s, 'requesting', %(year)s)",
+                               {'uname': uname, 'code': code, 'year': year})
 
