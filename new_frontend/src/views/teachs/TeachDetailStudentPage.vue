@@ -13,7 +13,7 @@
           <Button style="float: right; margin-right: 4px" label="GenerateFinalGrades" @click="generateFinalGrades()"/>
           <Button v-if="selectedStu" icon="pi pi-plus" style="float: right; margin-right: 4px" label="Edit Test Grade" @click="openEdit()"/>
           <Dialog header="Tutorial Attendance" :visible.sync="displayEdit" :modal="true">
-             <InputText placeholer="EnterGrade"  v-model="testGradeEntered" />
+             <InputText v-model="testGradeEntered" type="number" />
              <Button icon="pi pi-plus" label="Edit Test Grade" @click="editTestGrade()"/>
           </Dialog>
        </div>
