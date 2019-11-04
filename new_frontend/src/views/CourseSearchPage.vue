@@ -3,7 +3,7 @@
     <NavBar :whichActive="'search'"/>
     <div class="searchbar">
       Keyword:
-      <InputText type="text" v-model="keyword"/>
+      <input type="text" placeholder="Enter course searching" v-model="keyword"/>
       <Button label="Search" @click="getCourses(keyword)"></Button>
     </div>
     <DataView :value="courses" :layout="'list'">
@@ -14,7 +14,12 @@
               <div class="p-grid">
                 <div class="p-col-4">Code: <b>{{slotProps.data.code}}</b></div>
                 <div class="p-col-4">Title: <b>{{slotProps.data.title}}</b></div>
-                <div class="p-col-4"><Button label="action"></Button></div>
+                <div class="p-col-4" v-if="slotProps.data.status === 'enrolled'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><b>{{slotProps.data.status}} in {{slotProps.data.enroll_year}}</b></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'rejected'" style="color: red;"><b>{{slotProps.data.status}}</b></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'requesting'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
+                <div class="p-col-4" v-else-if="$store.state.isProf"></div>
+                <div class="p-col-4" v-else><Button label="Request" @click="requestModule(slotProps.data.code)"></Button></div>
               </div>
             </div>
           </div>
@@ -63,6 +68,22 @@
             this.msg = data.error
           }
         })
+      },
+      requestModule: function(code) {
+        this.$axios.request({
+          url: this.$url + 'students/code/enroll/' + code +'/',
+          method: 'GET'
+        }).then(response => {
+          let data = response.data
+          if (data.state === true) {
+            this.state = true
+            this.students = data.data.students
+            this.getCourses(this.keyword)
+          } else {
+            this.state = false
+            this.msg = data.error
+          }
+        })
       }
     }
   }
@@ -70,8 +91,9 @@
 
 <style scoped>
   .searchbar{
-    background-color: #002970;
-    margin-top: -20px;
-    color: white;
+    background-color: transparent;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: #000000;
   }
 </style>

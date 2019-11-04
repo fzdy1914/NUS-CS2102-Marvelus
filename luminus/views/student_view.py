@@ -1,5 +1,5 @@
 from luminus.managers import student_manager
-from luminus.responses import success_json_response
+from luminus.responses import success_json_response, error_json_response
 
 
 def get_students_by_coursecode(request, code):
@@ -55,3 +55,17 @@ def get_students_by_student_uname_and_coursecode(request, uname, code):
 def get_students_by_coursecode_and_status(request, code, status):
     students = student_manager.get_students_by_coursecode_and_status(code, status)
     return success_json_response({'students': students})
+
+
+def update_testgrade_by_uname_and_code(request, uname, code, grade):
+    student = student_manager.update_testgrade_by_uname_and_code(uname, code, grade)
+    return success_json_response({'student': student})
+
+
+def add_enroll_request_by_uname_and_code(request, code):
+    user = request.user
+    if request.user.is_authenticated:
+        uname = user.uname
+        students = student_manager.add_enroll_request_by_uname_and_code(uname, code)
+        return success_json_response({'students': students})
+    return error_json_response("User not logged in")
