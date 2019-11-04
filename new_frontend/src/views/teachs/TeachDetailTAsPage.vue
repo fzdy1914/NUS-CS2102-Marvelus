@@ -11,16 +11,15 @@
       <!--<BasicStudentList :students="candidates" :is-select-candidate="true"/>-->
       Eligible candidates who have completed the module and obtained grade 'A' or 'B': hello
       <!--<StudentListDataTable :peoples="candidates" :is-select-candidate="true"/>-->
-      <DataTable :value="candidates" :paginator="true" :rows="20" >
+      <DataTable :value="candidates" :paginator="true" :rows="20" :selection.sync="selectedCandidate" dataKey="uname">
+        <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="TA Name"></Column>
         <Column field="matriculation_num" header="Matriculation number"></Column>
         <Column field="major" header="Major"></Column>
         <Column field="final_grade" header="Course Final Grade"></Column>
         <Column field="year" header="Year"></Column>
-        <Column field="email" header="Email"></Column>
       </DataTable>
       <br/>
-      <Dropdown v-model="selectedCandidate" :options="candidates" optionLabel="name" placeholder="Select a tutor" />
       <template #footer>
         <Button label="Yes" icon="pi pi-check" @click="addTA()" />
         <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>

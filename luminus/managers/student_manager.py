@@ -1,5 +1,5 @@
 from luminus import sql_helper
-from datetime import datetime
+from datetime import datetime, date
 
 
 def get_students_by_coursecode(code):
@@ -53,9 +53,11 @@ def get_requests_by_coursecode(code):
 
 
 def approve_requests(uname, code):
-    return sql_helper.fetchall_to_dict("UPDATE Enroll SET status = 'enrolled'"
+    today = date.today()
+    year = today.strftime("%Y")
+    return sql_helper.fetchall_to_dict("UPDATE Enroll SET status = 'enrolled', enroll_year = %(year)s"
                                        "WHERE uname = %(uname)s AND code = %(code)s AND status='requesting'",
-                                       {'uname': uname, 'code': code})
+                                       {'uname': uname, 'code': code, 'year': year})
 
 
 def reject_requests(uname, code):
