@@ -1,18 +1,15 @@
 <template>
   <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Forum Title: {{displayForum.title}}</div>
+    <div class="title-font">Forum Title: </div>
+    <div class="text-font">{{displayForum.title}}</div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import BasicForumList from "../../components/lists/BasicForumList";
 
 export default {
   name: "CourseDetailForumDetailPage",
-  components: {
-    BasicForumList
-  },
   props: {
     forums: Array
   },

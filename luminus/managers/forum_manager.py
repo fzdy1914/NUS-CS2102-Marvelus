@@ -43,3 +43,8 @@ def add_forum_to_tut_by_code_group_num_fid(code, group_num, fid):
     return sql_helper.fetchall_to_dict("SELECT * FROM Forums f "
                                        "WHERE f.code = %(code)s AND f.fid = %(fid)s",
                                        {'code': code, 'fid': fid})
+
+
+def delete_forum(code, fid):
+    sql_helper.exec_sql('DELETE FROM Forums WHERE code=%(code)s AND fid=%(fid)s',
+                        {'code': code, 'fid': fid})
