@@ -1,6 +1,6 @@
 <template>
   <div>
-    This is all students requesting to join the module:
+    <div class="title-font">This is all students requesting to join the module:</div>
     <div>
       <!--<DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple" v-for="student in students" :key="student.uname">
         <Column field="name" header="TA Name"></Column>

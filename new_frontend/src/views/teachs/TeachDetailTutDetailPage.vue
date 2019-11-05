@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div style="text-align: left"><Button class="p-button-raised " icon="pi pi-arrow-left" label = "Back"  @click="goBack()"/></div>
-    <div class="title">This is Tut Detail Info:</div>
-    <div class="title" >Course Code: {{ $route.params.code }}</div>
-    <div class="title" >Group Num: {{ $route.params.group_num }}</div>
+    <div style="text-align: left">
+      <Button class="p-button-raised" icon="pi pi-arrow-left" label = "Back"  @click="goBack()" style="margin-left: 15px;"/>
+    </div>
+    <TutorialBasicInfo :tutorial="tutorial" style="margin-bottom: -20px; margin-top: 5px"/>
     <div>
       <div class="p-grid">
-        <h3 class="list-name p-col-9">List of TA</h3>
+        <h3 class="title-font p-col-9">List of TA</h3>
         <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New TA" @click="openAddTA()"></Button></div>
       </div>
 
@@ -32,7 +32,7 @@
 
     <div>
       <div class="p-grid">
-        <h3 class="list-name p-col-9">List of Forums</h3>
+        <h3 class="title-font p-col-9">List of Forums</h3>
         <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New Forum" @click="openAddForum()" /></div>
       </div>
       <DataTable :value="Forums">
@@ -56,7 +56,7 @@
     </Dialog>
     <div>
       <div class="p-grid">
-        <h3 class="list-name p-col-7">List of Students</h3>
+        <h3 class="title-font p-col-7">List of Students</h3>
           <div class="p-col-2 button-pos"><Button v-if="selectedAttend" class="p-button-raised " icon="pi pi-plus" label="Attendance" @click="openAttendance()" /></div>
         <div class="p-col-2 button-pos" ><Button class="p-button-raised" icon="pi pi-plus" label="Add New Student" @click="openAddStu()" /></div>
       </div>
@@ -69,16 +69,16 @@
       </DataTable>
     </div>
       <Dialog header="Tutorial Attendance" :visible.sync="displayAttendance" :style="{width: '80vw'}" :modal="true">
-         <DataTable :value="attendances"  >
-            <Column field="attend_week" header="Attended Week"></Column>
-            <Column field="group_num" header="Tut Group"></Column>
-            <Column field="stuNum" header="..."></Column>
-            <Column field="taNum" header="..."></Column>
-          </DataTable>
-          <div>
-              <InputText placeholer="eg:6" v-model="attendWeek" />
-              <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
-          </div>
+        <DataTable :value="attendances"  >
+          <Column field="attend_week" header="Attended Week"></Column>
+          <Column field="group_num" header="Tut Group"></Column>
+          <Column field="stuNum" header="..."></Column>
+          <Column field="taNum" header="..."></Column>
+        </DataTable>
+        <div>
+          <InputText placeholer="eg:6" v-model="attendWeek" />
+          <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
+        </div>
     </Dialog>
 
     <Dialog header="Add New Student" :visible.sync="display" :style="{width: '80vw'}" :modal="true">
@@ -105,6 +105,7 @@ import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 import Toast from 'primevue/toast';
 import InputText from "primevue/components/inputtext/InputText";
+import TutorialBasicInfo from "../../components/TutorialBasicInfo";
 export default {
   name: "TeachDetailTutDetailPage",
   data() {
@@ -128,6 +129,7 @@ export default {
       attendances:null,
       attendWeek:0,
       messages: [],
+      tutorial: null
     }
   },
   components:{
@@ -137,9 +139,11 @@ export default {
     Button,
     Dialog,
     Dropdown,
-    Toast
+    Toast,
+    TutorialBasicInfo
   },
   mounted() {
+    this.getTutorial()
     this.getTAs()
     this.getStudents()
     this.getForums()
@@ -343,7 +347,21 @@ export default {
         }
       })
     },
-
+    getTutorial: function () {
+      this.$axios.request({
+        url: this.$url + 'tutorials/' + this.$route.params.code + '/'+this.$route.params.group_num +'/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.tutorial = data.data.tutorials[0]
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
   }
 }
 </script>
@@ -360,14 +378,8 @@ export default {
 .button-pos{
   padding-top: 25px;
 }
-  .title{
-    text-align: center;
-    font-size: 20px;
-  }
   .list-name{
     text-align: left;
     margin-left: 20px;
-    /*margin-right: 20px;*/
-    /*max-width: 300px;*/
   }
 </style>

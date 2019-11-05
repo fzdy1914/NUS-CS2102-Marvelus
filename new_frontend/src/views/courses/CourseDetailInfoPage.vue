@@ -5,9 +5,9 @@
     <div class="title-font">Lecture Time</div>
     <div class="text-font" v-if=course> {{course.start_time}}-{{course.end_time}}, {{course.lec_day}}</div>
     <div class="title-font">This is all Profs:</div>
-    <BasicProfList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :profs="profs"/>
+    <BasicProfList :profs="profs"  style="margin-bottom: 20px"/>
     <div class="title-font">This is all TAs:</div>
-    <StudentListDataTable style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;":peoples="TAs"/>
+    <StudentListDataTable :peoples="TAs"/>
   </div>
 </template>
 
@@ -86,10 +86,4 @@ export default {
 </script>
 
 <style scoped>
-  .title-font{
-    font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;
-  }
-  .text-font{
-    font-size: 16px; text-align: left;margin-left: 15px;
-  }
 </style>

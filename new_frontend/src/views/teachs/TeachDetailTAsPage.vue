@@ -1,6 +1,6 @@
 <template>
   <div>
-  This is all tutors under the module:
+    <div class="title-font">This is all tutors under the module:</div>
     <div>
       <StudentListDataTable :peoples="tas" />
     </div>
