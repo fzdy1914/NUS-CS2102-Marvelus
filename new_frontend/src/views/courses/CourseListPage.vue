@@ -1,10 +1,5 @@
 <template>
   <div class="course-list-page">
-<!--    <div class="course-card" v-for="course in courses" @click="goCourse(course.code)" @mousemover.native="hover = true" @mouseleave.native="hover = false">-->
-<!--      <div class="course-code"> {{course.code}} </div>-->
-<!--      <div class="course-title"> {{course.title}} </div>-->
-<!--      <div class="course-detailed-info"> {{course.title}} </div>-->
-<!--    </div>-->
     <div class="course-card" v-for="course in courses" @click="goCourse(course.code)" @mousemover.native="hover = true" @mouseleave.native="hover = false">
       <div class="course-code"> {{course.code}} </div>
       <div class="course-title title-font"> {{course.title}} </div>
@@ -33,7 +28,7 @@ export default {
 </script>
 
 <style scoped>
-.teach-list-page{
+.course-list-page{
   padding-left: 30px;
   padding-right: 30px;
   width: 100%;

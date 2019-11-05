@@ -3,8 +3,8 @@ from luminus import sql_helper
 
 def get_tutorials_by_coursecode(code):
     return sql_helper.fetchall_to_dict("select * from"
-                                       "(select code, group_num,sum(amount) as stuAmount from"
-                                       "(select code, group_num, case when uname is not null then 1 else 0 end as amount from tutorials natural left join attend where code=%(code)s) as t1 "
+                                       "(select code, group_num,tut_day,start_time,end_time,sum(amount) as stuAmount from"
+                                       "(select code, group_num,tut_day,start_time,end_time, case when uname is not null then 1 else 0 end as amount from tutorials natural left join attend where code=%(code)s) as t1 "
                                        "group by code, group_num) as s1 "
                                        "natural join"
                                        "(select code, group_num,sum(amount) as TAAmount from"

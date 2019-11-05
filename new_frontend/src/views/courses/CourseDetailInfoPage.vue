@@ -1,22 +1,25 @@
 <template>
   <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">Course Info</div>
-    <div style="font-size: 16px; text-align: left;margin-left: 15px;" v-if=course> {{course.info}} </div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all Profs:</div>
+    <div class="title-font">Course Info</div>
+    <div class="text-font" v-if=course> {{course.info}} </div>
+    <div class="title-font">Lecture Time</div>
+    <div class="text-font" v-if=course> {{course.start_time}}-{{course.end_time}}, {{course.lec_day}}</div>
+    <div class="title-font">This is all Profs:</div>
     <BasicProfList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :profs="profs"/>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all TAs:</div>
-    <BasicTAList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :TAs="TAs"/>
+    <div class="title-font">This is all TAs:</div>
+    <StudentListDataTable style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;":peoples="TAs"/>
   </div>
 </template>
 
 <script>
-import BasicTAList from "../../components/lists/BasicTAList";
+import StudentListDataTable from "../../components/lists/StudentListDataTable";
 import BasicProfList from "../../components/lists/BasicProfList";
 
 export default {
   name: "CourseDetailInfoPage",
   components: {
-    BasicTAList, BasicProfList
+    StudentListDataTable,
+    BasicProfList
   },
   data() {
     return {
@@ -83,5 +86,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .title-font{
+    font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;
+  }
+  .text-font{
+    font-size: 16px; text-align: left;margin-left: 15px;
+  }
 </style>

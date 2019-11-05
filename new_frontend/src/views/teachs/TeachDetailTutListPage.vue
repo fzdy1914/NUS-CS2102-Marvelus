@@ -13,6 +13,7 @@
                       <Button  icon="pi pi-search " @click="goTutorial(tutorials.data.group_num)" ></Button>
                   </div>
                     <div class="p-col-9">Student Amount: <b>{{tutorials.data.stuAmount}}</b></div>
+                  <div class="p-col-9">Time: <b>{{tutorials.data.start_time}}-{{tutorials.data.end_time}}, {{tutorials.data.tut_day}}</b></div>
                 </div>
               </div>
             </div>

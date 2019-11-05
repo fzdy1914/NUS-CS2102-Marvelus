@@ -1,132 +1,101 @@
 <template>
-  <div style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;">
-    <table class="table table-bordered table-hover" :sticky-header=true>
-      <thead>
-        <tr v-if="isGradeMode">
-          <th colspan="4">
-            <template v-if="isEditMode">
-              Editing grades
-              <Button style="margin-left: 5px; margin-right: 5px;" class="p-button-warning" label="Generate Attendance Grade" @click="generateAttendanceGrade()"/>
-              <Button style="margin-left: 5px; margin-right: 5px;" class="p-button-warning" label="Generate Final Grade" @click="generateFinalGrade()"/>
-              <Button style="float: right;" class="p-button-warning" label="Finish" @click="toggleEditMode()"/>
-            </template>
-            <template v-else>
-              Viewing grades
-              <Button style="float: right;" class="p-button-warning" label="Edit" @click="toggleEditMode()"/>
-            </template>
-          </th>
-        </tr>
-        <tr v-else>
-          <th colspan="4">
-              Viewing basic info
-          </th>
-        </tr>
-        <tr>
-          <th>Name</th>
-          <template v-if="isGradeMode">
-            <th>Attendance Grade</th>
-            <th>Test Grade</th>
-            <th>Final Grade</th>
-
-          </template>
-          <template v-else>
-            <th>Major</th>
-            <th>Year</th>
-            <th>Email</th>
-          </template>
-          <th v-if="isSelectTutor">Group Number</th>
-          <th v-if="isProf">Operation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="student in students" :key="student.uname">
-          <td class="name">{{ student.name }}</td>
-          <template v-if="isGradeMode">
-            <template v-if="isEditMode">
-              <td class="attendance_grade" v-if="student.attendance_grade">{{student.attendance_grade}}</td>
-              <td class="attendance_grade" v-else>NA</td>
-              <td class="test_grade"><GradeEditBox :student=student /></td>
-              <td class="final_grade" v-if="student.final_grade">{{student.final_grade}}</td>
-              <td class="final_grade" v-else>NA</td>
-            </template>
-            <template v-else>
-              <td class="attendance_grade" v-if="student.attendance_grade">{{student.attendance_grade}}</td>
-              <td class="attendance_grade" v-else>NA</td>
-              <td class="test_grade" v-if="student.test_grade">{{student.test_grade}}</td>
-              <td class="test_grade" v-else>NA</td>
-              <td class="final_grade" v-if="student.final_grade">{{student.final_grade}}</td>
-              <td class="final_grade" v-else>NA</td>
-            </template>
-          </template>
-          <template v-else>
-            <td class="major">{{ student.major }}</td>
-            <td class="year">{{ student.year }}</td>
-            <td class="email">{{ student.email }}</td>
-          </template>
-          <td class="grpNum" v-if="isSelectTutor">{{ student.group_num }}</td>
-          <td class="operation" v-if="isProf">
-            <button class="btn btn-primary approve">Approve</button>
-            <button class="btn btn-primary reject">Reject</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div>
+    <div style="font-size: 20px; text-align: left;margin-left: 15px; margin-right: 15px; font-weight: bold;">
+      Students completed this module:
+      <Button v-if="isViewingGrades" style="float: right" label="View Basic Info" @click="toggleGradeView()"/>
+      <Button v-else style="float: right" label="View Grades" @click="toggleGradeView()"/>
+      <Button v-if="selectedStu" icon="pi pi-plus" style="float: right; margin-right: 5px" label="Edit Test Grade" @click="editTestGrade()"/>
+    </div>
+    <DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname">
+      <Column selectionMode="single" headerStyle="width: 3em"></Column>
+      <Column field="name" header="Student Name"></Column>
+      <template v-if="isViewingGrades">
+        <Column field="attendance_grade" header="Attendance grade"></Column>
+        <Column field="test_grade" header="Test grade"></Column>
+        <Column field="final_grade" header="Final grade"></Column>
+        <Column field="enroll_year" header="Enroll Year"></Column>
+      </template>
+      <template v-else>
+        <Column field="matriculation_num" header="Matriculation number"></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="year" header="Year"></Column>
+        <Column field="enroll_year" header="Enroll Year"></Column>
+        <Column field="email" header="Email"></Column>
+      </template>
+    </DataTable>
   </div>
 </template>
 
 <script>
 import Button from 'primevue/button';
 import GradeEditBox from "../GradeEditBox";
+import DataTable from "primevue/datatable";
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';
 export default {
   name: 'StudentListGradeMode',
   components:{
     Button,
-    GradeEditBox
+    GradeEditBox,
+    DataTable,
+    Column,
+    ColumnGroup,
   },
   data() {
     return {
-      isEditMode: false,
-      display: true
+      display: true,
+      selectedStu: null,
+      isViewingGrades: true
     }
   },
   props: {
     students: Array,
     isProf: Boolean,
     isSelectTutor: Boolean,
-    isGradeMode: Boolean
+    isSelectCandidate: Boolean
   },
   methods: {
-    toggleEditMode: function () {
-      this.isEditMode = !this.isEditMode
-    },
-    generateAttendanceGrade: function () {
-
-    },
     generateFinalGrade: function () {
 
-    }
+    },
+    toggleGradeView: function () {
+      this.isViewingGrades = !this.isViewingGrades
+    },
+    editTestGrade: function () {
+      this.$axios.request({
+        url: this.$url + 'student/uname/code/grade/' + this.selectedStu.uname + '/' + this.$route.params.code + '/' + "3.3" + "/" ,
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Attendance added in!', life: 3000});
+          this.getStudentsCompleted();
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
+    getStudentsCompleted: function () {
+      this.$axios.request({
+        url: this.$url + 'students/code/status/' + this.$route.params.code + '/completed/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.studentsCompleted = data.data.students
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
   }
 }
 </script>
 
 <style scoped>
-  .name, .major, .year {
-    width: 150px;
-  }
-  .email {
-    width: 350px;
-  }
-  .operation {
-    width: 200px;
-  }
-  .grpNum {
-    width: 150px;
-  }
-  .reject {
-    background-color: #D94600;
-    border-color: #BB3D00;
-  }
-  .btn {
-    padding: 3px 8px;
-  }
+
 </style>

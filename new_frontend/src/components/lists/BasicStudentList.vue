@@ -1,40 +1,32 @@
 <template>
   <div style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;">
-    <table class="table table-bordered table-hover" :sticky-header=true>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Matriculation number</th>
-          <th>Major</th>
-          <th>Year</th>
-          <th>Email</th>
-          <th v-if="isSelectCandidate">Course Final Grade</th>
-          <th v-if="isSelectTutor">Group Number</th>
-          <th v-if="isProf">Operation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="student in students" :key="student.uname">
-          <td class="name">{{ student.name }}</td>
-          <td class="matnum">{{ student.matriculation_num }}</td>
-          <td class="major">{{ student.major }}</td>
-          <td class="year">{{ student.year }}</td>
-          <td class="email">{{ student.email }}</td>
-          <td class="email" v-if="isSelectCandidate">{{ student.final_grade }}</td>
-          <td class="grpNum" v-if="isSelectTutor">{{ student.group_num }}</td>
-          <td class="operation" v-if="isProf">
-            <button class="btn btn-primary approve">Approve</button>
-            <button class="btn btn-primary reject">Reject</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple">
+      <Column field="name" header="Student Name"></Column>
+      <Column field="matriculation_num" header="Matriculation number"></Column>
+      <Column field="major" header="Major"></Column>
+      <Column field="year" header="Year"></Column>
+      <Column field="email" header="Email"></Column>
+      <Column field="final_grade" header="Course Final Grade" v-if="isSelectCandidate" :sortable="true"></Column>
+      <Column field="group_num" header="Year" :sortable="true" v-if="isSelectTutor"></Column>
+      <Column header="operation" v-if="isProf">
+        <button class="btn btn-primary approve">Appprove</button>
+        <button class="btn btn-primary reject">Reject</button>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
 <script>
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';
 export default {
   name: 'BasicStudentList',
+  components: {
+    DataTable,
+    Column,
+    ColumnGroup
+  },
   props: {
     students: Array,
     isProf: Boolean,
