@@ -14,10 +14,11 @@
               <div class="p-grid">
                 <div class="p-col-4">Code: <b>{{slotProps.data.code}}</b></div>
                 <div class="p-col-4">Title: <b>{{slotProps.data.title}}</b></div>
-                <div class="p-col-4" v-if="slotProps.data.status === 'enrolled'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><b>{{slotProps.data.status}} in {{slotProps.data.enroll_year}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'rejected'" style="color: red;"><b>{{slotProps.data.status}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'requesting'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
+                <div class="p-col-4" v-if="slotProps.data.status === 'enrolled'"><Button label="Enrolled" disabled="disabled"></Button></div>
+<!--                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><b>{{slotProps.data.status}} in {{slotProps.data.enroll_year}}</b></div>-->
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><Button label="Completed" class="p-button-success" disabled="disabled"></Button></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'rejected'"><Button label="Rejected" class="p-button-danger" disabled="disabled"></Button></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'requesting'"><Button label="Requesting" disabled="disabled"></Button></div>
                 <div class="p-col-4" v-else-if="$store.state.isProf"></div>
                 <div class="p-col-4" v-else><Button label="Request" @click="requestModule(slotProps.data.code)"></Button></div>
               </div>
