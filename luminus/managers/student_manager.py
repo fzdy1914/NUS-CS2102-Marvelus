@@ -1,6 +1,6 @@
 from luminus import sql_helper
 from datetime import datetime
-
+from datetime import date
 
 def get_students_by_coursecode(code):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN Participators NATURAL JOIN"
@@ -88,25 +88,21 @@ def get_students_by_student_uname_and_coursecode(uname, code):
                                         {'uname': uname, 'code': code})
 
 
-def get_students_by_coursecode_enrolled(code):
+def get_students_by_coursecode_and_status(code, status):
     return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'enrolled' AND code = %(code)s ",
-                                       {'code': code})
+                                       " (Students NATURAL JOIN Enroll) WHERE status = %(status)s AND code = %(code)s"
+                                       " ORDER BY enroll_year DESC",
+                                       {'code': code, 'status': status})
 
 
-def get_students_by_coursecode_completed(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'completed' AND code = %(code)s",
-                                       {'code': code})
+def update_testgrade_by_uname_and_code(uname, code, grade):
+    return sql_helper.fetchall_to_dict("UPDATE Students NATURAL JOIN Enroll SET test_grade = %(grade)s"
+                                       " WHERE uname = %(uname)s AND code = %(code)s",
+                                       {'uname': uname, 'code': code, 'grade': grade})
 
 
-def get_students_by_coursecode_rejected(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'rejected' AND code = %(code)s ",
-                                       {'code': code})
+def add_enroll_request_by_uname_and_code(uname, code):
+    year = str(date.today().year)
+    return sql_helper.exec_sql("INSERT IGNORE INTO Enroll (uname, code, status, enroll_year) VALUES (%(uname)s,  %(code)s, 'requesting', %(year)s)",
+                               {'uname': uname, 'code': code, 'year': year})
 
-
-def get_students_by_coursecode_requesting(code):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
-                                       " (Students NATURAL JOIN Enroll) WHERE status = 'requesting' AND code = %(code)s ",
-                                       {'code': code})

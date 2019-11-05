@@ -43,8 +43,12 @@ def get_courses_by_suname(request, suname):
 
 
 def search_courses(request, keyword):
-    course = course_manager.search_courses(keyword)
-    return success_json_response({'courses': course})
+    user = request.user
+    if request.user.is_authenticated:
+        uname = user.uname
+        course = course_manager.search_courses(keyword, uname)
+        return success_json_response({'courses': course})
+    return error_json_response("User not logged in")
 
 
 def get_all_courses(request):
