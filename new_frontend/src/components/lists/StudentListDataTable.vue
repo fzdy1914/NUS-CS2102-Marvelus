@@ -1,7 +1,8 @@
 <template>
   <div>
-    <DataTable :value="peoples" :paginator="true" :rows="20" sortMode="multiple" dataKey="uname">
-      <Column field="name" header="TA Name"></Column>
+    <DataTable :value="peoples" sortMode="multiple">
+      <Column field="name" header="Student Name" v-if="isShowingStudent"></Column>
+      <Column field="name" header="TA Name" v-else></Column>
       <Column field="matriculation_num" header="Matriculation number"></Column>
       <Column field="major" header="Major"></Column>
       <Column field="final_grade" header="Course Final Grade" v-if="isSelectCandidate" :sortable="true"></Column>
@@ -19,7 +20,8 @@ export default {
   name: "StudentListDataTable",
   props: {
     isSelectCandidate: Boolean,
-    peoples: Array
+    peoples: Array,
+    isShowingStudent: Boolean
   },
   components: {
     DataTable,

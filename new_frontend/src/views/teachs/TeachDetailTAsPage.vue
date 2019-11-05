@@ -7,11 +7,9 @@
     <br/>
     <br/>
     <Button label="Add more tutors" icon="pi pi-plus" @click="openAddTA()" />
-    <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '50vw'}" :modal="true">
-      <!--<BasicStudentList :students="candidates" :is-select-candidate="true"/>-->
-      Eligible candidates who have completed the module and obtained grade 'A' or 'B': hello
-      <!--<StudentListDataTable :peoples="candidates" :is-select-candidate="true"/>-->
-      <DataTable :value="candidates" :paginator="true" :rows="20" :selection.sync="selectedCandidate" dataKey="uname">
+    <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '55vw'}" :modal="true">
+      Eligible candidates who have completed the module and obtained grade 'A' or 'B':
+      <DataTable :value="candidates" :selection.sync="selectedCandidate" dataKey="uname">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="TA Name"></Column>
         <Column field="matriculation_num" header="Matriculation number"></Column>
