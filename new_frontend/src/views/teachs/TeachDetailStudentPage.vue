@@ -12,8 +12,8 @@
           <Button v-else style="float: right" label="Grades" @click="toggleGradeView()"/>
           <Button style="float: right; margin-right: 4px" label="GenerateFinalGrades" @click="generateFinalGrades()"/>
           <Button v-if="selectedStu" icon="pi pi-plus" style="float: right; margin-right: 4px" label="Edit Test Grade" @click="openEdit()"/>
-          <Dialog header="Tutorial Attendance" :visible.sync="displayEdit" :modal="true">
-             <InputText v-model="testGradeEntered" type="number" />
+          <Dialog header="Test Grade" :visible.sync="displayEdit" :modal="true">
+             <InputText v-model="testGradeEntered" type="number" style="margin-right: 5px"/>
              <Button icon="pi pi-plus" label="Edit Test Grade" @click="editTestGrade()"/>
           </Dialog>
        </div>
@@ -145,7 +145,7 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.state = true
-          this.display = false
+          this.displayEdit = false
           this.$toast.add({severity:'success', summary: 'Success ', detail:'Test grade edited!', life: 3000});
           this.getStudentsCompleted()
         } else {
@@ -156,6 +156,7 @@ export default {
     },
     openEdit: function() {
         this.displayEdit = true
+        this.testGradeEntered = this.selectedStu.test_grade
     },
     generateFinalGrades: function() {
 

@@ -2,8 +2,8 @@
   <div>
     <NavBar :whichActive="'search'"/>
     <div class="searchbar">
-      Keyword:
-      <input type="text" placeholder="Enter course searching" v-model="keyword"/>
+      <span class="my-keyword">Keyword:</span>
+      <input type="text" placeholder="Enter keyword" v-model="keyword" class="my-input"/>
       <Button label="Search" @click="getCourses(keyword)"></Button>
     </div>
     <DataView :value="courses" :layout="'list'">
@@ -90,10 +90,17 @@
 </script>
 
 <style scoped>
-  .searchbar{
-    background-color: transparent;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    color: #000000;
-  }
+.searchbar{
+  background-color: transparent;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  color: #000000;
+}
+.my-input {
+  margin-left: 6px;
+  margin-right: 10px;
+}
+.my-keyword {
+  font-size: 16px;
+}
 </style>

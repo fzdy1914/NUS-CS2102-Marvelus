@@ -9,7 +9,6 @@
                 <div class="p-grid">
                     <div class="p-col-9">Group Number: <b>{{tutorials.data.group_num}}</b></div>
                     <div class="p-col-9">TA Amount: <b>{{tutorials.data.TAAmount}}</b></div>
-
                   <div class="p-col-3">
                       <Button  icon="pi pi-search " @click="goTutorial(tutorials.data.group_num)" ></Button>
                   </div>

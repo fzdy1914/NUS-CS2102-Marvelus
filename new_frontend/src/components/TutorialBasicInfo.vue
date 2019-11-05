@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style scoped>
-    .text-font{
-        font-size: 16px; text-align: left;margin-left: 15px;
-    }
+  .text-font{
+      font-size: 16px; text-align: left;margin-left: 15px;
+  }
 </style>
