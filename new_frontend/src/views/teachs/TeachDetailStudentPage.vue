@@ -88,6 +88,21 @@ export default {
     this.getStudentsCompleted()
   },
   methods: {
+    generateFinalGrades: function(){
+      this.$axios.request({
+        url: this.$url + 'students/calculate/' + this.$route.params.code + '/'+10+'/'+20+'/'+20+'/'+20+'/'+20+'/'+10+'/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.studentsCompleted = data.data.students
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
     getStudents: function () {
       this.$axios.request({
         url: this.$url + 'students/code/' + this.$route.params.code + '/',
@@ -157,9 +172,6 @@ export default {
     openEdit: function() {
         this.displayEdit = true
         this.testGradeEntered = this.selectedStu.test_grade
-    },
-    generateFinalGrades: function() {
-
     }
   }
 }
