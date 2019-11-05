@@ -40,6 +40,7 @@ urlpatterns = [
     path('student/addtut/<uname>/<code>/<group_num>/', student_view.add_student_to_tut_by_uname_coursecode_groupnum),
     path('students/code/status/<code>/<status>/', student_view.get_students_by_coursecode_and_status),
     path('student/uname/code/grade/<uname>/<code>/<grade>/', student_view.update_testgrade_by_uname_and_code),
+    path('students/calculate/<code>/<a>/<b>/<c>/<d>/<e>/<f>/', student_view.calculate_final_grade),
 
     path('courses/', course_view.get_courses),
     path('assists/', course_view.get_assists),
@@ -76,9 +77,6 @@ urlpatterns = [
 
     path('attendance/get/<uname>/<code>/<group_num>/', tut_view.retrieve_attendance_by_uname_code_group_num),
     path('attendance/add/<uname>/<code>/<group_num>/<attend_week>/', tut_view.add_stu_to_attendance_by_uname_code_group_num),
-
-
-    path('students/calculate/<code>/<a>/<b>/<c>/<d>/<e>/<f>/', student_view.calculate_final_grade),
 
     url(r'', auth_view.default)
 

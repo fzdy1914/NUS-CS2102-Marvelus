@@ -83,9 +83,9 @@ def calculate_final_grade(request, code, a, b, c, d, e, f):
         for enroll in enrolls:
             student_manager.update_final_grade(enroll['uname'], enroll['code'], enroll['final_result'])
 
-        enrolls = student_manager.retrieve_after_grading(code)
+        students = student_manager.get_students_by_coursecode_and_status(code, 'completed')
 
-        return success_json_response({'enrolls': enrolls})
+        return success_json_response({'students': students})
 
 
 def add_enroll_request_by_uname_and_code(request, code):

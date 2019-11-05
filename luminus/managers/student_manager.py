@@ -142,10 +142,10 @@ def update_final_grade(uname, code, final_grade):
                                        , {'uname': uname, 'code': code, 'final_grade': final_grade})
 
 
-def retrieve_after_grading(code):
-    today = date.today()
-    year = today.strftime("%Y")
-    return sql_helper.fetchall_to_dict("select @i:=@i+1 as iterator, e.*,(e.attendance_grade + e.test_grade) as grade "
-                                       "from enroll e,(select @i:=0) foo "
-                                       "where e.code=%(code)s and e.status='completed' and e.enroll_year=%(year)s order by grade DESC "
-                                       , {'code': code, 'year': year})
+# def retrieve_after_grading(code):
+#     today = date.today()
+#     year = today.strftime("%Y")
+#     return sql_helper.fetchall_to_dict("select @i:=@i+1 as iterator, e.*,(e.attendance_grade + e.test_grade) as grade "
+#                                        "from enroll e,(select @i:=0) foo "
+#                                        "where e.code=%(code)s and e.status='completed' and e.enroll_year=%(year)s order by grade DESC "
+#                                        , {'code': code, 'year': year})

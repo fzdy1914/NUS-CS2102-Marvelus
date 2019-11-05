@@ -94,14 +94,13 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(data)
-        // if (data.state === true) {
-        //   this.state = true
-        //
-        // } else {
-        //   this.state = false
-        //   this.msg = data.error
-        // }
+        if (data.state === true) {
+          this.state = true
+          this.studentsCompleted = data.data.students
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
       })
     },
     getStudents: function () {
