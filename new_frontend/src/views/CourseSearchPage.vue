@@ -12,12 +12,12 @@
           <div class="course-details">
             <div>
               <div class="p-grid">
-                <div class="p-col-4">Code: <b>{{slotProps.data.code}}</b></div>
-                <div class="p-col-4">Title: <b>{{slotProps.data.title}}</b></div>
-                <div class="p-col-4" v-if="slotProps.data.status === 'enrolled'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><b>{{slotProps.data.status}} in {{slotProps.data.enroll_year}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'rejected'" style="color: red;"><b>{{slotProps.data.status}}</b></div>
-                <div class="p-col-4" v-else-if="slotProps.data.status === 'requesting'" style="color: black;"><b>{{slotProps.data.status}}</b></div>
+                <div class="p-col-4"><div class="my-content">Code: <b>{{slotProps.data.code}}</b></div></div>
+                <div class="p-col-4"><div class="my-content">Title: <b>{{slotProps.data.title}}</b></div></div>
+                <div class="p-col-4" v-if="slotProps.data.status === 'enrolled'"><Button label="Enrolled" disabled="disabled"></Button></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'completed'" style="color: green;"><Button label="Completed" class="p-button-success" disabled="disabled"></Button></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'rejected'"><Button label="Rejected" class="p-button-danger" disabled="disabled"></Button></div>
+                <div class="p-col-4" v-else-if="slotProps.data.status === 'requesting'"><Button label="Requesting" disabled="disabled"></Button></div>
                 <div class="p-col-4" v-else-if="$store.state.isProf"></div>
                 <div class="p-col-4" v-else><Button label="Request" @click="requestModule(slotProps.data.code)"></Button></div>
               </div>
@@ -105,6 +105,9 @@
 }
 .course-details {
   border-bottom: 1px solid #d9dad9;
-  height: 40px;
+  height: 50px;
+}
+.my-content {
+  padding: 7px;
 }
 </style>

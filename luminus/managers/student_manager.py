@@ -104,9 +104,8 @@ def update_testgrade_by_uname_and_code(uname, code, grade):
 
 
 def add_enroll_request_by_uname_and_code(uname, code):
-    year = str(date.today().year)
-    return sql_helper.exec_sql("INSERT IGNORE INTO Enroll (uname, code, status, enroll_year) VALUES (%(uname)s,  %(code)s, 'requesting', %(year)s)",
-                               {'uname': uname, 'code': code, 'year': year})
+    return sql_helper.exec_sql("INSERT IGNORE INTO Enroll (uname, code, status) VALUES (%(uname)s,  %(code)s, 'requesting')",
+                               {'uname': uname, 'code': code})
 
 
 def retrieve_complete_amount(code):

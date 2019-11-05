@@ -92,6 +92,6 @@ def add_enroll_request_by_uname_and_code(request, code):
     user = request.user
     if request.user.is_authenticated:
         uname = user.uname
-        students = student_manager.add_enroll_request_by_uname_and_code(uname, code)
-        return success_json_response({'students': students})
+        student_manager.add_enroll_request_by_uname_and_code(uname, code)
+        return success_json_response({})
     return error_json_response("User not logged in")
