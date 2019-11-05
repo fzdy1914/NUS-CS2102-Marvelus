@@ -2,7 +2,7 @@
   <div>
     <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
       This is all Forums:
-      <Button v-if="selectedForum" class="p-button-success" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
+      <Button v-if="selectedForum" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
       <Button v-if="selectedForum && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
     </div>
     <DataTable :value="forums" sortMode="multiple" :selection.sync="selectedForum" dataKey="fid" style="margin-top: 12px">

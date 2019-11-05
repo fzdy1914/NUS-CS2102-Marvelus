@@ -62,6 +62,7 @@ urlpatterns = [
     path('posts/<code>/<fid>/', post_view.get_posts_by_code_and_fid),
     path('posts/<code>/<fid>/<pid>/', post_view.get_posts_by_code_and_fid_and_pid),
     path('post/add/', post_view.add_post),
+    path('post/delete/<code>/<fid>/<pid>/', post_view.delete_post),
     path('reply/add/', post_view.add_reply),
 
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),

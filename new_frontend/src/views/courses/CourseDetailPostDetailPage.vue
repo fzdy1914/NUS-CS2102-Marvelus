@@ -1,7 +1,6 @@
 <template>
   <div>
     <Button label = "Add" @click="display = true" class="p-button-success"/>
-    <Button label = "Back" @click="goBack()"/>
     <div>
       <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is the post</div>
       <div>{{ post.title }}</div>
