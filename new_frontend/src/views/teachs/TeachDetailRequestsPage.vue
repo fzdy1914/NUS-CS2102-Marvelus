@@ -1,44 +1,21 @@
 <template>
   <div>
-    <div class="title-font">This is all students requesting to join the module:</div>
     <div>
-      <!--<DataTable :value="students" :paginator="true" :rows="20" sortMode="multiple" v-for="student in students" :key="student.uname">
-        <Column field="name" header="TA Name"></Column>
-        <Column field="matriculation_num" header="Matriculation number"></Column>
-        <Column field="major" header="Major"></Column>
-        <Column field="year" header="Year" sortable="true"></Column>
-        <Column field="email" header="Email"></Column>
-        <Column header="Operation">
-            <button class="btn btn-primary approve" >Approve</button>
-            <button class="btn btn-primary reject" >Reject</button>
-        </Column>
-      </DataTable>-->
-      <table class="table table-bordered table-hover" :students="students" :sticky-header=true>
-        <thead>
-          <tr>
-            <th>Name</th>
-              <th>Matriculation number</th>
-            <th>Major</th>
-            <th>Year</th>
-            <th>Email</th>
-              <th>Operation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in students" :key="student.uname">
-            <td class="name">{{ student.name }}</td>
-            <td class="matnum">{{ student.matriculation_num }}</td>
-            <td class="major">{{ student.major }}</td>
-            <td class="year">{{ student.year }}</td>
-            <td class="email">{{ student.email }}</td>
-            <td class="operation">
-              <button class="btn btn-primary approve" @click="approveRequest(student.uname)">Approve</button>
-              <button class="btn btn-primary reject" @click="rejectRequest(student.uname)">Reject</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="title-font">
+        This is all students requesting to join the module:
+        <Button v-if="selectedStu" class="p-button-danger" style="float: right; margin-right: 15px" label="Reject" @click="approveRequest(selectedStu.uname)"/>
+        <Button v-if="selectedStu" class="p-button-success" style="float: right; margin-right: 5px" label="Approve" @click="rejectRequest(selectedStu.uname)"/>
+      </div>
     </div>
+    <DataTable :value="students" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname" style="margin-top: 12px">
+      <Column selectionMode="single" headerStyle="width: 3em"></Column>
+      <Column field="name" header="Student Name"></Column>
+      <Column field="matriculation_num" header="Matriculation number"></Column>
+      <Column field="major" header="Major"></Column>
+      <Column field="year" header="Year"></Column>
+      <Column field="enroll_year" header="Enroll Year"></Column>
+      <Column field="email" header="Email"></Column>
+    </DataTable>
   </div>
 </template>
 
@@ -46,23 +23,23 @@
 import BasicStudentList from '../../components/lists/BasicStudentList'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';
+import Button from 'primevue/button';
+import Dialog from 'primevue/dialog';
 export default {
   name: "TeachDetailRequestsPage",
   components: {
     BasicStudentList,
     DataTable,
     Column,
-    ColumnGroup,
+    Button,
+    Dialog
   },
-    props: {
-        students: Array,
-    },
   data() {
     return {
       state: false,
       msg: 'Network Error',
-      students: null
+      students: null,
+      selectedStu: null
     }
   },
   mounted() {
@@ -85,13 +62,10 @@ export default {
       })
     },
     approveRequest: function(uname){
-
-        console.log('hihi'+uname)
       this.$axios.request({
         url: this.$url + 'requests/approve/' + uname +'/'+ this.$route.params.code+'/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true
@@ -107,7 +81,6 @@ export default {
         url: this.$url + 'requests/reject/' + uname +'/'+ this.$route.params.code+'/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true

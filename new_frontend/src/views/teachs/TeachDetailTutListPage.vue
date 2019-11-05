@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all tutorials:</div>
+    <div style="margin-bottom: 20px" class="title-font">This is all tutorials:</div>
       <DataView :value="tutorials" :layout="'list'" :lazy="true" >
         <template #list="tutorials" >
           <div class="p-col-12">

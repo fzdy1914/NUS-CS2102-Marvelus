@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="title-font">This is all tutors under the module:</div>
+    <div class="title-font" style="margin-bottom: 20px">
+        This is all tutors under the module:
+        <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add more tutors" @click="openAddTA()"/>
+      </div>
     <div>
       <StudentListDataTable :peoples="tas" />
     </div>
-    <br/>
-    <br/>
-    <Button label="Add more tutors" icon="pi pi-plus" @click="openAddTA()" />
     <Dialog header="Add New Tutors" :visible.sync="display" :style="{width: '55vw'}" :modal="true">
       Eligible candidates who have completed the module and obtained grade 'A' or 'B':
       <DataTable :value="candidates" :selection.sync="selectedCandidate" dataKey="uname">

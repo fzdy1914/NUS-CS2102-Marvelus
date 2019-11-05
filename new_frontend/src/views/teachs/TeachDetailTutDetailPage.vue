@@ -1,13 +1,13 @@
 <template>
   <div>
     <div style="text-align: left">
-      <Button class="p-button-raised" icon="pi pi-arrow-left" label = "Back"  @click="goBack()" style="margin-left: 15px;"/>
+      <Button class="p-button-raised" icon="pi pi-arrow-left" label ="Back"  @click="goBack()" style="margin-left: 15px;"/>
     </div>
-    <TutorialBasicInfo :tutorial="tutorial" style="margin-bottom: -20px; margin-top: 5px"/>
+    <TutorialBasicInfo :tutorial="tutorial" style="margin-top: 5px"/>
     <div>
-      <div class="p-grid">
-        <h3 class="title-font p-col-9">List of TA</h3>
-        <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New TA" @click="openAddTA()"></Button></div>
+      <div class="title-font" style="margin-bottom: 20px">
+        List of TAs:
+        <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add New TA" @click="openAddTA()"/>
       </div>
 
       <DataTable :value="TAs">
@@ -31,9 +31,9 @@
     </Dialog>
 
     <div>
-      <div class="p-grid">
-        <h3 class="title-font p-col-9">List of Forums</h3>
-        <div class="p-col-2 button-pos" ><Button class="p-button-raised " icon="pi pi-plus" label="Add New Forum" @click="openAddForum()" /></div>
+      <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+        List of Forums:
+        <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add New Forum" @click="openAddForum()"/>
       </div>
       <DataTable :value="Forums">
         <Column field="title" header="Forum Title"></Column>
@@ -55,11 +55,12 @@
         </template>
     </Dialog>
     <div>
-      <div class="p-grid">
-        <h3 class="title-font p-col-7">List of Students</h3>
-          <div class="p-col-2 button-pos"><Button v-if="selectedAttend" class="p-button-raised " icon="pi pi-plus" label="Attendance" @click="openAttendance()" /></div>
-        <div class="p-col-2 button-pos" ><Button class="p-button-raised" icon="pi pi-plus" label="Add New Student" @click="openAddStu()" /></div>
+      <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+        List of Students:
+        <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add New Student" @click="openAddStu()"/>
+        <Button v-if="selectedAttend" class="p-button-raised " style="float: right; margin-right: 5px" icon="pi pi-plus" label="Attendance" @click="openAttendance()" />
       </div>
+
       <DataTable :value="Students" :selection.sync="selectedAttend" dataKey="uname">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="Student Name"></Column>
@@ -75,8 +76,8 @@
           <Column field="stuNum" header="..."></Column>
           <Column field="taNum" header="..."></Column>
         </DataTable>
-        <div>
-          <InputText placeholer="eg:6" v-model="attendWeek" />
+        <div style="margin-top: 10px">
+          <InputText placeholer="eg:6" v-model="attendWeek" style="margin-right: 10px"/>
           <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
         </div>
     </Dialog>

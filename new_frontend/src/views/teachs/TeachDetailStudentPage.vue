@@ -16,11 +16,11 @@
              <InputText v-model="testGradeEntered" type="number" style="margin-right: 5px"/>
              <Button icon="pi pi-plus" label="Edit Test Grade" @click="editTestGrade()"/>
           </Dialog>
-       </div>
-       <DataTable :value="studentsCompleted" :paginator="true" :rows="20" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname" style="margin-top: 12px">
-         <Column selectionMode="single" headerStyle="width: 3em"></Column>
-         <Column field="name" header="Student Name"></Column>
-         <template v-if="isViewingGrades">
+        </div>
+        <DataTable :value="studentsCompleted" :paginator="true" :rows="20" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname" style="margin-top: 12px">
+          <Column selectionMode="single" headerStyle="width: 3em"></Column>
+          <Column field="name" header="Student Name"></Column>
+          <template v-if="isViewingGrades">
             <Column field="attendance_grade" header="Attendance grade"></Column>
             <Column field="test_grade" header="Test grade"></Column>
             <Column field="final_grade" header="Final grade"></Column>
