@@ -16,11 +16,11 @@
              <InputText v-model="testGradeEntered" type="number" style="margin-right: 5px"/>
              <Button icon="pi pi-plus" label="Edit Test Grade" @click="editTestGrade()"/>
           </Dialog>
-       </div>
-       <DataTable :value="studentsCompleted" :paginator="true" :rows="20" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname" style="margin-top: 12px">
-         <Column selectionMode="single" headerStyle="width: 3em"></Column>
-         <Column field="name" header="Student Name"></Column>
-         <template v-if="isViewingGrades">
+        </div>
+        <DataTable :value="studentsCompleted" :paginator="true" :rows="20" sortMode="multiple" :selection.sync="selectedStu" dataKey="uname" style="margin-top: 12px">
+          <Column selectionMode="single" headerStyle="width: 3em"></Column>
+          <Column field="name" header="Student Name"></Column>
+          <template v-if="isViewingGrades">
             <Column field="attendance_grade" header="Attendance grade"></Column>
             <Column field="test_grade" header="Test grade"></Column>
             <Column field="final_grade" header="Final grade"></Column>
@@ -88,6 +88,21 @@ export default {
     this.getStudentsCompleted()
   },
   methods: {
+    generateFinalGrades: function(){
+      this.$axios.request({
+        url: this.$url + 'students/calculate/' + this.$route.params.code + '/'+10+'/'+20+'/'+20+'/'+20+'/'+20+'/'+10+'/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.studentsCompleted = data.data.students
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    },
     getStudents: function () {
       this.$axios.request({
         url: this.$url + 'students/code/' + this.$route.params.code + '/',
@@ -157,14 +172,17 @@ export default {
     openEdit: function() {
         this.displayEdit = true
         this.testGradeEntered = this.selectedStu.test_grade
-    },
-    generateFinalGrades: function() {
-
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.p-tabview {
+  margin-left: 15px;
+  margin-right: 15px;
+
+
+}
 
 </style>

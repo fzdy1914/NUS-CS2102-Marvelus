@@ -23,18 +23,10 @@ Vue.use(ToastService);
 
 router.beforeEach((to, from, next) => {
   if (store.state.username || to.name === 'Login') {
-    if (to.meta.requireAdmin && !store.state.isAdmin) {
-      if (store.state.isProf) {
-        next({name: 'TeachList'})
-      } else {
-        next({name: 'Index'})
-      }
+    if ((to.name === 'Index'|| to.name === 'Login') && store.state.isProf) {
+      next({name: 'TeachList'})
     } else {
-      if (to.name === 'Index' && store.state.isProf) {
-        next({name: 'TeachList'})
-      } else {
-        next()
-      }
+      next()
     }
   } else {
     axios({
@@ -47,18 +39,10 @@ router.beforeEach((to, from, next) => {
         store.commit('isAdmin', data.data.user.isAdmin)
         store.commit('isProf', data.data.user.isProf)
         store.commit('isTA', data.data.user.isTA)
-        if (to.meta.requireAdmin && !store.state.isAdmin) {
-          if (store.state.isProf) {
-            next({name: 'TeachList'})
-          } else {
-            next({name: 'Index'})
-          }
+        if ((to.name === 'Index'|| to.name === 'Login') && store.state.isProf) {
+          next({name: 'TeachList'})
         } else {
-          if (to.name === 'Index' && store.state.isProf) {
-            next({name: 'TeachList'})
-          } else {
-            next()
-          }
+          next()
         }
       } else {
         next({name: 'Login'})

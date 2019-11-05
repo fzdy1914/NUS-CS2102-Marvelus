@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DataTable :value="peoples" :paginator="true" :rows="20" sortMode="multiple">
+    <DataTable :value="peoples" sortMode="multiple">
       <Column field="name" header="Student Name" v-if="isShowingStudent"></Column>
       <Column field="name" header="TA Name" v-else></Column>
       <Column field="matriculation_num" header="Matriculation number"></Column>

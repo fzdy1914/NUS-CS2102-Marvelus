@@ -1,7 +1,7 @@
 <template>
-  <div v-if=tutorial>
-    <div class="title-font">This is all students in your tutorial:</div>
+  <div v-if="tutorial">
     <TutorialBasicInfo :tutorial="tutorial"/>
+    <div class="title-font">This is all students in your tutorial:</div>
     <BasicStudentList :students="students"/>
   </div>
   <div v-else>

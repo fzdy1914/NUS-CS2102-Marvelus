@@ -49,7 +49,11 @@ export default {
         ]
       }).then(response => {
         if (response.data.state) {
-          this.$router.push({name: 'Index'})
+          if (this.$store.state.isProf){
+            this.$router.push({name: 'TeachList'})
+          } else {
+            this.$router.push({name: 'Index'})
+          }
         } else {
           this.help = response.data.error
           this.showHelp = true

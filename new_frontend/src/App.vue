@@ -13,6 +13,7 @@ export default {
 }
 
 </script>
+
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -33,5 +34,28 @@ export default {
 }
 html {
   background-color: #fff;
+}
+.title-font{
+  font-size: 20px;
+  text-align: left;
+  margin-left: 15px;
+  font-weight: bold;
+}
+.text-font{
+  font-size: 16px;
+  text-align: left;
+  margin-left: 15px;
+  margin-bottom: 20px;
+}
+.p-datatable {
+  font-size: 20px;
+  text-align: left;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.p-dataview {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 20px;
 }
 </style>

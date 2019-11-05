@@ -9,7 +9,7 @@
     <DataView :value="courses" :layout="'list'">
       <template #list="slotProps">
         <div class="p-col-12">
-          <div class="car-details">
+          <div class="course-details">
             <div>
               <div class="p-grid">
                 <div class="p-col-4">Code: <b>{{slotProps.data.code}}</b></div>
@@ -103,5 +103,9 @@
 }
 .my-keyword {
   font-size: 16px;
+}
+.course-details {
+  border-bottom: 1px solid #d9dad9;
+  height: 40px;
 }
 </style>

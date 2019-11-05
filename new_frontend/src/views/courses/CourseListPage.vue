@@ -28,32 +28,18 @@ export default {
 </script>
 
 <style scoped>
-  .course-list-page{
-    padding-left: 30px;
-    padding-right: 30px;
-    width: 100%;
-    height: 100%;
-    background-color: grey;
-  }
-  .title-font{
-    font-weight: Bold;
-    font-size: 25px;
-  }
-  .course-card {
-    display: inline-block;
-    background:#FFFFFF;
-    box-shadow: 7px 7px 10px #EEEEEE;
-    float: left;
-    padding: 20px;
-    margin: 10px;
-    max-width: 280px;
-    max-height: 240px;
-    min-width: 210px;
-    min-height: 180px;
-    width: 28%;
-    height: 28%;
-  }
-  .course-card {
+.course-list-page{
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+}
+.title-font{
+  font-weight: Bold;
+  font-size: 25px;
+}
+.course-card {
   display: inline-block;
   background-color: #ffffff;
   /*border: #FFFFFF solid 1px;*/

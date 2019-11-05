@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all tutorials:</div>
-      <DataView :value="tutorials" :layout="'list'" :paginator="true" :rows="20" :lazy="true" >
+    <div style="margin-bottom: 20px" class="title-font">This is all tutorials:</div>
+      <DataView :value="tutorials" :layout="'list'" :lazy="true" >
         <template #list="tutorials" >
           <div class="p-col-12">
-            <div class="car-details">
+            <div class="tutorial-details">
               <div class="p-col-12" >
                 <div class="p-grid">
                     <div class="p-col-9">Group Number: <b>{{tutorials.data.group_num}}</b></div>
@@ -47,9 +47,7 @@ export default {
 </script>
 
 <style scoped>
-
-/*  body .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {*/
-/*    background-color: #9c1b1b;*/
-/*    color: #ffffff;*/
-/*}*/
+.tutorial-details {
+  border-bottom: 1px solid #d9dad9;
+}
 </style>

@@ -1,6 +1,5 @@
 import rsa
 import base64
-import logging
 
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
@@ -9,8 +8,6 @@ from rsa import DecryptionError
 from luminus.forms import LoginForm
 from luminus.responses import success_json_response, error_json_response
 from luminus.managers import prof_manager, TA_manager
-
-logger = logging.getLogger('django')
 
 
 @csrf_exempt
@@ -23,7 +20,6 @@ def login(request):
         ta = TA_manager.get_TA_by_username(user.uname)
         is_ta = len(ta) > 0
         is_admin = True
-        logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
         return success_json_response({'user': {'username': request.user.uname,
                                                'isAdmin': is_admin,
                                                'isProf': is_prof,
@@ -54,7 +50,6 @@ def login(request):
             try:
                 password = rsa.decrypt(base64.b64decode(password), private_key)
             except DecryptionError:
-                logger.debug('Unable to decode: ' + password)
                 return error_json_response('Wrong password. Please try again.')
 
             user = auth.authenticate(username=username, password=password)
@@ -67,7 +62,6 @@ def login(request):
                 ta = TA_manager.get_TA_by_username(user.uname)
                 is_ta = len(ta) > 0
                 is_admin = True
-                logger.info('User login: %s, is_admin: %s' % (user.uname, is_admin))
                 return success_json_response({'user': {'username': request.user.uname,
                                                        'isAdmin': is_admin,
                                                        'isProf': is_prof,
@@ -82,7 +76,6 @@ def login(request):
 
 @csrf_exempt
 def logout(request):
-    logger.info('User log out: %s.' % request.user.uname)
     auth.logout(request)
     return success_json_response({'message': 'Successfully log out'})
 
