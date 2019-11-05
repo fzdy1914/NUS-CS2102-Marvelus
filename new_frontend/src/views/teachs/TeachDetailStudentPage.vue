@@ -41,30 +41,25 @@
 </template>
 
 <script>
-import BasicStudentList from '../../components/lists/BasicStudentList'
-import StudentListGradeMode from '../../components/lists/StudentListGradeMode'
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Button from 'primevue/button';
 import StudentListDataTable from "../../components/lists/StudentListDataTable";
 import DataTable from "primevue/datatable";
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';
 import Toast from 'primevue/toast';
 import InputText from "primevue/components/inputtext/InputText";
 import Dialog from 'primevue/dialog';
+
 export default {
   name: "TeachDetailStudentPage",
   components: {
-    BasicStudentList,
-    StudentListGradeMode,
     TabView,
     TabPanel,
     Button,
     StudentListDataTable,
     DataTable,
     Column,
-    ColumnGroup,
     Toast,
     InputText,
     Dialog

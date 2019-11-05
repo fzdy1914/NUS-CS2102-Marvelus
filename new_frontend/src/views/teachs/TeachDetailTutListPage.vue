@@ -26,14 +26,12 @@
 <script>
 import Button from 'primevue/button';
 import DataView from 'primevue/dataview';
-import Paginator from 'primevue/paginator';
 
 export default {
   name: "TeachDetailTutListPage",
   components:{
     Button,
     DataView,
-    Paginator
   },
   props:{
     tutorials:Array

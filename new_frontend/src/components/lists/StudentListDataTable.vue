@@ -15,7 +15,7 @@
 <script>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';
+
 export default {
   name: "StudentListDataTable",
   props: {
@@ -26,7 +26,6 @@ export default {
   components: {
     DataTable,
     Column,
-    ColumnGroup,
   }
 }
 </script>

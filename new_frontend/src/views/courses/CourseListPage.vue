@@ -1,6 +1,6 @@
 <template>
   <div class="course-list-page">
-    <div class="course-card" v-for="course in courses" @click="goCourse(course.code)" @mousemover.native="hover = true" @mouseleave.native="hover = false">
+    <div class="course-card" v-for="course in courses" @click="goCourse(course.code)" @mousemover.native="hover = true" @mouseleave.native="hover = false" :key="course.code">
       <div class="course-code"> {{course.code}} </div>
       <div class="course-title title-font"> {{course.title}} </div>
       <div class="course-detailed-info"> {{course.title}} </div>

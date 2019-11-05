@@ -103,10 +103,10 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import Dropdown from 'primevue/dropdown';
 import Toast from 'primevue/toast';
 import InputText from "primevue/components/inputtext/InputText";
 import TutorialBasicInfo from "../../components/TutorialBasicInfo";
+
 export default {
   name: "TeachDetailTutDetailPage",
   data() {
@@ -139,7 +139,6 @@ export default {
     Column,
     Button,
     Dialog,
-    Dropdown,
     Toast,
     TutorialBasicInfo
   },

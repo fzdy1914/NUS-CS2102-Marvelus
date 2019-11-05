@@ -29,12 +29,10 @@
 <script>
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import Dropdown from 'primevue/dropdown';
-import BasicStudentList from '../../components/lists/BasicStudentList';
 import StudentListDataTable from "../../components/lists/StudentListDataTable";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';
+
 export default {
   name: "TeachDetailTAsPage",
   props: {
@@ -53,7 +51,6 @@ export default {
     StudentListDataTable,
     Button,
     Dialog,
-    Dropdown,
     DataTable,
     Column
   },

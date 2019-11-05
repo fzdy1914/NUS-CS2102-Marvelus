@@ -20,19 +20,16 @@
 </template>
 
 <script>
-import BasicStudentList from '../../components/lists/BasicStudentList'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
+
 export default {
   name: "TeachDetailRequestsPage",
   components: {
-    BasicStudentList,
     DataTable,
     Column,
     Button,
-    Dialog
   },
   data() {
     return {
