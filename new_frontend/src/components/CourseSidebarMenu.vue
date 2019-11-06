@@ -3,6 +3,7 @@
     <div class="nav-code">{{course.code}}</div>
     <div class="nav-title">{{course.title}}</div>
     <div class="nav-info">{{course.info}}</div>
+    <div class="nav-row">Role: <b>Student</b></div>
     <div class="p-menu p-component">
       <ul class="p-menu-list p-reset">
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
@@ -89,18 +90,25 @@ export default {
   margin-bottom: 15px;
   font-weight: bold;
   font-size: 17px;
-  margin-left: 7px;
+  margin-left: 12.5px;
 }
 .nav-title{
   max-width: 150px;
   font-weight: Bold ;
   font-size: 20px;
   margin-bottom: 15px;
-  margin-left: 7px;
+  margin-left: 12.5px;
 }
 .nav-info{
   max-width: 150px;
   margin-bottom: 15px;
-  margin-left: 7px;
+  margin-left: 12.5px;
+}
+.nav-row {
+  font-size: 16px;
+  max-width: 150px;
+  margin-bottom: 15px;
+  margin-left: 12.5px;
+  color: #5e5e5e;
 }
 </style>

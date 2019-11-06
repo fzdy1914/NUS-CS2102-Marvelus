@@ -58,4 +58,7 @@ html {
   margin-right: 15px;
   margin-bottom: 20px;
 }
+.p-menuitem:hover {
+  cursor: pointer;
+}
 </style>
