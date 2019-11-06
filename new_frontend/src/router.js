@@ -18,11 +18,11 @@ import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
 import TeachDetailTutListPage from "./views/teachs/TeachDetailTutListPage";
 import TeachDetailTutPage from "./views/teachs/TeachDetailTutPage";
 import TeachDetailTutDetailPage from "./views/teachs/TeachDetailTutDetailPage";
-import CourseDetailForumPage from "./views/courses/CourseDetailForumPage";
-import CourseDetailForumListPage from "./views/courses/CourseDetailForumListPage";
-import CourseDetailForumDetailPage from "./views/courses/CourseDetailForumDetailPage";
-import CourseDetailPostListPage from "./views/courses/CourseDetailPostListPage";
-import CourseDetailPostDetailPage from "./views/courses/CourseDetailPostDetailPage";
+import PostDetailPage from "./views/forums/PostDetailPage";
+import PostListPage from "./views/forums/PostListPage";
+import ForumDetailPage from "./views/forums/ForumDetailPage";
+import ForumListPage from "./views/forums/ForumListPage";
+import ForumPage from "./views/forums/ForumPage";
 
 Vue.use(Router)
 
@@ -69,26 +69,26 @@ export default new Router({
             },
             {
               path: 'forum',
-              component: CourseDetailForumPage,
+              component: ForumPage,
               children: [
                 {
                   path: '/',
                   name: 'CourseDetailForumList',
-                  component: CourseDetailForumListPage,
+                  component: ForumListPage,
                 },
                 {
                   path: ':fid',
-                  component: CourseDetailForumDetailPage,
+                  component: ForumDetailPage,
                   children: [
                     {
                       path: '/',
                       name: 'CourseDetailPostList',
-                      component: CourseDetailPostListPage
+                      component: PostListPage
                     },
                     {
                       path: ':pid',
                       name: 'CourseDetailPostDetail',
-                      component: CourseDetailPostDetailPage
+                      component: PostDetailPage
                     }
                   ]
                 },

@@ -15,7 +15,7 @@
     <div>
       <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
         Replies:
-        <Button style="float: right; margin-right: 15px" label = "Add" @click="display = true" class="p-button-success"/>
+        <Button style="float: right; margin-right: 15px" label = "Add New Reply" @click="display = true" class="p-button-success"/>
         <Button v-if="selectedPid && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPid)"/>
       </div>
       <div v-if="replies.length > 0">
@@ -53,7 +53,7 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 
 export default {
-  name: "CourseDetailPostListPage",
+  name: "PostListPage",
   components:{
     Button,
     InputText,

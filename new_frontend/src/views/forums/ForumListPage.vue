@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="forums.length > 0">
-      <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+      <div class="title-font" style="margin-bottom: 20px">
         This is all Forums:
         <Button v-if="selectedForum" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
         <Button v-if="selectedForum && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
@@ -24,7 +24,7 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 
 export default {
-  name: "CourseDetailForumListPage",
+  name: "ForumListPage",
   components: {
     DataTable,
     Column,

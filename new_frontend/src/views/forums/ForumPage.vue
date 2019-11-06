@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "CourseDetailForumPage",
+  name: "ForumPage",
   data() {
     return {
       state: false,

@@ -13,7 +13,7 @@
 import Button from 'primevue/button'
 
 export default {
-  name: "CourseDetailForumDetailPage",
+  name: "ForumDetailPage",
   props: {
     forums: Array
   },

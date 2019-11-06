@@ -37,7 +37,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
 export default {
-  name: "CourseDetailPostListPage",
+  name: "PostListPage",
   components: {
     Button,
     Dialog,

@@ -104,24 +104,26 @@ export default {
 .sidebar-menu {
   display: inline-block;
   float: left;
-
 }
 .nav-code{
-
   color: #1976d2;
   max-width: 150px;
   margin-bottom: 15px;
   font-weight: bold;
+  font-size: 17px;
+  margin-left: 7px;
 }
 .nav-title{
   max-width: 150px;
   font-weight: Bold ;
   font-size: 20px;
   margin-bottom: 15px;
+  margin-left: 7px;
 }
 .nav-info{
   max-width: 150px;
   margin-bottom: 15px;
+  margin-left: 7px;
 }
 .active {
   background-color: #dedede;
