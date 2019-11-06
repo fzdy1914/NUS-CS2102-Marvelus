@@ -20,7 +20,7 @@
         <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTuts()">
           <a class="p-menuitem-link">Tutorials</a>
         </li>
-        <li class="p-menuitem">
+        <li class="p-menuitem" :class="{ active: isForumActive }" @click="goForum()">
           <a class="p-menuitem-link">Forum</a>
         </li>
       </ul>
@@ -51,6 +51,9 @@ export default {
     },
     isTAsActive: function () {
       return this.$route.name == 'TeachDetailTAs'
+    },
+    isForumActive: function () {
+      return this.$route.name.indexOf('Forum') >= 0 || this.$route.name.indexOf('Post') >= 0
     },
   },
   mounted(){
@@ -94,6 +97,11 @@ export default {
     goTAs: function () {
       if (this.$route.name != 'TeachDetailTAs') {
         this.$router.push({name: 'TeachDetailTAs', params: {code: this.$route.params.code}})
+      }
+    },
+    goForum: function () {
+      if (this.$route.name != 'TeachDetailForumList') {
+        this.$router.push({name: 'TeachDetailForumList', params: {code: this.$route.params.code}})
       }
     },
   }

@@ -15,12 +15,12 @@
     <div>
       <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
         Replies:
-        <Button style="float: right; margin-right: 15px" label = "Add New Reply" @click="display = true" class="p-button-success"/>
-        <Button v-if="selectedPid && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPid)"/>
+        <Button style="float: right; margin-right: 15px" label = "Reply" icon="pi pi-plus" @click="display = true" class="p-button-success"/>
+        <Button v-if="selectedPid && status!='Student'" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPid)"/>
       </div>
       <div v-if="replies.length > 0">
         <div v-for="reply in replies" :key="reply.pid">
-          <div class="post-card" style="margin-bottom: 15px" :class="{active: displayDelete && selectedPid == reply.pid, reply: displayDelete}" @click="selectedPid = reply.pid">
+          <div class="post-card" style="margin-bottom: 15px" :class="{active: status!='Student' && selectedPid == reply.pid, reply: status!='Student'}" @click="selectedPid = reply.pid">
             <div class="title"><b>{{ reply.title }}</b></div>
             <div class="name">Posted by: {{ reply.name }}</div>
             <hr/>
@@ -139,8 +139,13 @@ export default {
     }
   },
   computed: {
-    displayDelete: function () {
-      return this.$route.name.startsWith('Teach') || this.$route.name.startsWith('Assist') || true;
+    status: function () {
+      if (this.$route.name.startsWith('Teach')) {
+        return 'Prof'
+      } else if (this.$route.name.startsWith('Assist')) {
+        return 'TA'
+      }
+      return 'Student'
     }
   }
 }

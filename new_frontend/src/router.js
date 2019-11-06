@@ -150,6 +150,33 @@ export default new Router({
                 }
               ]
             },
+            {
+              path: 'forum',
+              component: ForumPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'AssistDetailForumList',
+                  component: ForumListPage,
+                },
+                {
+                  path: ':fid',
+                  component: ForumDetailPage,
+                  children: [
+                    {
+                      path: '/',
+                      name: 'AssistDetailPostList',
+                      component: PostListPage
+                    },
+                    {
+                      path: ':pid',
+                      name: 'AssistDetailPostDetail',
+                      component: PostDetailPage
+                    }
+                  ]
+                },
+              ]
+            },
           ]
         }
       ]
@@ -207,6 +234,33 @@ export default new Router({
               path: 'tas',
               name: 'TeachDetailTAs',
               component: TeachDetailTAsPage,
+            },
+            {
+              path: 'forum',
+              component: ForumPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'TeachDetailForumList',
+                  component: ForumListPage,
+                },
+                {
+                  path: ':fid',
+                  component: ForumDetailPage,
+                  children: [
+                    {
+                      path: '/',
+                      name: 'TeachDetailPostList',
+                      component: PostListPage
+                    },
+                    {
+                      path: ':pid',
+                      name: 'TeachDetailPostDetail',
+                      component: PostDetailPage
+                    }
+                  ]
+                },
+              ]
             },
           ]
         }

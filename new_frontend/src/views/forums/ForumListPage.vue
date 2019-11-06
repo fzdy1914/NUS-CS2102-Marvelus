@@ -4,7 +4,7 @@
       <div class="title-font" style="margin-bottom: 20px">
         This is all Forums:
         <Button v-if="selectedForum" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
-        <Button v-if="selectedForum && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
+        <Button v-if="selectedForum && status=='Prof'" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
       </div>
       <DataTable :value="forums" sortMode="multiple" :selection.sync="selectedForum" dataKey="fid" style="margin-top: 12px">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
@@ -40,7 +40,13 @@ export default {
   },
   methods: {
     goPostList: function (fid) {
-      this.$router.push({name: 'CourseDetailPostList', params: {code: this.$route.params.code, fid: fid}})
+      if (this.status == 'Prof') {
+        this.$router.push({name: 'TeachDetailPostList', params: {code: this.$route.params.code, fid: fid}})
+      } else if (this.status == 'TA') {
+        this.$router.push({name: 'AssistDetailPostList', params: {code: this.$route.params.code, fid: fid}})
+      } else {
+        this.$router.push({name: 'CourseDetailPostList', params: {code: this.$route.params.code, fid: fid}})
+      }
     },
     deleteForum: function (fid) {
       this.$axios.request({
@@ -59,8 +65,13 @@ export default {
     }
   },
   computed: {
-    displayDelete: function () {
-      return this.$route.name.startsWith('Teach') || this.$route.name.startsWith('Assist') || true;
+    status: function () {
+      if (this.$route.name.startsWith('Teach')) {
+        return 'Prof'
+      } else if (this.$route.name.startsWith('Assist')) {
+        return 'TA'
+      }
+      return 'Student'
     }
   }
 }
