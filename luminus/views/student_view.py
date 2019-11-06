@@ -95,3 +95,8 @@ def add_enroll_request_by_uname_and_code(request, code):
         student_manager.add_enroll_request_by_uname_and_code(uname, code)
         return success_json_response({})
     return error_json_response("User not logged in")
+
+
+def mark_enroll_complete_by_uname_and_code(requst, code, uname):
+    student_manager.mark_enroll_complete_by_uname_and_code(code, uname)
+    return success_json_response({})

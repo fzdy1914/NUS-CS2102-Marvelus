@@ -126,6 +126,6 @@ export default {
 .active {
   background-color: #dedede;
   font-size:15px;
-  font-family: Arial Rounded MT Bold
+  font-weight: bold;
 }
 </style>

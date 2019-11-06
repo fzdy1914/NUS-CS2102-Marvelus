@@ -13,15 +13,16 @@
       <DataTable :value="TAs">
         <Column field="name" header="TA Name"></Column>
         <Column field="major" header="Major"></Column>
-        <Column field="matriculationNum" header="Matriculation Number"></Column>
+        <Column field="email" header="E-mail"></Column>
         <Column field="year" header="Year"></Column>
       </DataTable>
     </div>
     <Dialog header="Add TA" :visible.sync="displayTA" :style="{width: '80vw'}" :modal="true">
-      <DataTable :value="notInTAs" :selection.sync="selectedTA" selectionMode="single" >
+      <DataTable :value="notInTAs" :selection.sync="selectedTA"  >
+        <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="TA Name"></Column>
         <Column field="major" header="Major"></Column>
-        <Column field="matriculationNum" header="Matriculation Number"></Column>
+        <Column field="matriculation_num" header="Matriculation Number"></Column>
         <Column field="year" header="Year"></Column>
       </DataTable>
         <template #footer>
@@ -38,16 +39,13 @@
       <DataTable :value="Forums">
         <Column field="title" header="Forum Title"></Column>
         <Column field="fid" header="Forum Number"></Column>
-        <Column field="stuNum" header="Amount of Students"></Column>
-        <Column field="taNum" header="..."></Column>
       </DataTable>
     </div>
     <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '80vw'}" :modal="true">
-        <DataTable :value="notInForums" :selection.sync="selectedForum" selectionMode="single" >
+        <DataTable :value="notInForums" :selection.sync="selectedForum"  >
+          <Column selectionMode="single" headerStyle="width: 3em"></Column>
             <Column field="title" header="Forum Title"></Column>
             <Column field="fid" header="Forum Number"></Column>
-            <Column field="stuNum" header="Amount of Students"></Column>
-            <Column field="taNum" header="..."></Column>
           </DataTable>
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addForum()" />
@@ -64,20 +62,18 @@
       <DataTable :value="Students" :selection.sync="selectedAttend" dataKey="uname">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
         <Column field="name" header="Student Name"></Column>
-        <Column field="uname" header="User Name"></Column>
-        <Column field="brand" header="..."></Column>
-        <Column field="color" header="..."></Column>
+        <Column field="major" header="Major"></Column>
+        <Column field="matriculation_num" header="Matriculation Number"></Column>
+        <Column field="year" header="Year"></Column>
       </DataTable>
     </div>
       <Dialog header="Tutorial Attendance" :visible.sync="displayAttendance" :style="{width: '80vw'}" :modal="true">
         <DataTable :value="attendances"  >
           <Column field="attend_week" header="Attended Week"></Column>
           <Column field="group_num" header="Tut Group"></Column>
-          <Column field="stuNum" header="..."></Column>
-          <Column field="taNum" header="..."></Column>
         </DataTable>
         <div style="margin-top: 10px">
-          <InputText placeholer="eg:6" v-model="attendWeek" style="margin-right: 10px"/>
+          <InputText placeholer="eg:6" type="number" v-model="attendWeek" style="margin-right: 10px"/>
           <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
         </div>
     </Dialog>
@@ -86,8 +82,8 @@
          <DataTable :value="noAttendStus" :selection.sync="selectedStu" selectionMode="single" >
             <Column field="name" header="Student Name"></Column>
             <Column field="uname" header="User Name"></Column>
-            <Column field="stuNum" header="..."></Column>
-            <Column field="taNum" header="..."></Column>
+            <Column field="matriculation_num" header="Matriculation Number"></Column>
+            <Column field="year" header="Year"></Column>
           </DataTable>
       <template #footer>
         <Button label="Yes" icon="pi pi-check" @click="addStudent()" />

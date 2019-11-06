@@ -108,6 +108,11 @@ def add_enroll_request_by_uname_and_code(uname, code):
                                {'uname': uname, 'code': code})
 
 
+def mark_enroll_complete_by_uname_and_code(code, uname):
+    return sql_helper.exec_sql("UPDATE Enroll SET status='completed' WHERE code= %(code)s AND uname=%(uname)s",
+                               {'uname': uname, 'code': code})
+
+
 def retrieve_complete_amount(code):
     today = date.today()
     year = today.strftime("%Y")
