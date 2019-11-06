@@ -3,7 +3,7 @@
     <div class="nav-code">{{course.code}}</div>
     <div class="nav-title">{{course.title}}</div>
     <div class="nav-info">{{course.info}}</div>
-    <div class="nav-row">Role: <b>Student</b></div>
+    <div class="nav-row">Role: <b>TA</b></div>
     <div class="p-menu p-component">
       <ul class="p-menu-list p-reset">
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "CourseSideBarMenu",
+  name: "AssistSideBarMenu",
   data(){
     return{
       course: {},
@@ -33,10 +33,10 @@ export default {
   },
   computed: {
     isInfoActive: function () {
-      return this.$route.name == 'CourseDetail' || this.$route.name == 'CourseDetailInfo'
+      return this.$route.name == 'AssistDetail' || this.$route.name == 'AssistDetailInfo'
     },
     isTutActive: function () {
-      return this.$route.name == 'CourseDetailTut'
+      return this.$route.name == 'AssistDetailTut'
     },
     isForumActive: function () {
       return this.$route.name.indexOf('Forum') >= 0 || this.$route.name.indexOf('Post') >= 0
@@ -44,18 +44,18 @@ export default {
   },
   methods: {
     goInfo: function () {
-      if (this.$route.name != 'CourseDetailInfo') {
-        this.$router.push({name: 'CourseDetailInfo', params: {code: this.$route.params.code}})
+      if (this.$route.name != 'AssistDetailInfo') {
+        this.$router.push({name: 'AssistDetailInfo', params: {code: this.$route.params.code}})
       }
     },
     goTut: function () {
-      if (this.$route.name != 'CourseDetailTut') {
-        this.$router.push({name: 'CourseDetailTut', params: {code: this.$route.params.code}})
+      if (this.$route.name != 'AssistDetailTutList') {
+        this.$router.push({name: 'AssistDetailTutList', params: {code: this.$route.params.code}})
       }
     },
     goForum: function () {
-      if (this.$route.name != 'CourseDetailForumList') {
-        this.$router.push({name: 'CourseDetailForumList', params: {code: this.$route.params.code}})
+      if (this.$route.name != 'AssistDetailForumList') {
+        this.$router.push({name: 'AssistDetailForumList', params: {code: this.$route.params.code}})
       }
     },
     getCourse: function () {

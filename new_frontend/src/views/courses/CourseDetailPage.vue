@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CourseSidebarMenu/>
+    <CourseSidebarMenu v-if="$route.name.indexOf('Course') >=0"/>
+    <AssistSideBarMenu v-else/>
     <div class="placeholder">
       <router-view/>
     </div>
@@ -9,9 +10,11 @@
 
 <script>
 import CourseSidebarMenu from '../../components/CourseSidebarMenu'
+import AssistSideBarMenu from "../../components/AssistSidebarMenu";
 export default {
   name: "CourseDetailPage",
   components:{
+    AssistSideBarMenu,
     CourseSidebarMenu
   }
 }

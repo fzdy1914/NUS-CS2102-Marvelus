@@ -3,7 +3,7 @@
     <NavBar :whichActive="'search'"/>
     <div class="searchbar">
       <span class="my-keyword">Keyword:</span>
-      <input type="text" placeholder="Enter keyword" v-model="keyword" class="my-input"/>
+      <input type="text" placeholder="Enter keyword" v-model="keyword" class="my-input" @keyup.enter="getCourses(keyword)"/>
       <Button label="Search" @click="getCourses(keyword)"></Button>
     </div>
     <DataView :value="courses" :layout="'list'">

@@ -59,32 +59,35 @@ export default {
 </script>
 
 <style scoped>
-  .tab{
-    border-radius: 10px;
-  }
-  .navbar-h{
-    background-color: #1976d2;
-  }
-  .navbar-left{
-    font-size: 18px;
-    font-weight: bold;
-    background: #1e88e5;
-  }
-  .navbar-inverse {
-    border: #1565c0;
-    background-color:#1565c0;
+.tab{
+  border-radius: 10px;
+}
+.tab:hover {
+  cursor: pointer;
+}
+.navbar-h{
+  background-color: #1976d2;
+}
+.navbar-left{
+  font-size: 18px;
+  font-weight: bold;
+  background: #1e88e5;
+}
+.navbar-inverse {
+  border: #1565c0;
+  background-color:#1565c0;
 
-  }
-  .navbar-inverse .navbar-nav > .active > a,
-  .navbar-inverse .navbar-nav > .active > a:hover,
-  .navbar-inverse .navbar-nav > .active > a:focus {
-    color: #1976d2;
-    background-color: white;
-  }
-  .navbar-inverse .navbar-nav > li > a {
-    color: white;
-  }
-  .navbar-inverse .navbar-nav > li > a:hover {
-    color: lightblue;
-  }
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #1976d2;
+  background-color: white;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: white;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: lightblue;
+}
 </style>

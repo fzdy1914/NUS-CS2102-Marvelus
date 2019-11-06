@@ -18,11 +18,14 @@ import TeachDetailTAsPage from "./views/teachs/TeachDetailTAsPage";
 import TeachDetailTutListPage from "./views/teachs/TeachDetailTutListPage";
 import TeachDetailTutPage from "./views/teachs/TeachDetailTutPage";
 import TeachDetailTutDetailPage from "./views/teachs/TeachDetailTutDetailPage";
-import CourseDetailForumPage from "./views/courses/CourseDetailForumPage";
-import CourseDetailForumListPage from "./views/courses/CourseDetailForumListPage";
-import CourseDetailForumDetailPage from "./views/courses/CourseDetailForumDetailPage";
-import CourseDetailPostListPage from "./views/courses/CourseDetailPostListPage";
-import CourseDetailPostDetailPage from "./views/courses/CourseDetailPostDetailPage";
+import PostDetailPage from "./views/forums/PostDetailPage";
+import PostListPage from "./views/forums/PostListPage";
+import ForumDetailPage from "./views/forums/ForumDetailPage";
+import ForumListPage from "./views/forums/ForumListPage";
+import ForumPage from "./views/forums/ForumPage";
+import AssistDetailTutPage from "./views/assists/AssistDetailTutPage";
+import AssistDetailTutListPage from "./views/assists/AssistDetailTutListPage";
+import AssistDetailTutDetailPage from "./views/assists/AssistDetailTutDetailPage";
 
 Vue.use(Router)
 
@@ -69,26 +72,26 @@ export default new Router({
             },
             {
               path: 'forum',
-              component: CourseDetailForumPage,
+              component: ForumPage,
               children: [
                 {
                   path: '/',
                   name: 'CourseDetailForumList',
-                  component: CourseDetailForumListPage,
+                  component: ForumListPage,
                 },
                 {
                   path: ':fid',
-                  component: CourseDetailForumDetailPage,
+                  component: ForumDetailPage,
                   children: [
                     {
                       path: '/',
                       name: 'CourseDetailPostList',
-                      component: CourseDetailPostListPage
+                      component: PostListPage
                     },
                     {
                       path: ':pid',
                       name: 'CourseDetailPostDetail',
-                      component: CourseDetailPostDetailPage
+                      component: PostDetailPage
                     }
                   ]
                 },
@@ -130,6 +133,49 @@ export default new Router({
               path: 'info',
               name: 'AssistDetailInfo',
               component: CourseDetailInfoPage,
+            },
+            {
+              path: 'tut',
+              component: AssistDetailTutPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'AssistDetailTutList',
+                  component: AssistDetailTutListPage,
+                },
+                {
+                  path: ':group_num',
+                  name: 'AssistDetailTutDetail',
+                  component: AssistDetailTutDetailPage,
+                }
+              ]
+            },
+            {
+              path: 'forum',
+              component: ForumPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'AssistDetailForumList',
+                  component: ForumListPage,
+                },
+                {
+                  path: ':fid',
+                  component: ForumDetailPage,
+                  children: [
+                    {
+                      path: '/',
+                      name: 'AssistDetailPostList',
+                      component: PostListPage
+                    },
+                    {
+                      path: ':pid',
+                      name: 'AssistDetailPostDetail',
+                      component: PostDetailPage
+                    }
+                  ]
+                },
+              ]
             },
           ]
         }
@@ -188,6 +234,33 @@ export default new Router({
               path: 'tas',
               name: 'TeachDetailTAs',
               component: TeachDetailTAsPage,
+            },
+            {
+              path: 'forum',
+              component: ForumPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'TeachDetailForumList',
+                  component: ForumListPage,
+                },
+                {
+                  path: ':fid',
+                  component: ForumDetailPage,
+                  children: [
+                    {
+                      path: '/',
+                      name: 'TeachDetailPostList',
+                      component: PostListPage
+                    },
+                    {
+                      path: ':pid',
+                      name: 'TeachDetailPostDetail',
+                      component: PostDetailPage
+                    }
+                  ]
+                },
+              ]
             },
           ]
         }

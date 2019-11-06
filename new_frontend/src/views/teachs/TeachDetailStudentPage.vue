@@ -19,7 +19,7 @@
         <div class="title-font">
           Students completed this module:
           <Button v-if="isViewingGrades" style="float: right; margin-right: 15px" label="Info" @click="toggleGradeView()"/>
-          <Button v-else style="float: right" label="Grades" @click="toggleGradeView()"/>
+          <Button v-else style="float: right; margin-right: 15px" label="Grades" @click="toggleGradeView()"/>
           <Button style="float: right; margin-right: 4px" label="GenerateFinalGrades" @click="openGrading()"/>
           <Button v-if="selectedStu" icon="pi pi-plus" style="float: right; margin-right: 4px" label="Edit Test Grade" @click="openEdit()"/>
           <Dialog header="Test Grade" :visible.sync="displayEdit" :modal="true">

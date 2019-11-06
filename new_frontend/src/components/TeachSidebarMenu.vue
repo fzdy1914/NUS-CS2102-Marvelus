@@ -3,6 +3,7 @@
     <div class="nav-code">{{course.code}}</div>
     <div class="nav-title">{{course.title}}</div>
     <div class="nav-info">{{course.info}}</div>
+    <div class="nav-row">Role: <b>Prof</b></div>
     <div class="p-menu p-component">
       <ul class="p-menu-list p-reset">
         <li class="p-menuitem" :class="{ active: isInfoActive }" @click="goInfo()">
@@ -20,7 +21,7 @@
         <li class="p-menuitem" :class="{ active: isTutActive }" @click="goTuts()">
           <a class="p-menuitem-link">Tutorials</a>
         </li>
-        <li class="p-menuitem">
+        <li class="p-menuitem" :class="{ active: isForumActive }" @click="goForum()">
           <a class="p-menuitem-link">Forum</a>
         </li>
       </ul>
@@ -51,6 +52,9 @@ export default {
     },
     isTAsActive: function () {
       return this.$route.name == 'TeachDetailTAs'
+    },
+    isForumActive: function () {
+      return this.$route.name.indexOf('Forum') >= 0 || this.$route.name.indexOf('Post') >= 0
     },
   },
   mounted(){
@@ -96,6 +100,11 @@ export default {
         this.$router.push({name: 'TeachDetailTAs', params: {code: this.$route.params.code}})
       }
     },
+    goForum: function () {
+      if (this.$route.name != 'TeachDetailForumList') {
+        this.$router.push({name: 'TeachDetailForumList', params: {code: this.$route.params.code}})
+      }
+    },
   }
 }
 </script>
@@ -104,24 +113,33 @@ export default {
 .sidebar-menu {
   display: inline-block;
   float: left;
-
 }
 .nav-code{
-
   color: #1976d2;
   max-width: 150px;
   margin-bottom: 15px;
   font-weight: bold;
+  font-size: 17px;
+  margin-left: 12.5px;
 }
 .nav-title{
   max-width: 150px;
   font-weight: Bold ;
   font-size: 20px;
   margin-bottom: 15px;
+  margin-left: 12.5px;
 }
 .nav-info{
   max-width: 150px;
   margin-bottom: 15px;
+  margin-left: 12.5px;
+}
+.nav-row {
+  font-size: 16px;
+  max-width: 150px;
+  margin-bottom: 15px;
+  margin-left: 12.5px;
+  color: #5e5e5e;
 }
 .active {
   background-color: #dedede;

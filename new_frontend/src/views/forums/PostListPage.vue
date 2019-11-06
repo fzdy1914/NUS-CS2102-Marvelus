@@ -2,14 +2,14 @@
   <div>
     <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
       This is all Posts:
-      <Button class="p-button-success" style="float: right; margin-right: 15px" label="Add New Post" @click="display = true"/>
+      <Button class="p-button-success" style="float: right; margin-right: 15px" label="Post" icon="pi pi-plus" @click="display = true"/>
       <Button v-if="selectedPost" style="float: right; margin-right: 5px" label="View" @click="goPost(selectedPost.pid)"/>
-      <Button v-if="selectedPost && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPost.pid)"/>
+      <Button v-if="selectedPost && status!='Student'" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPost.pid)"/>
     </div>
 
     <DataTable :value="posts" sortMode="multiple" :selection.sync="selectedPost" dataKey="pid" style="margin-top: 12px">
       <Column selectionMode="single" headerStyle="width: 3em"></Column>
-      <Column field="title" header="Title"></Column>
+      <Column field="title" header="Post Title"></Column>
       <Column field="name" header="Author"></Column>
     </DataTable>
 
@@ -37,7 +37,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
 export default {
-  name: "CourseDetailPostListPage",
+  name: "PostListPage",
   components: {
     Button,
     Dialog,
@@ -77,9 +77,13 @@ export default {
       })
     },
     goPost: function (pid) {
-      this.$router.push({
-        name: 'CourseDetailPostDetail',
-        params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
+      if (this.status == 'Prof') {
+        this.$router.push({name: 'TeachDetailPostDetail', params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
+      } else if (this.status == 'TA') {
+        this.$router.push({name: 'AssistDetailPostDetail', params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
+      } else {
+        this.$router.push({name: 'CourseDetailPostDetail', params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
+      }
     },
     addPost: function () {
       this.$axios.request({
@@ -121,9 +125,14 @@ export default {
     }
   },
   computed: {
-    displayDelete: function () {
-      return this.$route.name.startsWith('Teach') || this.$route.name.startsWith('Assist') || true;
-    }
+    status: function () {
+      if (this.$route.name.startsWith('Teach')) {
+        return 'Prof'
+      } else if (this.$route.name.startsWith('Assist')) {
+        return 'TA'
+      }
+      return 'Student'
+    },
   }
 }
 </script>

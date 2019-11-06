@@ -58,6 +58,7 @@ urlpatterns = [
     path('forums/notin/<code>/<group_num>/', forum_view.get_forum_notintut_by_code_and_group_num),
     path('forums/addtut/<code>/<group_num>/<fid>/', forum_view.add_forum_to_tut_by_code_group_num_fid),
     path('forum/delete/<code>/<fid>/', forum_view.delete_forum),
+    path('forum/add/', forum_view.add_forum),
 
     path('posts/<code>/<fid>/', post_view.get_posts_by_code_and_fid),
     path('posts/<code>/<fid>/<pid>/', post_view.get_posts_by_code_and_fid_and_pid),
@@ -68,7 +69,7 @@ urlpatterns = [
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),
     path('tutorials/uname/<username>/', tut_view.get_tutorials_by_student),
     path('tutorials/uname/code/<username>/<code>/', tut_view.get_tutorials_by_student_and_course),
-    path('tutorials/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
+    path('tutorials/ta/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorials/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
     path('requests/code/<code>/', student_view.get_requests_by_coursecode),
