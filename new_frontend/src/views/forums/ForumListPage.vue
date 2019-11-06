@@ -8,8 +8,8 @@
       </div>
       <DataTable :value="forums" sortMode="multiple" :selection.sync="selectedForum" dataKey="fid" style="margin-top: 12px">
         <Column selectionMode="single" headerStyle="width: 3em"></Column>
-        <Column field="fid" header="ID"></Column>
-        <Column field="title" header="Title"></Column>
+        <Column field="fid" header="Forum Number"></Column>
+        <Column field="title" header="Forum Title"></Column>
       </DataTable>
     </div>
     <div v-else>

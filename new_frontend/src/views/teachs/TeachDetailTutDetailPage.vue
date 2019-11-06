@@ -37,15 +37,15 @@
         <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add New Forum" @click="openAddForum()"/>
       </div>
       <DataTable :value="Forums">
-        <Column field="title" header="Forum Title"></Column>
         <Column field="fid" header="Forum Number"></Column>
+        <Column field="title" header="Forum Title"></Column>
       </DataTable>
     </div>
     <Dialog header="Add Forum" :visible.sync="displayForum" :style="{width: '80vw'}" :modal="true">
         <DataTable :value="notInForums" :selection.sync="selectedForum"  >
           <Column selectionMode="single" headerStyle="width: 3em"></Column>
-            <Column field="title" header="Forum Title"></Column>
             <Column field="fid" header="Forum Number"></Column>
+            <Column field="title" header="Forum Title"></Column>
           </DataTable>
         <template #footer>
             <Button label="Yes" icon="pi pi-check" @click="addForum()" />
@@ -56,7 +56,7 @@
       <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
         List of Students:
         <Button class="p-button-raised" icon="pi pi-plus" style="float: right; margin-right: 15px" label="Add New Student" @click="openAddStu()"/>
-        <Button v-if="selectedAttend" class="p-button-raised " style="float: right; margin-right: 5px" icon="pi pi-plus" label="Attendance" @click="openAttendance()" />
+        <Button v-if="selectedAttend" class="p-button-success" style="float: right; margin-right: 5px" icon="pi pi-plus" label="Attendance" @click="openAttendance()" />
       </div>
 
       <DataTable :value="Students" :selection.sync="selectedAttend" dataKey="uname">

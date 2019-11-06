@@ -68,7 +68,7 @@ urlpatterns = [
     path('tutorials/code/<code>/', tut_view.get_tutorials_by_coursecode),
     path('tutorials/uname/<username>/', tut_view.get_tutorials_by_student),
     path('tutorials/uname/code/<username>/<code>/', tut_view.get_tutorials_by_student_and_course),
-    path('tutorials/ta/<username>/<code>/', tut_view.get_tutorials_by_tA_and_course),
+    path('tutorials/ta/<code>/', tut_view.get_tutorials_by_tA_and_course),
     path('tutorials/<code>/<num>/', tut_view.get_tutorials_by_course_and_group),
 
     path('requests/code/<code>/', student_view.get_requests_by_coursecode),

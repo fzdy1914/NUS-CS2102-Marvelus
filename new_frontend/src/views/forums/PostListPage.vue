@@ -9,7 +9,7 @@
 
     <DataTable :value="posts" sortMode="multiple" :selection.sync="selectedPost" dataKey="pid" style="margin-top: 12px">
       <Column selectionMode="single" headerStyle="width: 3em"></Column>
-      <Column field="title" header="Title"></Column>
+      <Column field="title" header="Post Title"></Column>
       <Column field="name" header="Author"></Column>
     </DataTable>
 

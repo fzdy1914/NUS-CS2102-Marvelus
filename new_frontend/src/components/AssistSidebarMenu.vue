@@ -48,8 +48,8 @@ export default {
       }
     },
     goTut: function () {
-      if (this.$route.name != 'AssistDetailTut') {
-        this.$router.push({name: 'AssistDetailTut', params: {code: this.$route.params.code}})
+      if (this.$route.name != 'AssistDetailTutList') {
+        this.$router.push({name: 'AssistDetailTutList', params: {code: this.$route.params.code}})
       }
     },
     goForum: function () {

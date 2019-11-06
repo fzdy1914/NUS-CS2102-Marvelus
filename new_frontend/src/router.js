@@ -23,6 +23,9 @@ import PostListPage from "./views/forums/PostListPage";
 import ForumDetailPage from "./views/forums/ForumDetailPage";
 import ForumListPage from "./views/forums/ForumListPage";
 import ForumPage from "./views/forums/ForumPage";
+import AssistDetailTutPage from "./views/assists/AssistDetailTutPage";
+import AssistDetailTutListPage from "./views/assists/AssistDetailTutListPage";
+import AssistDetailTutDetailPage from "./views/assists/AssistDetailTutDetailPage";
 
 Vue.use(Router)
 
@@ -130,6 +133,22 @@ export default new Router({
               path: 'info',
               name: 'AssistDetailInfo',
               component: CourseDetailInfoPage,
+            },
+            {
+              path: 'tut',
+              component: AssistDetailTutPage,
+              children: [
+                {
+                  path: '/',
+                  name: 'AssistDetailTutList',
+                  component: AssistDetailTutListPage,
+                },
+                {
+                  path: ':group_num',
+                  name: 'AssistDetailTutDetail',
+                  component: AssistDetailTutDetailPage,
+                }
+              ]
             },
           ]
         }
