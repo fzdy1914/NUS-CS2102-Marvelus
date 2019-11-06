@@ -101,7 +101,6 @@
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Button from 'primevue/button';
-import StudentListDataTable from "../../components/lists/StudentListDataTable";
 import DataTable from "primevue/datatable";
 import Column from 'primevue/column';
 import Toast from 'primevue/toast';
@@ -114,7 +113,6 @@ export default {
     TabView,
     TabPanel,
     Button,
-    StudentListDataTable,
     DataTable,
     Column,
     Toast,

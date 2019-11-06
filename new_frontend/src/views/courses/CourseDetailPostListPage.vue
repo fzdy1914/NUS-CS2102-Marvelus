@@ -1,9 +1,18 @@
 <template>
   <div>
-    <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is all Posts in Forum {{$route.params.fid}}</div>\
-    <Button label = "Add" @click="display = true" class="p-button-success"/>
-    <Button label = "Back" @click="goBack()"/>
-    <BasicPostList style="font-size: 20px; text-align: left;margin-left: 15px;margin-right: 15px;" :posts="posts" v-on:goPost="goPost"/>
+    <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+      This is all Posts:
+      <Button class="p-button-success" style="float: right; margin-right: 15px" label="Add New Post" @click="display = true"/>
+      <Button v-if="selectedPost" style="float: right; margin-right: 5px" label="View" @click="goPost(selectedPost.pid)"/>
+      <Button v-if="selectedPost && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPost.pid)"/>
+    </div>
+
+    <DataTable :value="posts" sortMode="multiple" :selection.sync="selectedPost" dataKey="pid" style="margin-top: 12px">
+      <Column selectionMode="single" headerStyle="width: 3em"></Column>
+      <Column field="title" header="Title"></Column>
+      <Column field="name" header="Author"></Column>
+    </DataTable>
+
     <Dialog header="Add New Post" :visible.sync="display" :style="{width: '800px'}" :modal="true">
       <div class="title-group">
         <div class="post-label">Title:</div>
@@ -20,20 +29,22 @@
 </template>
 
 <script>
-import BasicPostList from "../../components/lists/BasicPostList";
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 
 export default {
   name: "CourseDetailPostListPage",
   components: {
-    BasicPostList,
     Button,
     Dialog,
     InputText,
-    Textarea
+    Textarea,
+    DataTable,
+    Column,
   },
   data() {
     return {
@@ -42,7 +53,8 @@ export default {
       posts: null,
       display: false,
       new_title: '',
-      new_content:''
+      new_content:'',
+      selectedPost: null,
     }
   },
   mounted() {
@@ -69,10 +81,6 @@ export default {
         name: 'CourseDetailPostDetail',
         params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
     },
-    goBack: function () {
-      this.$router.push({
-        name: 'CourseDetailForumList', params: {code: this.$route.params.code}})
-    },
     addPost: function () {
       this.$axios.request({
         url: this.$url + 'post/add/',
@@ -95,6 +103,26 @@ export default {
           this.error = data.error
         }
       })
+    },
+    deletePost: function (pid) {
+      this.$axios.request({
+        url: this.$url + 'post/delete/' + this.$route.params.code + '/' + this.$route.params.fid + '/' + pid + '/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.getPosts()
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    }
+  },
+  computed: {
+    displayDelete: function () {
+      return this.$route.name.startsWith('Teach') || this.$route.name.startsWith('Assist') || true;
     }
   }
 }

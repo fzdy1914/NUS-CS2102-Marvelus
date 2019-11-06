@@ -1,21 +1,34 @@
 <template>
   <div>
-    <Button label = "Add" @click="display = true" class="p-button-success"/>
-    <Button label = "Back" @click="goBack()"/>
     <div>
-      <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is the post</div>
-      <div>{{ post.title }}</div>
-      <div>{{ post.content }}</div>
-      <div>{{ post.name }}</div>
+      <div class="title-font" style="margin-bottom: 10px">
+        Post:
+      </div>
+      <div class="post-card">
+        <div class="title"><b>{{ post.title }}</b></div>
+        <div class="name">Posted by: {{ post.name }}</div>
+        <hr/>
+        <div class="content">{{ post.content }}</div>
+      </div>
     </div>
 
-    <div v-if="this.replies.length > 0">
-      <div style="font-size: 20px; text-align: left;margin-left: 15px; font-weight: bold;">This is the replies</div>
-      <div v-for="reply in replies" :key="reply.pid">
-        <div>{{ reply.title }}</div>
-        <div>{{ reply.content }}</div>
-        <div>{{ reply.name }}</div>
+    <div>
+      <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+        Replies:
+        <Button style="float: right; margin-right: 15px" label = "Add" @click="display = true" class="p-button-success"/>
+        <Button v-if="selectedPid && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deletePost(selectedPid)"/>
       </div>
+      <div v-if="replies.length > 0">
+        <div v-for="reply in replies" :key="reply.pid">
+          <div class="post-card" style="margin-bottom: 15px" :class="{active: displayDelete && selectedPid == reply.pid, reply: displayDelete}" @click="selectedPid = reply.pid">
+            <div class="title"><b>{{ reply.title }}</b></div>
+            <div class="name">Posted by: {{ reply.name }}</div>
+            <hr/>
+            <div class="content">{{ reply.content }}</div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="text-font">No Reply Now :(</div>
     </div>
 
     <Dialog header="Add New Reply" :visible.sync="display" :style="{width: '800px'}" :modal="true">
@@ -56,7 +69,8 @@ export default {
       display: false,
 
       reply_title: '',
-      reply_content:''
+      reply_content:'',
+      selectedPid: null,
     }
   },
   mounted() {
@@ -107,6 +121,26 @@ export default {
           this.error = data.error
         }
       })
+    },
+    deletePost: function (pid) {
+      this.$axios.request({
+        url: this.$url + 'post/delete/' + this.$route.params.code + '/' + this.$route.params.fid + '/' + pid + '/',
+        method: 'GET'
+      }).then(response => {
+        let data = response.data
+        if (data.state === true) {
+          this.state = true
+          this.getPostAndReplies()
+        } else {
+          this.state = false
+          this.msg = data.error
+        }
+      })
+    }
+  },
+  computed: {
+    displayDelete: function () {
+      return this.$route.name.startsWith('Teach') || this.$route.name.startsWith('Assist') || true;
     }
   }
 }
@@ -122,5 +156,25 @@ export default {
 }
 .title-group {
   margin-bottom: 10px;
+}
+.post-card {
+  border: #b6b6b6 1px solid;
+  margin: 0px 15px;
+  padding: 10px;
+  text-align:left;
+}
+.active {
+  border: #696969 2px solid;
+}
+.reply:hover {
+  border: #696969 2px solid;
+  cursor: pointer;
+}
+.title {
+  font-size: 17px;
+}
+hr {
+  margin: 5px 0px;
+  border-color: #b6b6b6;
 }
 </style>

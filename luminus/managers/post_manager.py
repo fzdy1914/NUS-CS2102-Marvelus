@@ -49,3 +49,8 @@ def add_reply(code, fid, pid, title, content, uname):
                         {'code': code, 'fid': fid, 'pid': max_pid + 1, 't_pid': pid, 'title': title, 'content': content, 'uname': uname})
 
     return get_post_by_code_and_fid_and_pid(code, fid, max_pid + 1)
+
+
+def delete_post(code, fid, pid):
+    sql_helper.exec_sql('DELETE FROM Posts WHERE code=%(code)s AND fid=%(fid)s AND pid=%(pid)s',
+                        {'code': code, 'fid': fid, 'pid': pid})

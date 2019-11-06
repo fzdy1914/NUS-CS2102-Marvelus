@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view :forums="forums"/>
+    <router-view :forums="forums" v-on:update="getForums"/>
   </div>
 </template>
 

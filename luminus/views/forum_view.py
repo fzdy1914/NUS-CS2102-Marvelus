@@ -29,3 +29,8 @@ def get_forum_notintut_by_code_and_group_num(request, code, group_num):
 def add_forum_to_tut_by_code_group_num_fid(request, code, group_num, fid):
     forum = forum_manager.add_forum_to_tut_by_code_group_num_fid(code, group_num, fid)
     return success_json_response({'forum': forum})
+
+
+def delete_forum(request, code, fid):
+    forum_manager.delete_forum(code, fid)
+    return success_json_response({})

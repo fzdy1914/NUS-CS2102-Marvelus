@@ -40,3 +40,8 @@ def add_reply(request):
         post = post_manager.add_reply(data['code'], data['fid'], data['pid'], data['title'], data['content'], uname)
         return success_json_response({'reply': post})
     return error_json_response("User not logged in")
+
+
+def delete_post(request, code, fid, pid):
+    post_manager.delete_post(code, fid, pid)
+    return success_json_response({})
