@@ -12,21 +12,23 @@
         <Column field="fid" header="Forum Number"></Column>
         <Column field="title" header="Forum Title"></Column>
       </DataTable>
-
-      <Dialog header="Add New Forum" :visible.sync="display" :style="{width: '800px'}" :modal="true">
-        <div class="title-group">
-          <div class="post-label">Title:</div>
-          <InputText v-model="new_title" type="text" class="input"/>
-        </div>
-        <template #footer>
-          <Button label="Yes" icon="pi pi-check" @click="addForum()" />
-          <Button label="No" icon="pi pi-times" @click="display = false" class="p-button-secondary"/>
-        </template>
-      </Dialog>
     </div>
     <div v-else>
-      <div class="title-font">You cannot view any forums :(</div>
+      <div class="title-font" style="margin-bottom: 20px">
+        This is no Forums now :(
+        <Button v-if="status=='Prof'" style="float: right; margin-right: 15px; margin-left: -10px" label="Forum" icon="pi pi-plus" @click="display = true" class="p-button-success"/>
+      </div>
     </div>
+    <Dialog header="Add New Forum" :visible.sync="display" :style="{width: '800px'}" :modal="true">
+      <div class="title-group">
+        <div class="post-label">Title:</div>
+        <InputText v-model="new_title" type="text" class="input"/>
+      </div>
+      <template #footer>
+        <Button label="Yes" icon="pi pi-check" @click="addForum()" />
+        <Button label="No" icon="pi pi-times" @click="display = false" class="p-button-secondary"/>
+      </template>
+    </Dialog>
   </div>
 </template>
 
