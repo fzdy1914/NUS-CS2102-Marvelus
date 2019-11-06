@@ -1,15 +1,20 @@
 <template>
   <div>
-    <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
-      This is all Forums:
-      <Button v-if="selectedForum" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
-      <Button v-if="selectedForum && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
+    <div v-if="forums.length > 0">
+      <div class="title-font" style="margin-top: 20px; margin-bottom: 20px">
+        This is all Forums:
+        <Button v-if="selectedForum" style="float: right; margin-right: 15px" label="View" @click="goPostList(selectedForum.fid)"/>
+        <Button v-if="selectedForum && displayDelete" class="p-button-danger" style="float: right; margin-right: 5px" label="Delete" @click="deleteForum(selectedForum.fid)"/>
+      </div>
+      <DataTable :value="forums" sortMode="multiple" :selection.sync="selectedForum" dataKey="fid" style="margin-top: 12px">
+        <Column selectionMode="single" headerStyle="width: 3em"></Column>
+        <Column field="fid" header="ID"></Column>
+        <Column field="title" header="Title"></Column>
+      </DataTable>
     </div>
-    <DataTable :value="forums" sortMode="multiple" :selection.sync="selectedForum" dataKey="fid" style="margin-top: 12px">
-      <Column selectionMode="single" headerStyle="width: 3em"></Column>
-      <Column field="fid" header="ID"></Column>
-      <Column field="title" header="Title"></Column>
-    </DataTable>
+    <div v-else>
+      <div class="title-font">You cannot view any forums :(</div>
+    </div>
   </div>
 </template>
 
