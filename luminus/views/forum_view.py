@@ -1,5 +1,10 @@
+import json
+
+from django.views.decorators.csrf import csrf_exempt
+
 from luminus.managers import forum_manager
 from luminus.responses import success_json_response, error_json_response
+from luminus.view_decorators import json_request
 
 
 def get_viewable_forum(request, code):
@@ -34,3 +39,14 @@ def add_forum_to_tut_by_code_group_num_fid(request, code, group_num, fid):
 def delete_forum(request, code, fid):
     forum_manager.delete_forum(code, fid)
     return success_json_response({})
+
+
+@json_request
+@csrf_exempt
+def add_forum(request):
+    user = request.user
+    if user.is_authenticated:
+        data = json.loads(request.body)
+        forum_manager.add_reply(data['code'], data['title'])
+        return success_json_response({})
+    return error_json_response("User not logged in")

@@ -48,3 +48,15 @@ def add_forum_to_tut_by_code_group_num_fid(code, group_num, fid):
 def delete_forum(code, fid):
     sql_helper.exec_sql('DELETE FROM Forums WHERE code=%(code)s AND fid=%(fid)s',
                         {'code': code, 'fid': fid})
+
+
+def add_reply(code, title):
+    max_fid = sql_helper.fetchone_to_dict("SELECT max(fid) as max FROM Forums "
+                                          "WHERE code = %(code)s",
+                                          {'code': code})['max']
+
+    if not max_fid:
+        max_fid = 0
+
+    sql_helper.exec_sql('INSERT IGNORE INTO Forums values (%(code)s, %(fid)s, %(title)s)',
+                        {'code': code, 'fid': max_fid + 1, 'title': title})

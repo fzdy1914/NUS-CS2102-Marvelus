@@ -77,7 +77,6 @@ export default {
       })
     },
     goPost: function (pid) {
-
       if (this.status == 'Prof') {
         this.$router.push({name: 'TeachDetailPostDetail', params: {code: this.$route.params.code, fid: this.$route.params.fid, pid: pid}})
       } else if (this.status == 'TA') {

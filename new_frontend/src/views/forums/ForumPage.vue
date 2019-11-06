@@ -11,7 +11,7 @@ export default {
     return {
       state: false,
       msg: 'Network Error',
-      forums: null,
+      forums: [],
     }
   },
   mounted() {

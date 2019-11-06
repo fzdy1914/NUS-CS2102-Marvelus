@@ -58,6 +58,7 @@ urlpatterns = [
     path('forums/notin/<code>/<group_num>/', forum_view.get_forum_notintut_by_code_and_group_num),
     path('forums/addtut/<code>/<group_num>/<fid>/', forum_view.add_forum_to_tut_by_code_group_num_fid),
     path('forum/delete/<code>/<fid>/', forum_view.delete_forum),
+    path('forum/add/', forum_view.add_forum),
 
     path('posts/<code>/<fid>/', post_view.get_posts_by_code_and_fid),
     path('posts/<code>/<fid>/<pid>/', post_view.get_posts_by_code_and_fid_and_pid),
