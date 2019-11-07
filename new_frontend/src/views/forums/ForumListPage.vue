@@ -29,6 +29,7 @@
         <Button label="No" icon="pi pi-times" @click="display = false" class="p-button-secondary"/>
       </template>
     </Dialog>
+    <Toast/>
   </div>
 </template>
 
@@ -38,6 +39,7 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
+import Toast from 'primevue/toast';
 
 export default {
   name: "ForumListPage",
@@ -47,6 +49,7 @@ export default {
     Button,
     InputText,
     Dialog,
+    Toast
   },
   props: {
     forums: Array
@@ -77,6 +80,7 @@ export default {
         if (data.state === true) {
           this.state = true
           this.$emit('update')
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Forum Deleted!', life: 3000});
         } else {
           this.state = false
           this.msg = data.error
@@ -98,6 +102,7 @@ export default {
           this.new_title = ''
           this.display = false
           this.$emit('update')
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Forum added!', life: 3000});
         } else {
           this.error = data.error
         }

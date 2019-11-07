@@ -40,7 +40,7 @@ def get_student_enrolledbutnotattend_by_coursecode(code):
 
 
 def get_students_by_coursecode_and_groupnum(code, group_num):
-    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN"
+    return sql_helper.fetchall_to_dict("SELECT * FROM Users NATURAL JOIN participators NATURAL JOIN Enroll NATURAL JOIN"
                                        " (Students NATURAL JOIN Attend)"
                                        " WHERE code = %(code)s AND group_num = %(group_num)s",
                                        {'code': code, 'group_num': group_num})
@@ -109,6 +109,7 @@ def add_enroll_request_by_uname_and_code(uname, code):
 
 
 def mark_enroll_complete_by_uname_and_code(code, uname):
+    sql_helper.exec_sql("DELETE FROM Attend WHERE code= %(code)s AND uname=%(uname)s", {'uname': uname, 'code': code})
     return sql_helper.exec_sql("UPDATE Enroll SET status='completed' WHERE code= %(code)s AND uname=%(uname)s",
                                {'uname': uname, 'code': code})
 

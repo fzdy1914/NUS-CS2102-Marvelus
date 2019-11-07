@@ -64,6 +64,7 @@
         <Column field="name" header="Student Name"></Column>
         <Column field="major" header="Major"></Column>
         <Column field="matriculation_num" header="Matriculation Number"></Column>
+        <Column field="attendance_grade" header="Attendance Grade"></Column>
         <Column field="year" header="Year"></Column>
       </DataTable>
     </div>
@@ -73,8 +74,9 @@
           <Column field="group_num" header="Tut Group"></Column>
         </DataTable>
         <div style="margin-top: 10px">
+          <div class="text-font" style="display: inline-block; float: left">Enter the attended week for the student:</div>
           <InputText placeholer="eg:6" type="number" v-model="attendWeek" style="margin-right: 10px"/>
-          <Button label="Add Attendance" icon="pi pi-plus" @click="addAttendance()"></Button>
+          <Button v-if="selectedAttend" class="p-button-success" icon="pi pi-plus" label="Attendance" @click="addAttendance()" />
         </div>
     </Dialog>
 
@@ -175,6 +177,8 @@ export default {
           this.state = true
             this.$toast.add({severity:'success', summary: 'Success ', detail:'Attendance added in!', life: 3000});
             this.getAttendance();
+            this.displayAttendance = false
+            this.getStudents()
         } else {
           this.state = false
           this.msg = data.error
@@ -208,7 +212,6 @@ export default {
         url: this.$url + 'forums/addtut/' + this.$route.params.code + '/'+this.$route.params.group_num +'/'+ this.selectedForum.fid + '/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true
@@ -245,7 +248,6 @@ export default {
         url: this.$url + 'student/addtut/' + this.selectedStu.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num + '/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true
@@ -279,7 +281,6 @@ export default {
         url: this.$url + 'TAs/addtut/' +this.selectedTA.uname +'/'+ this.$route.params.code + '/'+this.$route.params.group_num +'/',
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true
@@ -304,7 +305,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.TAs = data.data.TAs
-          console.log(this.TAs)
         } else {
           this.state = false
           this.msg = data.error
@@ -320,7 +320,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.Students = data.data.students
-          console.log(this.Students)
         } else {
           this.state = false
           this.msg = data.error
@@ -336,7 +335,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.Forums = data.data.forums
-          console.log(this.Forums)
         } else {
           this.state = false
           this.msg = data.error

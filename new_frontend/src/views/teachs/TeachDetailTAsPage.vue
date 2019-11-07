@@ -23,6 +23,7 @@
         <Button label="No" icon="pi pi-times" @click="closeAddTA()" class="p-button-secondary"/>
       </template>
     </Dialog>
+    <Toast/>
   </div>
 </template>
 
@@ -32,11 +33,10 @@ import Dialog from 'primevue/dialog';
 import StudentListDataTable from "../../components/lists/StudentListDataTable";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Toast from 'primevue/toast';
 
 export default {
   name: "TeachDetailTAsPage",
-  props: {
-  },
   data() {
     return {
       state: false,
@@ -52,7 +52,8 @@ export default {
     Button,
     Dialog,
     DataTable,
-    Column
+    Column,
+    Toast,
   },
   mounted() {
     this.getTAs()
@@ -83,7 +84,6 @@ export default {
         method: 'GET'
       }).then(response => {
         let data = response.data
-        console.log(response)
         if (data.state === true) {
           this.state = true
           this.candidates = data.data.students
@@ -103,6 +103,7 @@ export default {
           this.state = true
           this.display = false
           this.getTAs()
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'TA added!', life: 3000});
         } else {
           this.state = false
           this.msg = data.error

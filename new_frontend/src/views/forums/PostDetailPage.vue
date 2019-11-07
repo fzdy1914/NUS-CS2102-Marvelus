@@ -43,6 +43,7 @@
         <Button label="No" icon="pi pi-times" @click="display = false" class="p-button-secondary"/>
       </template>
     </Dialog>
+    <Toast/>
   </div>
 </template>
 
@@ -51,6 +52,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
 
 export default {
   name: "PostListPage",
@@ -58,7 +60,8 @@ export default {
     Button,
     InputText,
     Textarea,
-    Dialog
+    Dialog,
+    Toast
   },
   data() {
     return {
@@ -117,6 +120,7 @@ export default {
           this.reply_content = ''
           this.display = false
           this.replies.push(data.data.reply)
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Reply Added!', life: 3000});
         } else {
           this.error = data.error
         }
@@ -130,6 +134,7 @@ export default {
         let data = response.data
         if (data.state === true) {
           this.state = true
+          this.$toast.add({severity:'success', summary: 'Success', detail:'Reply Deleted!', life: 3000});
           this.getPostAndReplies()
         } else {
           this.state = false

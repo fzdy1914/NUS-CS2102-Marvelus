@@ -26,8 +26,10 @@
              <InputText v-model="testGradeEntered" type="number" style="margin-right: 5px"/>
              <Button icon="pi pi-plus" label="Edit Test Grade" @click="editTestGrade()"/>
           </Dialog>
-          <Dialog header="Enter bell curve percentage" :visible.sync="displayBellCurve" :style="{width: '80vw'}" :modal="true" >
-
+          <Dialog header="Generate Final Grade" :visible.sync="displayBellCurve" :style="{width: '80vw'}" :modal="true" >
+            <div class="text-font">
+              Enter bell curve percentage to generate final grade for all students completed in current year:
+              (All grades percentage must add up to 1. Use 0 if you do not wish to have that grade)</div>
             <div class="p-grid" style="margin:20px;">
               <div class="p-col " >
                 <span style="width: 200px">
@@ -212,7 +214,6 @@ export default {
         url: this.$url + 'student/uname/code/grade/' + this.selectedStu.uname + '/' + this.$route.params.code + '/' + this.testGradeEntered + "/" ,
         method: 'GET'
       }).then(response => {
-        console.log(response)
         let data = response.data
         if (data.state === true) {
           this.state = true
@@ -239,6 +240,7 @@ export default {
           this.state = true
           this.getStudentsEnrolled()
           this.getStudentsCompleted()
+          this.$toast.add({severity:'success', summary: 'Success ', detail:'Student Marked As Completed!', life: 3000});
         } else {
           this.state = false
           this.msg = data.error
