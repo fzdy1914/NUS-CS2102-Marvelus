@@ -153,7 +153,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.TAs = data.data.TAs
-          console.log(this.TAs)
         } else {
           this.state = false
           this.msg = data.error
@@ -169,7 +168,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.Students = data.data.students
-          console.log(this.Students)
         } else {
           this.state = false
           this.msg = data.error
@@ -185,7 +183,6 @@ export default {
         if (data.state === true) {
           this.state = true
           this.Forums = data.data.forums
-          console.log(this.Forums)
         } else {
           this.state = false
           this.msg = data.error

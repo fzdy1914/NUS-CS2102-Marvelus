@@ -21,6 +21,7 @@ def login(request):
         is_ta = len(ta) > 0
         is_admin = True
         return success_json_response({'user': {'username': request.user.uname,
+                                               'name': request.user.name,
                                                'isAdmin': is_admin,
                                                'isProf': is_prof,
                                                'isTA': is_ta}})
@@ -63,6 +64,7 @@ def login(request):
                 is_ta = len(ta) > 0
                 is_admin = True
                 return success_json_response({'user': {'username': request.user.uname,
+                                                       'name': request.user.name,
                                                        'isAdmin': is_admin,
                                                        'isProf': is_prof,
                                                        'isTA': is_ta}})
