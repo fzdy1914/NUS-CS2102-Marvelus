@@ -6,6 +6,8 @@
 1. Python 3.7 
 2. Node.js (npm)
 3. MySQL version > 8 (set the root account's password to be `root` or edit the setting file in `Entrytask/settings.py`)
+4. This project is suggested to be run in Windows OS. For MacOS, if `python` related command fails, adding back the 
+commented out code in `_init_.py` in `EntryTask` and `luminus` may help. If still can not solve, do approach us for help.
 
 ## Build Setup
 
