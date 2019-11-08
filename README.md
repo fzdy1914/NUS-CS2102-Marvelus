@@ -16,7 +16,7 @@ Do backup it first.
 3. Enter the password
 
 ### JS dependencies
-1. `cd frontend`
+1. `cd new_frontend`
 2. `npm install`
 3. `npm run build`
 4. `cd ..`
@@ -29,7 +29,7 @@ Do backup it first.
 
 ### Python dependencies
 1. `pip install -r requirements.txt`
-2. `python manage.py migration`
+2. `python manage.py migrate`
 3. `python manage.py runserver`
 
 ### Finally
